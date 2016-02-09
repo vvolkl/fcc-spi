@@ -24,7 +24,7 @@ translators = {"FCCSW": "FCC Core Software", "podio": "PODIO: Underlying Data Mo
 def discover_doxygens():
     """ looks for known (defined by translators) sub folders in docdir """
     content = []
-    ignore = ["index.html", "links", "static_checks"]
+    ignore = ["index.html", "links", "static_checks","flint","cgi-bin"]
     for dirname in os.listdir(docdir):
         if not dirname in ignore and dirname in translators.keys():
             content.append(["./{dirname}/index.html".format(dirname=dirname), translators[dirname]])
@@ -86,7 +86,8 @@ def main():
         fobj.write(link_template.format(href="https://phsft-jenkins.cern.ch/view/FCC/", text="FCC Continuous Integration"))
         fobj.write("</ul>")
 
-        fobj.write("</div><div class='col-md-4'><h2>Static checks <small>experimental</small></h2>")
+        fobj.write("</div><div class='col-md-4'><h2>Code quality <small>experimental</small></h2>")
+        fobj.write("<b>Static checks:</b>")
         fobj.write("<ul>")
         for statcheck in statchecks:
             fobj.write("<li><a href='{href_short}'>{text} (cleaned)</a><br><a href='{href_full}'>{text} (verbose)</a></li>".format(
@@ -94,6 +95,11 @@ def main():
                 href_short=statcheck[0].replace("index", "index_short"),
                 text=statcheck[1]
             ))
+        fobj.write(link_template.format(href="flint/flint_FCCSW.txt", text="FCC Core Software (w/ flint++)"))
+        fobj.write("</ul>")
+        fobj.write("<b>Runtime performance:</b>")
+        fobj.write("<ul>")
+        fobj.write(link_template.format(href="cgi-bin/igprof-navigator/fccedm-write", text="FCC EDM example (igprof)"))
         fobj.write("</ul></div><div class='clearfix'>&nbsp;</div><hr><footer><small>last generated on {date} by {user}</small></footer></div>".format(
             date=time.strftime("%d %b", time.localtime()),
             user=os.getlogin()
