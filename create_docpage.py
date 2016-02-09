@@ -82,6 +82,8 @@ def main():
         fobj.write("</div><div class='col-md-4'><h2>Other resources</h2>")
         fobj.write("<ul>")
         fobj.write(link_template.format(href="https://sft.its.cern.ch/jira/projects/FCC/", text="FCC JIRA Issue Tracker"))
+        fobj.write(link_template.format(href="https://github.com/HEP-FCC/", text="FCC on GitHub"))
+        fobj.write(link_template.format(href="https://phsft-jenkins.cern.ch/view/FCC/", text="FCC Continuous Integration"))
         fobj.write("</ul>")
 
         fobj.write("</div><div class='col-md-4'><h2>Static checks <small>experimental</small></h2>")
