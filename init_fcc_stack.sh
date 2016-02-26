@@ -29,6 +29,9 @@ if [[ "$unamestr" == 'Linux' ]]; then
         # This path is used below to select software versions
         export CMTPROJECTPATH=/afs/cern.ch/exp/fcc/sw/0.6
         echo "Software taken from $CMTPROJECTPATH"
+        # set up python and friends
+        source $CMTPROJECTPATH/LCG_80/Python/2.7.9.p1/x86_64-slc6-gcc49-opt/Python-env.sh
+        source $CMTPROJECTPATH/LCG_80/pyanalysis/1.5_python2.7/x86_64-slc6-gcc49-opt/pyanalysis-env.sh
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
             export PODIO=$CMTPROJECTPATH/podio/0.2/x86_64-slc6-gcc49-opt
@@ -54,6 +57,9 @@ if [[ "$unamestr" == 'Linux' ]]; then
     add_to_path $PODIO/lib
     add_to_path $PYTHIA8_DIR/lib
     export LD_LIBRARY_PATH=$path
+    path=$PYTHONPATH
+    add_to_path $PODIO/python
+    export PYTHONPATH=$path
 elif [[ "$unamestr" == 'Darwin' ]]; then
     platform='Darwin'
     path=$DYLD_LIBRARY_PATH
