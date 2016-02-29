@@ -19,6 +19,7 @@ unamestr=`uname`
 
 if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
+    echo "Platform detected: $platform"
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         # Set up Gaudi + Dependencies
         source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r4p3/InstallArea/scripts/LbLogin.sh --cmtconfig x86_64-slc6-gcc49-opt
@@ -35,12 +36,14 @@ if [[ "$unamestr" == 'Linux' ]]; then
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
             export PODIO=$CMTPROJECTPATH/podio/0.2/x86_64-slc6-gcc49-opt
+        else
+            echo "Take podio: $PODIO"
         fi
-        echo "Take podio: $PODIO"
         if [ -z "$FCCEDM" ]; then
             export FCCEDM=$CMTPROJECTPATH/fcc-edm/0.2/x86_64-slc6-gcc49-opt
+        else
+            echo "Take fcc-edm: $FCCEDM"
         fi
-        echo "Take fcc-edm: $FCCEDM"
         export DELPHES_DIR=$CMTPROJECTPATH/Delphes-3.3.2/x86_64-slc6-gcc49-opt
         export PYTHIA8_DIR=$CMTPROJECTPATH/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
         export PYTHIA8_XML=$CMTPROJECTPATH/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
@@ -62,11 +65,15 @@ if [[ "$unamestr" == 'Linux' ]]; then
     export PYTHONPATH=$path
 elif [[ "$unamestr" == 'Darwin' ]]; then
     platform='Darwin'
+    echo "Platform detected: $platform"
     path=$DYLD_LIBRARY_PATH
     add_to_path $FCCEDM/lib
     add_to_path $PODIO/lib
     add_to_path $PYTHIA8_DIR/lib
     export DYLD_LIBRARY_PATH=$path
+    path=$PYTHONPATH
+    add_to_path $PODIO/python
+    export PYTHONPATH=$path
 fi
 
 path=$CMAKE_PREFIX_PATH
@@ -78,4 +85,3 @@ if [ "$DELPHES_DIR" ]; then
 fi
 export CMAKE_PREFIX_PATH=$path
 
-echo "Platform detected: $platform"
