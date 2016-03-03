@@ -8,80 +8,72 @@ function add_to_path {
     if [ -z "$1" ] || [[ "$1" == "/lib" ]]; then
         return
     fi
-    case ":$path:" in
-      *":$1:"*) :;;        # already there
-      *) path="$1:$path";; # or prepend path
+    path_name=${1}
+    eval path_value=\$$path_name
+    path_prefix=${2}
+    case ":$path_value:" in
+      *":$path_prefix:"*) :;;        # already there
+      *) path_value=${path_prefix}:${path_value};; # or prepend path
     esac
+    eval export ${path_name}=${path_value}
 }
 
 platform='unknown'
 unamestr=`uname`
+
 
 if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
     echo "Platform detected: $platform"
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         # Set up Gaudi + Dependencies
-        source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r4p3/InstallArea/scripts/LbLogin.sh --cmtconfig x86_64-slc6-gcc49-opt
+        source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig x86_64-slc6-gcc49-opt
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
         export VERBOSE=
-        # Set up gcc 4.9
-        source /afs/cern.ch/sw/lcg/contrib/gcc/4.9.3/x86_64-slc6/setup.sh
+        source /afs/cern.ch/sw/lcg/views/LCG_83/x86_64-slc6-gcc49-opt/setup.sh
         # This path is used below to select software versions
-        export CMTPROJECTPATH=/afs/cern.ch/exp/fcc/sw/0.6
-        echo "Software taken from $CMTPROJECTPATH"
-        # set up python and friends
-        source $CMTPROJECTPATH/LCG_80/Python/2.7.9.p1/x86_64-slc6-gcc49-opt/Python-env.sh
-        source $CMTPROJECTPATH/LCG_80/pyanalysis/1.5_python2.7/x86_64-slc6-gcc49-opt/pyanalysis-env.sh
+        export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
+        echo "Software taken from $FCCSWPATH and LCG_83"
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
-            export PODIO=$CMTPROJECTPATH/podio/0.2/x86_64-slc6-gcc49-opt
+            export PODIO=$FCCSWPATH/podio/0.3/x86_64-slc6-gcc49-opt
         else
             echo "Take podio: $PODIO"
         fi
         if [ -z "$FCCEDM" ]; then
-            export FCCEDM=$CMTPROJECTPATH/fcc-edm/0.2/x86_64-slc6-gcc49-opt
+            export FCCEDM=$FCCSWPATH/fcc-edm/0.3/x86_64-slc6-gcc49-opt
         else
             echo "Take fcc-edm: $FCCEDM"
         fi
-        export DELPHES_DIR=$CMTPROJECTPATH/Delphes-3.3.2/x86_64-slc6-gcc49-opt
-        export PYTHIA8_DIR=$CMTPROJECTPATH/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
-        export PYTHIA8_XML=$CMTPROJECTPATH/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
-        # add Geant4 data files
-        source /afs/cern.ch/sw/lcg/external/geant4/10.1/setup_g4datasets.sh
+        export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
+        export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
+        export PYTHIA8_XML=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
+        
         # add DD4hep
         export inithere=$PWD
-        cd $CMTPROJECTPATH/DD4hep/20152311/x86_64-slc6-gcc49-opt
+        cd $FCCSWPATH/DD4hep/20152311/x86_64-slc6-gcc49-opt
         source bin/thisdd4hep.sh
         cd $inithere
+        
+        # add Geant4 data files
+        source /afs/cern.ch/sw/lcg/external/geant4/10.2/setup_g4datasets.sh
     fi
-    path=$LD_LIBRARY_PATH
-    add_to_path $FCCEDM/lib
-    add_to_path $PODIO/lib
-    add_to_path $PYTHIA8_DIR/lib
-    export LD_LIBRARY_PATH=$path
-    path=$PYTHONPATH
-    add_to_path $PODIO/python
-    export PYTHONPATH=$path
+    add_to_path LD_LIBRARY_PATH $FCCEDM/lib
+    add_to_path LD_LIBRARY_PATH $PODIO/lib
+    add_to_path LD_LIBRARY_PATH $PYTHIA8_DIR/lib
+    add_to_path PYTHONPATH $PODIO/python
 elif [[ "$unamestr" == 'Darwin' ]]; then
     platform='Darwin'
     echo "Platform detected: $platform"
-    path=$DYLD_LIBRARY_PATH
-    add_to_path $FCCEDM/lib
-    add_to_path $PODIO/lib
-    add_to_path $PYTHIA8_DIR/lib
-    export DYLD_LIBRARY_PATH=$path
-    path=$PYTHONPATH
-    add_to_path $PODIO/python
-    export PYTHONPATH=$path
+    add_to_path DYLD_LIBRARY_PATH $FCCEDM/lib
+    add_to_path DYLD_LIBRARY_PATH $PODIO/lib
+    add_to_path DYLD_LIBRARY_PATH $PYTHIA8_DIR/lib
+    add_to_path PYTHONPATH $PODIO/python
 fi
 
-path=$CMAKE_PREFIX_PATH
-add_to_path $FCCEDM
-add_to_path $PODIO
-add_to_path $PYTHIA8_DIR
+add_to_path CMAKE_PREFIX_PATH $FCCEDM
+add_to_path CMAKE_PREFIX_PATH $PODIO
+add_to_path CMAKE_PREFIX_PATH $PYTHIA8_DIR
 if [ "$DELPHES_DIR" ]; then
-    add_to_path $DELPHES_DIR
+    add_to_path CMAKE_PREFIX_PATH $DELPHES_DIR
 fi
-export CMAKE_PREFIX_PATH=$path
-
