@@ -26,11 +26,12 @@ if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
     echo "Platform detected: $platform"
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+        export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/x86_64-slc6-gcc49-opt
         # Set up Gaudi + Dependencies
         source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig x86_64-slc6-gcc49-opt
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
         export VERBOSE=
-        source /afs/cern.ch/sw/lcg/views/LCG_83/x86_64-slc6-gcc49-opt/setup.sh
+        source $LCGPATH/setup.sh
         # This path is used below to select software versions
         export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
         echo "Software taken from $FCCSWPATH and LCG_83"
@@ -48,6 +49,8 @@ if [[ "$unamestr" == 'Linux' ]]; then
         export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
         export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
         export PYTHIA8_XML=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
+        export PYTHIA8DATA=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
+        export HEPMC_PREFIX=$LCGPATH
         
         # add DD4hep
         export inithere=$PWD
