@@ -1,4 +1,4 @@
-#!/bin/sh -u
+#!/bin/sh
 function build {
     cd ${1}
     mkdir build;cd build
@@ -21,7 +21,8 @@ function build {
 export user="HEP-FCC"
 export branch="master"
 export workdir="test"
-mkdir $workdir;cd $workdir
+mkdir $workdir
+cd $workdir
 
 ######################################################################
 echo "Get all repos"
@@ -30,7 +31,7 @@ git clone https://github.com/$user/podio.git -b $branch
 git clone https://github.com/$user/fcc-edm.git -b $branch
 git clone https://github.com/$user/fcc-physics.git -b $branch
 git clone https://github.com/$user/heppy.git -b $branch
-git clone https://github.com/jlingema/FCCSW.git -b $branch
+git clone https://github.com/$user/FCCSW.git -b $branch
 
 ######################################################################
 echo "Setup environment"
@@ -38,12 +39,10 @@ echo "Setup environment"
 # make sure we take the local installs of podio and fcc-edm
 export PODIO=$PWD/podio/install
 export FCCEDM=$PWD/fcc-edm/install
+export FCCPHYSICS=$PWD/fcc-physics/install
 source ../init_fcc_stack.sh
 cd heppy
-source init.sh
-cd ..
-cd fcc-physics
-source init.sh
+source ./init.sh
 cd ..
 
 ######################################################################
