@@ -1,3 +1,4 @@
+#!/bin/sh -u
 function build {
     cd ${1}
     mkdir build;cd build
@@ -37,7 +38,7 @@ echo "Setup environment"
 # make sure we take the local installs of podio and fcc-edm
 export PODIO=$PWD/podio/install
 export FCCEDM=$PWD/fcc-edm/install
-source ../fcc-spi/init_fcc_stack.sh
+source ../init_fcc_stack.sh
 cd heppy
 source init.sh
 cd ..
