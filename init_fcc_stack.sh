@@ -47,7 +47,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
             echo "Take fcc-edm: $FCCEDM"
         fi
         if [ -z "$FCCPHYSICS" ]; then
-            export FCCPHYSICS=$FCCSWPATH/fcc-physics/snapshot/x86_64-slc6-gcc49-opt
+            export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/x86_64-slc6-gcc49-opt
         fi
         export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
         export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
