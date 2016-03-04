@@ -77,9 +77,9 @@ cd ..
 echo "Test fcc-physics-pythia8 -> heppy"
 ######################################################################
 cd fcc-physics
-./install/bin/fcc-pythia8-generate pythia8/card_ee_ZH_Zmumu_Hbb.txt
+./install/bin/fcc-pythia8-generate ./pythia8/ee_ZH_Zmumu_Hbb.txt
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
-mv example.root ../heppy/test/example.root
+mv ee_ZH_Zmumu_Hbb.root ../heppy/test/zh_zmumu_hbb.root
 cd ../heppy/test
 heppy_loop.py Trash analysis_ee_ZH_cfg.py -f
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
