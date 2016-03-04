@@ -82,6 +82,8 @@ add_to_path ROOT_INCLUDE_PATH $FCCEDM/include/datamodel
 
 add_to_path PYTHONPATH $PODIO/python
 
+add_to_path PATH $FCCPHYSICS/bin
+
 add_to_path CMAKE_PREFIX_PATH $FCCEDM
 add_to_path CMAKE_PREFIX_PATH $PODIO
 add_to_path CMAKE_PREFIX_PATH $PYTHIA8_DIR
