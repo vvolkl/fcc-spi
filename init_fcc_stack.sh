@@ -46,33 +46,38 @@ if [[ "$unamestr" == 'Linux' ]]; then
         else
             echo "Take fcc-edm: $FCCEDM"
         fi
+        if [ -z "$FCCPHYSICS" ]; then
+            export FCCPHYSICS=$FCCSWPATH/fcc-physics/snapshot/x86_64-slc6-gcc49-opt
+        fi
         export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
         export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
         export PYTHIA8_XML=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
         export PYTHIA8DATA=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
         export HEPMC_PREFIX=$LCGPATH
-        
+
         # add DD4hep
         export inithere=$PWD
         cd $FCCSWPATH/DD4hep/20152311/x86_64-slc6-gcc49-opt
         source bin/thisdd4hep.sh
         cd $inithere
-        
+
         # add Geant4 data files
         source /afs/cern.ch/sw/lcg/external/geant4/10.2/setup_g4datasets.sh
     fi
     add_to_path LD_LIBRARY_PATH $FCCEDM/lib
     add_to_path LD_LIBRARY_PATH $PODIO/lib
     add_to_path LD_LIBRARY_PATH $PYTHIA8_DIR/lib
-    add_to_path PYTHONPATH $PODIO/python
+    add_to_path LD_LIBRARY_PATH $FCCPHYSICS/lib
 elif [[ "$unamestr" == 'Darwin' ]]; then
     platform='Darwin'
     echo "Platform detected: $platform"
     add_to_path DYLD_LIBRARY_PATH $FCCEDM/lib
     add_to_path DYLD_LIBRARY_PATH $PODIO/lib
     add_to_path DYLD_LIBRARY_PATH $PYTHIA8_DIR/lib
-    add_to_path PYTHONPATH $PODIO/python
+    add_to_path DYLD_LIBRARY_PATH $FCCPHYSICS/lib
 fi
+
+add_to_path PYTHONPATH $PODIO/python
 
 add_to_path CMAKE_PREFIX_PATH $FCCEDM
 add_to_path CMAKE_PREFIX_PATH $PODIO
