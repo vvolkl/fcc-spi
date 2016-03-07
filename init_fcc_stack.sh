@@ -77,8 +77,8 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
     add_to_path DYLD_LIBRARY_PATH $FCCPHYSICS/lib
 fi
 
-# let ROOT know where the fcc-edm headers live.
-add_to_path ROOT_INCLUDE_PATH $FCCEDM/include/datamodel
+# let ROOT know where the fcc-edm and -physics headers live.
+add_to_path ROOT_INCLUDE_PATH $FCCEDM/include/datamodel $FCCPHYSICS/include
 
 add_to_path PYTHONPATH $PODIO/python
 
