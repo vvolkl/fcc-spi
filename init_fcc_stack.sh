@@ -21,19 +21,18 @@ function add_to_path {
 platform='unknown'
 unamestr=`uname`
 
-# Check if build type is set, if not default to release build
-if [ -z "$BUILDTYPE" ] || [ "$BUILDTYPE" == "Release" ]; then
-    export BINARY_TAG=x86_64-slc6-gcc49-opt
-    export CMAKE_BUILD_TYPE="Release"
-else
-    export BINARY_TAG=x86_64-slc6-gcc49-dbg
-    export CMAKE_BUILD_TYPE="Debug"
-fi
-
 if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
     echo "Platform detected: $platform"
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+        # Check if build type is set, if not default to release build
+        if [ -z "$BUILDTYPE" ] || [ "$BUILDTYPE" == "Release" ]; then
+            export BINARY_TAG=x86_64-slc6-gcc49-opt
+            export CMAKE_BUILD_TYPE="Release"
+        else
+            export BINARY_TAG=x86_64-slc6-gcc49-dbg
+            export CMAKE_BUILD_TYPE="Debug"
+        fi
         export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/$BINARY_TAG
         # Set up Gaudi + Dependencies
         source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
