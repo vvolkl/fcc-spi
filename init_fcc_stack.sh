@@ -34,7 +34,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
     echo "Platform detected: $platform"
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
-        export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/x86_64-slc6-gcc49-opt
+        export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/$BINARY_TAG
         # Set up Gaudi + Dependencies
         source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
@@ -57,7 +57,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
         if [ -z "$FCCPHYSICS" ]; then
             export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/$BINARY_TAG
         fi
-        export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
+        export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/$BINARY_TAG
         export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/$BINARY_TAG
         export PYTHIA8_XML=$PYTHIA8_DIR/share/Pythia8/xmldoc
         export PYTHIA8DATA=$PYTHIA8_XML
