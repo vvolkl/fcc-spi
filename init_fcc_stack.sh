@@ -21,6 +21,14 @@ function add_to_path {
 platform='unknown'
 unamestr=`uname`
 
+# Check if build type is set, if not default to release build
+if [ -z "$BUILDTYPE" ] || [ "$BUILDTYPE" == "Release" ]; then
+    export BINARY_TAG=x86_64-slc6-gcc49-opt
+    export CMAKE_BUILD_TYPE="Release"
+else
+    export BINARY_TAG=x86_64-slc6-gcc49-dbg
+    export CMAKE_BUILD_TYPE="Debug"
+fi
 
 if [[ "$unamestr" == 'Linux' ]]; then
     platform='Linux'
@@ -28,7 +36,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
     if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/x86_64-slc6-gcc49-opt
         # Set up Gaudi + Dependencies
-        source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig x86_64-slc6-gcc49-opt
+        source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
         export VERBOSE=
         source $LCGPATH/setup.sh
@@ -37,27 +45,27 @@ if [[ "$unamestr" == 'Linux' ]]; then
         echo "Software taken from $FCCSWPATH and LCG_83"
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
-            export PODIO=$FCCSWPATH/podio/0.3/x86_64-slc6-gcc49-opt
+            export PODIO=$FCCSWPATH/podio/0.3/$BINARY_TAG
         else
             echo "Take podio: $PODIO"
         fi
         if [ -z "$FCCEDM" ]; then
-            export FCCEDM=$FCCSWPATH/fcc-edm/0.3/x86_64-slc6-gcc49-opt
+            export FCCEDM=$FCCSWPATH/fcc-edm/0.3/$BINARY_TAG
         else
             echo "Take fcc-edm: $FCCEDM"
         fi
         if [ -z "$FCCPHYSICS" ]; then
-            export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/x86_64-slc6-gcc49-opt
+            export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/$BINARY_TAG
         fi
         export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/x86_64-slc6-gcc49-opt
-        export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt
-        export PYTHIA8_XML=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
-        export PYTHIA8DATA=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/x86_64-slc6-gcc49-opt/share/Pythia8/xmldoc
+        export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/$BINARY_TAG
+        export PYTHIA8_XML=$PYTHIA8_DIR/share/Pythia8/xmldoc
+        export PYTHIA8DATA=$PYTHIA8_XML
         export HEPMC_PREFIX=$LCGPATH
 
         # add DD4hep
         export inithere=$PWD
-        cd $FCCSWPATH/DD4hep/20152311/x86_64-slc6-gcc49-opt
+        cd $FCCSWPATH/DD4hep/20152311/$BINARY_TAG
         source bin/thisdd4hep.sh
         cd $inithere
 
