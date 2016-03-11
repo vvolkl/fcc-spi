@@ -38,7 +38,12 @@ if [[ "$unamestr" == 'Linux' ]]; then
         source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
         export VERBOSE=
-        source $LCGPATH/setup.sh
+        # Only source the lcg setup script if paths are not already set
+        # (necessary because of incompatible python install in view)
+        case ":$LD_LIBRARY_PATH:" in
+            *":$LCGPATH/lib64:"*) :;;       # Path is present do nothing
+            *) source $LCGPATH/setup.sh;;   # otherwise setup
+        esac
         # This path is used below to select software versions
         export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
         echo "Software taken from $FCCSWPATH and LCG_83"
