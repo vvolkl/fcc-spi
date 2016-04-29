@@ -1,6 +1,7 @@
 #!/bin/sh -u
 # This script sets up the commonly used software for FCC software projects:
-# - Linux machines at CERN:  The software is taken from afs.
+# - Linux machines at CERN:
+#    The software is taken from cvmfs or afs depending on command (source init_fcc_stack.sh cvmfs/afs).
 # - MacOS / Linux elsewhere: We assume the software is installed locally and their environment is set.
 
 # Add the passed value only to path if it's not already in there.
@@ -22,9 +23,16 @@ platform='unknown'
 unamestr=`uname`
 
 if [[ "$unamestr" == 'Linux' ]]; then
+    fs=$1
+    echo $fs
+    if [ -z "$fs" ]; then
+        fs="afs"
+        echo "INFO - Defaulting to afs as file system. If you want cvmfs use:"
+        echo "     source init_fcc_stack.sh cvmfs"
+    fi
     platform='Linux'
     echo "Platform detected: $platform"
-    if [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+    if [[ -d /cvmfs/sft.cern.ch/lcg ]] || [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         # Check if build type is set, if not default to release build
         if [ -z "$BUILDTYPE" ] || [ "$BUILDTYPE" == "Release" ]; then
             export BINARY_TAG=x86_64-slc6-gcc49-opt
@@ -33,11 +41,20 @@ if [[ "$unamestr" == 'Linux' ]]; then
             export BINARY_TAG=x86_64-slc6-gcc49-dbg
             export CMAKE_BUILD_TYPE="Debug"
         fi
-        export LCGPATH=/afs/cern.ch/sw/lcg/views/LCG_83/$BINARY_TAG
         # Set up Gaudi + Dependencies
-        source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r5p7/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
+        if [[ $fs = 'afs' ]]; then
+            LHCBPATH=/afs/cern.ch/lhcb/software/releases
+            LCGPREFIX=/afs/cern.ch/sw/lcg
+            export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
+        else
+            LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
+            LCGPREFIX=/cvmfs/sft.cern.ch/lcg
+            export FCCSWPATH=/cvmfs/fcc.cern.ch/sw/0.7
+        fi
+        source $LHCBPATH/LBSCRIPTS/LBSCRIPTS_v8r5p3/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
+        export LCGPATH=$LCGPREFIX/views/LCG_83/$BINARY_TAG
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
-        export VERBOSE=
+        unset VERBOSE
         # Only source the lcg setup script if paths are not already set
         # (necessary because of incompatible python install in view)
         case ":$LD_LIBRARY_PATH:" in
@@ -45,7 +62,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
             *) source $LCGPATH/setup.sh;;   # otherwise setup
         esac
         # This path is used below to select software versions
-        export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
+
         echo "Software taken from $FCCSWPATH and LCG_83"
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
@@ -62,7 +79,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
             export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/$BINARY_TAG
         fi
         export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/$BINARY_TAG
-        export PYTHIA8_DIR=/afs/cern.ch/sw/lcg/releases/LCG_80/MCGenerators/pythia8/212/$BINARY_TAG
+        export PYTHIA8_DIR=$LCGPREFIX/releases/LCG_80/MCGenerators/pythia8/212/$BINARY_TAG
         export PYTHIA8_XML=$PYTHIA8_DIR/share/Pythia8/xmldoc
         export PYTHIA8DATA=$PYTHIA8_XML
         export HEPMC_PREFIX=$LCGPATH
@@ -74,7 +91,11 @@ if [[ "$unamestr" == 'Linux' ]]; then
         cd $inithere
 
         # add Geant4 data files
-        source /afs/cern.ch/sw/lcg/external/geant4/10.2/setup_g4datasets.sh
+        if [[ $fs = 'afs' ]]; then
+            source /afs/cern.ch/sw/lcg/external/geant4/10.2/setup_g4datasets.sh
+        else
+            source /cvmfs/geant4.cern.ch/geant4/10.2/setup_g4datasets.sh
+        fi
     fi
     add_to_path LD_LIBRARY_PATH $FCCEDM/lib
     add_to_path LD_LIBRARY_PATH $PODIO/lib
