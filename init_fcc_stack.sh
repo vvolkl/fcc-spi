@@ -86,7 +86,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
 
         # add DD4hep
         export inithere=$PWD
-        cd $FCCSWPATH/DD4hep/20152311/$BINARY_TAG
+        cd $FCCSWPATH/DD4hep/20161003/$BINARY_TAG
         source bin/thisdd4hep.sh
         cd $inithere
 
