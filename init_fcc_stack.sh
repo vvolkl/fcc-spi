@@ -66,12 +66,12 @@ if [[ "$unamestr" == 'Linux' ]]; then
         echo "Software taken from $FCCSWPATH and LCG_83"
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
-            export PODIO=$FCCSWPATH/podio/0.3/$BINARY_TAG
+            export PODIO=$FCCSWPATH/podio/0.4/$BINARY_TAG
         else
             echo "Take podio: $PODIO"
         fi
         if [ -z "$FCCEDM" ]; then
-            export FCCEDM=$FCCSWPATH/fcc-edm/0.3/$BINARY_TAG
+            export FCCEDM=$FCCSWPATH/fcc-edm/0.4/$BINARY_TAG
         else
             echo "Take fcc-edm: $FCCEDM"
         fi
