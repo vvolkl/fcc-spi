@@ -34,7 +34,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
     echo "Platform detected: $platform"
     if [[ -d /cvmfs/sft.cern.ch/lcg ]] || [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         # Check if build type is set, if not default to release build
-        if [ -z "$BUILDTYPE" ] || [ "$BUILDTYPE" == "Release" ]; then
+        if [ -z "$BUILDTYPE" ] || [[ "$BUILDTYPE" == "Release" ]]; then
             export BINARY_TAG=x86_64-slc6-gcc49-opt
             export CMAKE_BUILD_TYPE="Release"
         else
