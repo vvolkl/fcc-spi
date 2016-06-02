@@ -18,13 +18,16 @@ link_template = "<li><a href='{href}'>{text}</a></li>"
 
 docdir = "/afs/cern.ch/exp/fcc/sw/documentation/"
 analysisdir = "/afs/cern.ch/exp/fcc/sw/documentation/static_checks/"
-translators = {"FCCSW": "FCC Core Software", "podio": "PODIO: Underlying Data Model library", "fcc-edm": "FCC Event Data Model"}
+translators = {"FCCSW": "FCC Core Software",
+               "podio": "PODIO: Underlying Data Model library",
+               "fcc-edm": "FCC Event Data Model",
+               "Gaussino": "Generator and Simulation package"}
 
 
 def discover_doxygens():
     """ looks for known (defined by translators) sub folders in docdir """
     content = []
-    ignore = ["index.html", "links", "static_checks","flint","cgi-bin"]
+    ignore = ["index.html", "links", "static_checks", "flint", "cgi-bin"]
     for dirname in os.listdir(docdir):
         if not dirname in ignore and dirname in translators.keys():
             content.append(["./{dirname}/index.html".format(dirname=dirname), translators[dirname]])
@@ -48,7 +51,7 @@ def create_cleaned_index(fnamefull, fnamecleaned):
     with open(fnamefull, "r") as fullfile:
         with open(fnamecleaned, "w") as cleanedfile:
             for line in fullfile:
-                if line.startswith('<tr class="bt__">') and not ("FCCSW" in line or "fcc-edm" in line or "podio" in line):
+                if line.startswith('<tr class="bt__">') and not ("FCCSW" in line or "fcc-edm" in line or "podio" in line or "Gaussino" in line):
                     continue
                 cleanedfile.write(line)
 
@@ -96,6 +99,7 @@ def main():
                 text=statcheck[1]
             ))
         fobj.write(link_template.format(href="flint/flint_FCCSW.txt", text="FCC Core Software (w/ flint++)"))
+        fobj.write(link_template.format(href="flint/flint_Gaussino.txt", text="Gaussino (w/ flint++)"))
         fobj.write("</ul>")
         fobj.write("<b>Runtime performance:</b>")
         fobj.write("<ul>")
