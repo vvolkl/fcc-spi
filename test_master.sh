@@ -88,11 +88,9 @@ cd ..
 ######################################################################
 echo "Test fcc-physics-pythia8 -> heppy"
 ######################################################################
-cd fcc-physics
+cd heppy/test
 $FCCPHYSICS/bin/fcc-pythia8-generate $FCCPHYSICS/share/ee_ZH_Zmumu_Hbb.txt
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
-mv ee_ZH_Zmumu_Hbb.root ../heppy/test/.
-cd ../heppy/test
 heppy_loop.py Trash analysis_ee_ZH_cfg.py -f
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 cd ../..
