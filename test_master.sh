@@ -51,7 +51,7 @@ if [[ -z "$FILESYSTEM" ]]; then
   export FCCEDM=$PWD/fcc-edm/install
   export FCCPHYSICS=$PWD/fcc-physics/install
 fi
-source ../init_fcc_stack.sh
+source ../init_fcc_stack.sh $FILESYSTEM
 cd heppy
 source ./init.sh
 cd ..
