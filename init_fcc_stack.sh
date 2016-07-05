@@ -24,15 +24,22 @@ unamestr=`uname`
 
 if [[ "$unamestr" == 'Linux' ]]; then
     fs=$1
-    echo $fs
-    if [ -z "$fs" ]; then
+    if [ -z "$fs" ] || [[ ! -d "/$fs" ]]; then
         fs="afs"
-        echo "INFO - Defaulting to afs as file system. If you want cvmfs use:"
-        echo "     source init_fcc_stack.sh cvmfs"
+        echo "INFO - Defaulting to afs as file system."
+    fi
+    if [[ $fs = 'afs' ]]; then
+        LHCBPATH=/afs/cern.ch/lhcb/software/releases
+        LCGPREFIX=/afs/cern.ch/sw/lcg
+        export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
+    else
+        LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
+        LCGPREFIX=/cvmfs/sft.cern.ch/lcg
+        export FCCSWPATH=/cvmfs/fcc.cern.ch/sw/0.7
     fi
     platform='Linux'
     echo "Platform detected: $platform"
-    if [[ -d /cvmfs/sft.cern.ch/lcg ]] || [[ -d /afs/cern.ch/sw/lcg ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+    if [[ -d "$LCGPREFIX" ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
         # Check if build type is set, if not default to release build
         if [ -z "$BUILDTYPE" ] || [[ "$BUILDTYPE" == "Release" ]]; then
             export BINARY_TAG=x86_64-slc6-gcc49-opt
@@ -42,15 +49,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
             export CMAKE_BUILD_TYPE="Debug"
         fi
         # Set up Gaudi + Dependencies
-        if [[ $fs = 'afs' ]]; then
-            LHCBPATH=/afs/cern.ch/lhcb/software/releases
-            LCGPREFIX=/afs/cern.ch/sw/lcg
-            export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
-        else
-            LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
-            LCGPREFIX=/cvmfs/sft.cern.ch/lcg
-            export FCCSWPATH=/cvmfs/fcc.cern.ch/sw/0.7
-        fi
+
         source $LHCBPATH/LBSCRIPTS/LBSCRIPTS_v8r5p3/InstallArea/scripts/LbLogin.sh --cmtconfig $BINARY_TAG
         export LCGPATH=$LCGPREFIX/views/LCG_83/$BINARY_TAG
         # The LbLogin sets VERBOSE to 1 which increases the compilation output. If you want details set this to 1 by hand.
@@ -96,6 +95,9 @@ if [[ "$unamestr" == 'Linux' ]]; then
         else
             source /cvmfs/geant4.cern.ch/geant4/10.2/setup_g4datasets.sh
         fi
+    else
+        # cannot find afs / cvmfs: so get rid of this to avoid confusion
+        unset FCCSWPATH
     fi
     add_to_path LD_LIBRARY_PATH $FCCEDM/lib
     add_to_path LD_LIBRARY_PATH $PODIO/lib
