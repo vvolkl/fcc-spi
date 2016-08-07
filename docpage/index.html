@@ -1,0 +1,43 @@
+---
+layout: title
+thisversion: ""
+---
+
+This page collects release information and documentation. Check individual releases for doxygen documentation, links to the releases on github.<br>
+<br>
+<b>Nightly static code analysis results can be found in the snapshot.</b>
+
+{% assign posts = site.posts | sort: 'thisversion' %}
+{% for post in posts limit:1 %}
+<h3>Documentation for version {{ post.thisversion }}</h3>
+<p>
+<b>Doxygen:</b><br>
+{% for version in site.data.versions %}
+  {% if version.version == post.thisversion %}
+    <ul>
+      <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}">FCCSW</a></li>
+    {% for dependency in version.dependencies %}
+      <li><a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/">{{ dependency.name }}</a></li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endfor %}
+
+Also see <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}/pages.html">additional docs</a> of FCCSW for more detailed descriptions.<br>
+</p>
+<p>
+<b>TWiki:</b><br>
+<ul>
+  <li><a href="https://twiki.cern.ch/twiki/bin/viewauth/FCC/FccSoftware">FCC Software TWiki</a></li>
+</ul>
+</p>
+{% endfor %}
+
+<h3>All releases:</h3>
+<ul>
+  {% for post in posts %}
+    <li>
+      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

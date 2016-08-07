@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "FCCSW v0.8"
+thisversion: "0.8"
+---
+
+### Version 0.8
+
+Changes in this release:
+
+  - Major rewrite of the FCC-EDM
+  - New graph tools
+  - Several improvements to Geant fast and full simulation tools
+    - addition of GFlash
+    - extending tracker smearing
+
