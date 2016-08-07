@@ -37,14 +37,16 @@ Two steps required to add a release to the page:
 2. Add a post to `docpage/_posts` named `YYYY-MM-DD-versionVV.markdown` (VV standing for major and minor version - name does not really matter except for the date prefix, can also add patch to this string if needed) with following content:
   - front-matter:
 
+    ~~~{.yml}
     ---
     layout: post          # for correct display
     title:  "FCCSW v0.8"  # any title
     thisversion: "0.8"    # corresponding to yaml version
     ---
+    ~~~
 
   - followed by an optional description of the release (release notes) using markdown syntax
 
 ### Adding permalinks
 
-Add url and name in docpage/_data/permalinks.yml
+Add url and name in `docpage/_data/permalinks.yml`
