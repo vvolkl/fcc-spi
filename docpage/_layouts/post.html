@@ -51,11 +51,11 @@
               <div class="panel-body">
                 {{ dependency.name }} {{ dependency.version }}
                 {% if dependency.tag != "" %}
-                  <a href="https://github.com/HEP-FCC/{{ dependency.name }}/releases/tag/{{ dependency.tag }}">github</a> |
-                  <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/"> doxygen</a>
+                  <a href="https://github.com/HEP-FCC/{{ dependency.name }}/releases/tag/{{ dependency.tag }}">github</a>
+                  {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/"> doxygen</a>{% endif %}
                 {% else %}
-                  <a href="https://github.com/HEP-FCC/{{ dependency.name }}/">github</a> |
-                  <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/snapshot/"> doxygen</a>
+                  <a href="https://github.com/HEP-FCC/{{ dependency.name }}/">github</a>
+                  {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/snapshot/"> doxygen</a>{% endif %}
                 {% endif %}
                 <p style="padding-top:10px;">
                   <b>Installation locations:</b><br>
