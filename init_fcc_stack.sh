@@ -114,7 +114,7 @@ fi
 
 # let ROOT know where the fcc-edm and -physics headers live.
 add_to_path ROOT_INCLUDE_PATH $PODIO/include
-add_to_path ROOT_INCLUDE_PATH $FCCEDM/include
+add_to_path ROOT_INCLUDE_PATH $FCCEDM/include/datamodel
 add_to_path ROOT_INCLUDE_PATH $FCCPHYSICS/include
 
 add_to_path PYTHONPATH $PODIO/python
