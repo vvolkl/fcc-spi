@@ -39,7 +39,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
     fi
     platform='Linux'
     echo "Platform detected: $platform"
-    if [[ -d "$LCGPREFIX" ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+    if [[ -d "$LCGPREFIX" ]] ; then
         # Check if build type is set, if not default to release build
         if [ -z "$BUILDTYPE" ] || [[ "$BUILDTYPE" == "Release" ]]; then
             export BINARY_TAG=x86_64-slc6-gcc49-opt
