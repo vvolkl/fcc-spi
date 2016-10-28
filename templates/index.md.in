@@ -1,0 +1,16 @@
+{{% for post in site.posts reversed limit:1 %}}
+{{% assign latest_version=post.thisversion %}}
+{{% assign latest_url=post.url %}}
+{{% endfor %}}
+
+## Getting started with the FCC common software
+
+[Getting Started](./getting_started.html) is a very simple introduction to the FCC software, showing how to produce and analyse fast simulated events. It is the recommended way to get started for fast simulation and analysis. It also explains how to set up the software.
+
+Everything below documents the latest release (version {{{{latest_version}}}}). Before continuing please make sure that this version is installed, for the corresponding versions of fcc-edm, fcc-physics and heppy, please see the [release page]({{{{latest_url}}}}).
+
+**Important: for all tutorials, we assume that you are using the bash shell**. If not the case, we advise you to change shell.
+
+For your CERN AFS account, you can do that on this page: `https://resources.web.cern.ch/resources/Manage/Linux/Settings.aspx?login=YOUR_USER_NAME`. <- insert your actual AFS user name here.
+
+{tutorial_list}
