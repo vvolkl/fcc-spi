@@ -13,17 +13,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if page.thisversion == "" %} class="active" {%endif%}><a href="{{ site.baseurl | prepend: site.url }}/index.html">Home</a></li>
+            <li {% if page.layout == "title" %} class="active" {%endif%}><a href="{{ site.baseurl | prepend: site.url }}/index.html">Home</a></li>
+            <li {% if page.layout == "site" %} class="active" {%endif%}><a href="{{ site.baseurl | prepend: site.url }}/tutorials">Tutorials</a></li>
             <li><a>Latest Releases:</a></li>
-            <li {% if page.thisversion == "snapshot" %} class="active" {%endif%}><a href="{{ site.baseurl | prepend: site.url }}/snapshot.html">Snapshot</a></li>
             {% assign posts = site.posts | sort: 'thisversion' %}
-            {% for post in posts limit: 5 %}
+            {% for post in posts reversed limit: 3 %}
               {% if post.thisversion != "snapshot" %}
               <li {% if page.thisversion == post.thisversion %} class="active" {%endif%}>
                 <a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a>
               </li>
               {% endif %}
             {% endfor %}
+            <li {% if page.thisversion == "snapshot" %} class="active" {%endif%}><a href="{{ site.baseurl | prepend: site.url }}/snapshot.html">Snapshot</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
