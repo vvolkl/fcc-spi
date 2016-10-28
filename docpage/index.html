@@ -2,18 +2,29 @@
 layout: title
 thisversion: ""
 ---
+{% for post in site.posts reversed limit:1 %}
+{% assign latest_version=post.thisversion %}
+{% endfor %}
 
-This page collects release information and documentation. Check individual releases for doxygen documentation, links to the releases on github.<br>
-<br>
+<h3>About FCCSW</h3>
+<p>
+  FCCSW is the software for the <a href="http://fcc.web.cern.ch">FCC</a> experiments. We aim to support all detector concepts for all accelerator options (electron-electron, electron-hadron and hadron-hadron). Therefore, we try to create software that is independent of detector or experiment specifics.
+</p>
+<p>
+  This page collects release information and documentation. Check individual releases for doxygen documentation and links to the releases on github.<br>
+</p>
+<h3>Tutorials and Getting Started:</h3>
+<p>
+An index of all tutorials for the latest version ({{ latest_version }}) can be found in the <a href="{{ site.baseurl | prepend: site.url }}/tutorials">tutorials section</a>.
+<br><br>
 <b>Nightly static code analysis results can be found in the snapshot.</b>
+</p>
 
-{% assign posts = site.posts | sort: 'thisversion' %}
-{% for post in posts limit:1 %}
-<h3>Documentation for version {{ post.thisversion }}</h3>
+<h3>Documentation for latest stable version {{ latest_version }}</h3>
 <p>
 <b>Doxygen:</b><br>
 {% for version in site.data.versions %}
-  {% if version.version == post.thisversion %}
+  {% if version.version == latest_version %}
     <ul>
       <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}">FCCSW</a></li>
     {% for dependency in version.dependencies %}
@@ -26,18 +37,17 @@ This page collects release information and documentation. Check individual relea
 Also see <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}/pages.html">additional docs</a> of FCCSW for more detailed descriptions.<br>
 </p>
 <p>
-<b>TWiki:</b><br>
+<b>Tutorials:</b><br>
 <ul>
-  <li><a href="https://twiki.cern.ch/twiki/bin/viewauth/FCC/FccSoftware">FCC Software TWiki</a></li>
+  <li>see the <a href="{{ site.baseurl | prepend: site.url }}/tutorials">tutorials section.</a></li>
 </ul>
 </p>
-{% endfor %}
 
 <h3>All releases:</h3>
 <ul>
-  {% for post in posts %}
+  {% for post in site.posts %}
     <li>
-      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> {%if post.thisversion != "snapshot" %} ({{ post.date | date_to_string }}) {% endif %}
     </li>
   {% endfor %}
 </ul>
