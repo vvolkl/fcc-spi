@@ -17,10 +17,14 @@ title: FCCSW
 description: > # this means to ignore newlines until "baseurl:"
   Main page for documentation and resources.
 url: "" # the subpath of your site, e.g. /blog
-baseurl: "http://jlingema.web.cern.ch/jlingema/fccswtest" # the base hostname & protocol for your site
+baseurl: "http://fccsw.web.cern.ch/fccsw" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  enable_rouge: true
 
 sass:
   sass_dir: node_modules/bootstrap-sass/assets/stylesheets

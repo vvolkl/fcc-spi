@@ -1,6 +1,4 @@
 ---
-- url: https://twiki.cern.ch/twiki/bin/viewauth/FCC/FccSoftware
-  name: FCCSW Twiki pages
 - url: http://cern.ch/simba3/SelfSubscription.aspx?groupName=fcc-experiments-sw-dev
   name: FCCSW Mailing list
 - url: https://sft.its.cern.ch/jira/projects/FCC/

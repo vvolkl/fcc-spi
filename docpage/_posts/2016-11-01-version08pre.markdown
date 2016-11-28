@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "FCCSW v0.8"
-thisversion: "0.8"
+title:  "FCCSW v0.8pre"
+thisversion: "0.8pre"
 ---
 
-### Version 0.8
+### Version 0.8 (pre release)
 
 Changes in this release:
 

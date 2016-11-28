@@ -65,11 +65,11 @@
                   <table class="table">
                     <tr>
                       <td><b>cvmfs:</b></td>
-                      <td>{{ versiondesc.cvmfs }}{{dependency.name}}/</td>
+                      <td>{{ versiondesc.cvmfs }}{% if versiondesc.cvmfs != "n/a" %}{{dependency.name}}{% endif %}</td>
                     </tr>
                     <tr>
                       <td><b>afs:</b></td>
-                      <td>{{ versiondesc.afs }}{{dependency.name}}/</td>
+                      <td>{{ versiondesc.afs }}{{dependency.name}}</td>
                     </tr>
                     <tr>
                       <td><b>swan:</b></td>

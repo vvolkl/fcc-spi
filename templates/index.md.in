@@ -5,7 +5,7 @@
 
 ## Getting started with the FCC common software
 
-[Getting Started](./getting_started.html) is a very simple introduction to the FCC software, showing how to produce and analyse fast simulated events. It is the recommended way to get started for fast simulation and analysis. It also explains how to set up the software.
+[Getting Started](./fcc-tutorials/FccSoftwareGettingStarted.html) is an introduction to the FCC software. It is the recommended way to get started. It also explains how to set up the software.
 
 Everything below documents the latest release (version {{{{latest_version}}}}). Before continuing please make sure that this version is installed, for the corresponding versions of fcc-edm, fcc-physics and heppy, please see the [release page]({{{{latest_url}}}}).
 

@@ -22,8 +22,12 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# docpage - jekyll, npm and copied files
 docpage/node_modules
 docpage/_site
+docpage/tutorials
+.sass-cache
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

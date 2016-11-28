@@ -53,6 +53,9 @@
                 {% if dependency.tag != "" %}
                   <a href="https://github.com/HEP-FCC/{{ dependency.name }}/releases/tag/{{ dependency.tag }}">github</a>
                   {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/"> doxygen</a>{% endif %}
+                  <p>
+                  {{ dependency.description | markdownify }}
+                  </p>
                 {% else %}
                   <a href="https://github.com/HEP-FCC/{{ dependency.name }}/">github</a>
                   {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/snapshot/"> doxygen</a>{% endif %}
