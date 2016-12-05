@@ -7,7 +7,7 @@
 
 [Getting Started](./fcc-tutorials/FccSoftwareGettingStarted.html) is an introduction to the FCC software. It is the recommended way to get started. It also explains how to set up the software.
 
-Everything below documents the latest release (version {{{{latest_version}}}}). Before continuing please make sure that this version is installed, for the corresponding versions of fcc-edm, fcc-physics and heppy, please see the [release page]({{{{latest_url}}}}).
+Everything below documents the latest release (version {{{{latest_version}}}}). Before continuing please make sure that this version is installed, for the corresponding versions of fcc-edm, fcc-physics and heppy, please see the [release page]({{{{latest_url | prepend: site.baseurl | prepend: site.url}}}}).
 
 **Important: for all tutorials, we assume that you are using the bash shell**. If not the case, we advise you to change shell.
 

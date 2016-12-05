@@ -29,14 +29,13 @@
           </div>
           <div class="panel-body">
             FCCSW {{ versiondesc.version }}
-            {% if versiondesc.tag != "" %}
+            {% if versiondesc.tag != "" and versiondesc.tag != "n/a" %}
               <a href="https://github.com/HEP-FCC/FCCSW/releases/tag/{{ versiondesc.tag }}">github</a> |
               <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{ versiondesc.tag }}/"> doxygen</a>
             {% else %}
               <a href="https://github.com/HEP-FCC/{{ versiondesc.name }}/">github</a> |
               <a href="http://fccsw.web.cern.ch/fccsw/fccsw/snapshot/"> doxygen</a>
             {% endif %}
-            <p>Additional, more detailed information in the <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}/pages.html">related pages</a>.</p>
             <p><b>No central installation</b>, see Twiki pages / repository README.md on how to install and setup.</p>
           </div>
         </div>
@@ -50,7 +49,7 @@
               </div>
               <div class="panel-body">
                 {{ dependency.name }} {{ dependency.version }}
-                {% if dependency.tag != "" %}
+                {% if dependency.tag != "" and dependency.tag != "n/a" %}
                   <a href="https://github.com/HEP-FCC/{{ dependency.name }}/releases/tag/{{ dependency.tag }}">github</a>
                   {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/"> doxygen</a>{% endif %}
                   <p>
@@ -65,7 +64,7 @@
                   <table class="table">
                     <tr>
                       <td><b>cvmfs:</b></td>
-                      <td>{{ versiondesc.cvmfs }}{{dependency.name}}/</td>
+                      <td>{{ versiondesc.cvmfs }}{%if versiondesc.cvmfs != "n/a" %}{{dependency.name}}/{% endif %}</td>
                     </tr>
                     <tr>
                       <td><b>afs:</b></td>

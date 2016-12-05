@@ -31,7 +31,7 @@
             FCCSW {{ versiondesc.version }}
             {% if versiondesc.tag != "" %}
               <a href="https://github.com/HEP-FCC/FCCSW/releases/tag/{{ versiondesc.tag }}">github</a> |
-              <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{ versiondesc.tag }}/"> doxygen</a>
+              <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{ versiondesc.version }}/"> doxygen</a>
             {% else %}
               <a href="https://github.com/HEP-FCC/{{ versiondesc.name }}/">github</a> |
               <a href="http://fccsw.web.cern.ch/fccsw/fccsw/snapshot/"> doxygen</a>
@@ -52,7 +52,7 @@
                 {{ dependency.name }} {{ dependency.version }}
                 {% if dependency.tag != "" %}
                   <a href="https://github.com/HEP-FCC/{{ dependency.name }}/releases/tag/{{ dependency.tag }}">github</a>
-                  {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/"> doxygen</a>{% endif %}
+                  {% if dependency.name != "fcc-physics" %} | <a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.version }}/"> doxygen</a>{% endif %}
                   <p>
                   {{ dependency.description | markdownify }}
                   </p>
