@@ -1,0 +1,15 @@
+---
+- version: "0.8"
+  lcg: "LCG_86"
+  compiler: [gcc@4.9.3]
+  packages:
+    podio:
+      version: [develop]
+    fcc-edm:
+      version: [develop]
+    fcc-physics:
+      version: [develop]
+    delphes:
+      version: [3.4.0]
+    gaudi:
+      version: [v27r0]
