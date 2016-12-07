@@ -43,11 +43,14 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
             pkg, sha, version, path = spec[0], spec[1], spec[2], spec[3]
 
             pkg_lower = pkg.lower()
-            if pkg_lower.startswith("py") and pkg_lower not in ["pythia8", "pythia6", "python"]:
+            if (pkg_lower.startswith("py") or pkg_lower in ["qmtest"]) and pkg_lower not in ["pythia8", "pythia6", "python"]:
                 pkg_lower = "py-" + pkg_lower
+            if pkg_lower == "pythia8":
+                pkg_lower = "pythia"
             spec_string = spec_template.format(pkg=pkg_lower,
                                                pkg_version=version,
                                                compiler=spec_qualifiers["COMPILER"],
+                                               type=type_spec,
                                                arch=lcg_spec["arch"],
                                                os_str=OS_SHORT_TO_LONG[lcg_spec["os"]])
 
