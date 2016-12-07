@@ -13,15 +13,20 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
         cmake:
           paths:
             cmake@3.4.1%gcc@4.9.3 arch=x86_64-slc6: /afs/cern.ch/sw/lcg/releases/LCG_83/CMake/x86_64-slc6-gcc49-opt
+            cmake@3.4.1%gcc@4.9.3+debug arch=x86_64-slc6: /afs/cern.ch/sw/lcg/releases/LCG_83/CMake/x86_64-slc6-gcc49-dbg
             cmake@3.4.1%gcc@4.8.3 arch=x86_64-slc6: /afs/cern.ch/sw/lcg/releases/LCG_83/CMake/x86_64-slc6-gcc48-opt
           buildable: False
     '''
     fname = lcg_spec["fname"]
-    spec_template = "{pkg}@{pkg_version}%{compiler} arch={arch}-{os_str}"
+    spec_template = "{pkg}@{pkg_version}%{compiler}{type} arch={arch}-{os_str}"
     spec_qualifiers = {}
     if verbosity > 1:
         print "-- parsing:", lcg_spec["type"], "built for", lcg_spec["arch"], \
               lcg_spec["os"], "with", lcg_spec["compiler"], "as", lcg_spec["build_type"]
+    type_spec = ""
+    if lcg_spec["build_type"] == "dbg":
+        type_spec = "+debug"
+
     if verbosity > 0:
         print "-- (", fname, ")"
     lcg_packages = {}
