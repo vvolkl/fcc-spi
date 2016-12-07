@@ -36,4 +36,4 @@
       version: [v27r1]
       buildable: false
       paths:
-        gaudi@v28r0%gcc@4.9.3 arch=x86_64-scientificcernslc6: /afs/cern.ch/sw/Gaudi/releases/GAUDI/GAUDI_v27r1/InstallArea/x86_64-slc6-gcc49-opt
+        gaudi@v27r1%gcc@4.9.3 arch=x86_64-scientificcernslc6: /afs/cern.ch/sw/Gaudi/releases/GAUDI/GAUDI_v27r1/InstallArea/x86_64-slc6-gcc49-opt
