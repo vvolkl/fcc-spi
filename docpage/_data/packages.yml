@@ -19,7 +19,7 @@
       paths:
         gaudi@v28r0%gcc@4.9.3 arch=x86_64-scientificcernslc6: /afs/cern.ch/sw/Gaudi/releases/GAUDI/GAUDI_v28r0/InstallArea/x86_64-slc6-gcc49-opt
 - version: "0.8pre2"
-  lcg: "LCG_83"
+  lcg: "LCG_87"
   compiler: [gcc@4.9.3]
   packages:
     podio:
@@ -30,10 +30,12 @@
       version: [develop]
     delphes:
       version: [3.4.0]
+    dd4hep:
+      version: [19]
     fccsw:
       version: [develop]
     gaudi:
-      version: [v27r1]
+      version: [v28r0]
       buildable: false
       paths:
-        gaudi@v27r1%gcc@4.9.3 arch=x86_64-scientificcernslc6: /afs/cern.ch/sw/Gaudi/releases/GAUDI/GAUDI_v27r1/InstallArea/x86_64-slc6-gcc49-opt
+        gaudi@v28r0%gcc@4.9.3 arch=x86_64-scientificcernslc6: /afs/cern.ch/exp/fcc/sw/0.8pre2/Gaudi/v28r0/x86_64-slc6-gcc49-opt/
