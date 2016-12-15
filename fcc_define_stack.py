@@ -13,7 +13,8 @@ def main():
     args = parser.parse_args()
     ubuntu_to_spack_dict = {
         "libncurses5": "curses",
-        "zlib1g-dev": "zlib"
+        "zlib1g-dev": "zlib",
+        "python-yaml": "py-pyyaml"
     }
 
     fcc_packages = {}
@@ -44,7 +45,7 @@ def main():
         packages['packages']['all'] = {'compiler': compiler_spec}
     else:
         # in the docker we can use some pre-built ubuntu packages to speed up bootstrap:
-        package_names = ["openssl", ]  # installed by default
+        package_names = ["openssl", "libncurses5"]  # installed by default
         with open(args.dockerfile, 'r') as fobj:
             for line in fobj:
                 if line.startswith("RUN apt-get") and "install" in line:
