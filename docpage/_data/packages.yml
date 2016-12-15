@@ -29,9 +29,7 @@
     fcc-physics:
       version: [develop]
     delphes:
-      version: [3.4.0]
-    dd4hep:
-      version: [19]
+      version: [3.4.1pre01]
     fccsw:
       version: [develop]
     gaudi:
