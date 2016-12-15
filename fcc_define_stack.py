@@ -56,7 +56,7 @@ def main():
         for package in package_names:
             spack_name = package
             if package in ubuntu_to_spack_dict.keys():
-                ubuntu_to_spack_dict[package]
+                spack_name = ubuntu_to_spack_dict[package]
             packages['packages'][spack_name] = {"buildable": False, "paths": {spack_name:"/usr/"}}
 
 
