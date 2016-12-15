@@ -3,17 +3,18 @@ import yaml
 import argparse
 import re
 
-
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('lcg_yaml', type=str, help='LCG yaml file')
     parser.add_argument('fcc_yaml', type=str, help='fcc yaml file')
     parser.add_argument('fcc_version', type=str, help='fcc stack version')
     parser.add_argument('--out', '-o', type=str, default='fcc_packages.yaml', help='name of the output file')
+    parser.add_argument('--dockerfile', type=str, help='create spec for this docker image (does not use lcg packages)')
     args = parser.parse_args()
-
-    with open(args.lcg_yaml, 'r') as fobj_lcg:
-        lcg_packages = yaml.load(fobj_lcg)
+    ubuntu_to_spack_dict = {
+        "libncurses5": "curses"
+        "zlib1g-dev": "zlib"
+    }
 
     fcc_packages = {}
     lcg_version = ""
@@ -26,17 +27,37 @@ def main():
                 lcg_version = v["lcg"]
                 compiler_spec = v["compiler"]
 
-    if lcg_version == "":
+    if lcg_version == "":  # arbitrary which of the extracted variables we check!
         print "Could not find specified version (", args.fcc_version, ") in", args.fcc_yaml
 
-    print fcc_packages
-    for name, spec in fcc_packages.iteritems():
-        lcg_packages['packages'][name] = spec
+    packages = {"packages":{}}
+    # set up lcg packages
+    if not args.lcg_yaml is None:
+        with open(args.lcg_yaml, 'r') as fobj_lcg:
+            packages = yaml.load(fobj_lcg)
 
-    lcg_packages['packages']['all'] = {'compiler': compiler_spec}
+    for name, spec in fcc_packages.iteritems():
+        packages['packages'][name] = spec
+
+    # on machines using lcg packages, ensure we are using the right compiler:
+    if args.dockerfile is None:
+        packages['packages']['all'] = {'compiler': compiler_spec}
+    else args.dockerfile:
+        # in the docker we can use some pre-built ubuntu packages to speed up bootstrap:
+        package_names = ["openssl", ]  # installed by default
+        with open(args.dockerfile, 'r') as fobj:
+            for line in fobj:
+                if line.startswith("RUN apt-get") and "install" in line:
+                    fragments = line.split()
+                    if "install" in fragments:
+                        # skip install and -y
+                        package_names += fragments[fragments.index("install")+2:]
+        for package in package_names:
+            packages['packages'][package] = {"buildable": False, "paths": {package:"/usr/"}}
+
 
     with open(args.out, 'w') as fobj:
-        fobj.write(yaml.dump(lcg_packages))
+        fobj.write(yaml.dump(packages))
 
 
 if __name__ == "__main__":
