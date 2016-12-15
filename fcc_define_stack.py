@@ -5,14 +5,14 @@ import re
 
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('lcg_yaml', type=str, help='LCG yaml file')
     parser.add_argument('fcc_yaml', type=str, help='fcc yaml file')
     parser.add_argument('fcc_version', type=str, help='fcc stack version')
+    parser.add_argument('--lcg_yaml', type=str, help='LCG yaml file')
     parser.add_argument('--out', '-o', type=str, default='fcc_packages.yaml', help='name of the output file')
     parser.add_argument('--dockerfile', type=str, help='create spec for this docker image (does not use lcg packages)')
     args = parser.parse_args()
     ubuntu_to_spack_dict = {
-        "libncurses5": "curses"
+        "libncurses5": "curses",
         "zlib1g-dev": "zlib"
     }
 
@@ -42,7 +42,7 @@ def main():
     # on machines using lcg packages, ensure we are using the right compiler:
     if args.dockerfile is None:
         packages['packages']['all'] = {'compiler': compiler_spec}
-    else args.dockerfile:
+    else:
         # in the docker we can use some pre-built ubuntu packages to speed up bootstrap:
         package_names = ["openssl", ]  # installed by default
         with open(args.dockerfile, 'r') as fobj:
@@ -53,7 +53,10 @@ def main():
                         # skip install and -y
                         package_names += fragments[fragments.index("install")+2:]
         for package in package_names:
-            packages['packages'][package] = {"buildable": False, "paths": {package:"/usr/"}}
+            spack_name = package
+            if package in ubuntu_to_spack_dict.keys():
+                ubuntu_to_spack_dict[package]
+            packages['packages'][spack_name] = {"buildable": False, "paths": {spack_name:"/usr/"}}
 
 
     with open(args.out, 'w') as fobj:
