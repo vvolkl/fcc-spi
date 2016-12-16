@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
 ENV FCCBASE=/usr/local/fcc
 ENV SPACK_ROOT=$FCCBASE/spack
-RUN apt-get update && apt-get install -y cmake git python curl libtool build-essential gfortran python-yaml libpcre3 zlib1g libpng libfreetype6 liblzma5 python-libxml2 libfftw3-3 libx11-dev libxpm4 libxpm-dev libxft2 libxft-dev libxext6 libxext-dev
+RUN apt-get update && apt-get install -y cmake git python curl libtool build-essential gfortran python-yaml libpcre3 zlib1g libpng libfreetype6 liblzma5 python-libxml2 libxml2 libfftw3-3 libx11-dev libxpm4 libxpm-dev libxft2 libxft-dev libxext6 libxext-dev
 
 RUN mkdir -p $FCCBASE
 
@@ -12,7 +12,16 @@ RUN git clone https://github.com/llnl/spack $SPACK_ROOT
 RUN git clone https://github.com/jlingema/fcc-spack $SPACK_ROOT/var/spack/repos/fcc-spack
 RUN git clone https://github.com/jlingema/hep-spack -b fcc $SPACK_ROOT/var/spack/repos/hep-spack
 RUN git clone https://github.com/jlingema/fcc-spi -b spack $FCCBASE/fcc-spi
-# RUN python $FCCBASE/fcc-spi/fcc_define_stack.py -o $SPACK_ROOT/etc/spack/packages.yaml $FCCBASE/fcc-spi/docpage/_data/packages.yml 0.8pre2
+RUN python $FCCBASE/fcc-spi/fcc_define_stack.py -o $SPACK_ROOT/etc/spack/packages.yaml $FCCBASE/fcc-spi/docpage/_data/packages.yml latest
 RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
 RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
-# RUN $SPACK_ROOT/bin/spack install fcc-physics
+RUN $SPACK_ROOT/bin/spack install fcc-physics
+RUN $SPACK_ROOT/bin/spack view -d true soft $FCCBASE fcc-physics
+
+ENV PATH=$FCCBASE/bin:$PATH
+ENV LD_LIBRARY_PATH=$FCCBASE/lib:$LD_LIBRARY_PATH
+ENV ROOT_INCLUDE_PATH=$FCCBASE/include:$ROOT_INCLUDE_PATH
+ENV CMAKE_PREFIX_PATH=$FCCBASE:$CMAKE_PREFIX_PATH
+
+mkdir -p /home/fccuser
+WORKDIR /home/fccuser
