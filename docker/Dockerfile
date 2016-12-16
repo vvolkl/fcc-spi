@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
 ENV FCCBASE=/usr/local/fcc
 ENV SPACK_ROOT=$FCCBASE/spack
-RUN apt-get update && apt-get install -y cmake git python curl libtool build-essential gfortran python-yaml libpcre3 zlib1g libpng libfreetype6 liblzma5 python-libxml2 libxml2 libfftw3-3 libx11-dev libxpm4 libxpm-dev libxft2 libxft-dev libxext6 libxext-dev
+RUN apt-get update && apt-get install -y cmake git python curl libtool build-essential gfortran python-yaml libpcre3 zlib1g libfreetype6 liblzma5 python-libxml2 libxml2 libfftw3-3 libx11-dev libxpm4 libxpm-dev libxft2 libxft-dev libxext6 libxext-dev
 
 RUN mkdir -p $FCCBASE
 
