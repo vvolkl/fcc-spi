@@ -6,9 +6,8 @@ ENV FCCBASE=/usr/local/fcc
 ENV SPACK_ROOT=$FCCBASE/spack
 
 # update fcc-spi and re-define stack (*should* never produce a conflict to base image)
-RUN cd $FCCBASE/fcc-spi && \
-    git pull && \
-    python $FCCBASE/fcc-spi/fcc_define_stack.py --fcc_yaml=$FCCBASE/fcc-spi/docpage/_data/packages.yml -o $SPACK_ROOT/etc/spack/packages.yaml --base_yaml=$FCCBASE/fcc-spi/docker/packages-ubuntu16.04.yaml $FCCVERSION
+RUN git clone https://github.com/jlingema/fcc-spi -b spack $FCCBASE/fcc-spi && \
+    python $FCCBASE/fcc-spi/fcc_define_stack.py --fcc_yaml=$FCCBASE/fcc-spi/docpage/_data/packages.yml -o $SPACK_ROOT/etc/spack/packages.yaml --base_yaml=$FCCBASE/fcc-spi/docker/packages-ubuntu${UBUNTUVERSION}.yaml $FCCVERSION
 RUN git clone https://github.com/jlingema/fcc-spack $SPACK_ROOT/var/spack/repos/fcc-spack
 RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack && \
     $SPACK_ROOT/bin/spack install fcc-physics && \
@@ -28,4 +27,4 @@ RUN mkdir -p /home/fccuser && \
     chmod 0440 /etc/sudoers.d/fccuser
 USER fccuser
 WORKDIR /home/fccuser
-CMD . $FCCBASE/fcc-spi/docker/welcome.sh
+CMD . $FCCBASE/fcc-spi/docker/welcome.sh && /bin/bash
