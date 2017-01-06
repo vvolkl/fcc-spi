@@ -1,8 +1,9 @@
 FROM ubuntu:16.04
 MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
-ENV FCCBASE=/usr/local/fcc
-ENV SPACK_ROOT=$FCCBASE/spack
+
+# install packages available through apt-get to reduce build-time
 RUN apt-get update && apt-get install -y \
+  sudo \
   cmake \
   git \
   python \
@@ -26,10 +27,13 @@ RUN apt-get update && apt-get install -y \
   libxext6 \
   libxext-dev
 
+# setup work directories
+ENV FCCBASE=/usr/local/fcc
+ENV SPACK_ROOT=$FCCBASE/spack
 RUN mkdir -p $FCCBASE
-
 WORKDIR $FCCBASE
 
+# Set up spack needed for ROOT
 RUN git clone https://github.com/llnl/spack -b develop $SPACK_ROOT
 RUN git clone https://github.com/jlingema/hep-spack -b fcc $SPACK_ROOT/var/spack/repos/hep-spack
 
@@ -37,7 +41,8 @@ RUN git clone https://github.com/jlingema/hep-spack -b fcc $SPACK_ROOT/var/spack
 RUN git clone https://github.com/jlingema/fcc-spi -b spack $FCCBASE/fcc-spi
 RUN python $FCCBASE/fcc-spi/fcc_define_stack.py --fcc_yaml=$FCCBASE/fcc-spi/docpage/_data/packages.yml -o $SPACK_ROOT/etc/spack/packages.yaml --base_yaml=$FCCBASE/fcc-spi/docker/packages-ubuntu16.04.yaml latest
 
-RUN $SPACK_ROOT/bin/spack compiler find
-RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
-RUN $SPACK_ROOT/bin/spack install root
+# compile ROOT
+RUN $SPACK_ROOT/bin/spack compiler find && \
+    $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/hep-spack && \
+    $SPACK_ROOT/bin/spack install root
 
