@@ -1,0 +1,20 @@
+FROM ubuntu_root
+MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
+ENV FCCBASE=/usr/local/fcc
+ENV SPACK_ROOT=$FCCBASE/spack
+
+# eventually want to update this before doing anything
+# RUN cd $FCCBASE/fcc-spi && git pull
+RUN python $FCCBASE/fcc-spi/fcc_define_stack.py --fcc_yaml=$FCCBASE/fcc-spi/docpage/_data/packages.yml -o $SPACK_ROOT/etc/spack/packages.yaml --base_yaml=$FCCBASE/fcc-spi/docker/packages-ubuntu16.04.yaml latest
+RUN git clone https://github.com/jlingema/fcc-spack $SPACK_ROOT/var/spack/repos/fcc-spack
+RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
+RUN $SPACK_ROOT/bin/spack install fcc-physics
+RUN $SPACK_ROOT/bin/spack view -d true soft $FCCBASE fcc-physics
+
+ENV PATH=$FCCBASE/bin:$PATH
+ENV LD_LIBRARY_PATH=$FCCBASE/lib:$LD_LIBRARY_PATH
+ENV ROOT_INCLUDE_PATH=$FCCBASE/include:$FCCBASE/include/datamodel
+ENV CMAKE_PREFIX_PATH=$FCCBASE:$CMAKE_PREFIX_PATH
+
+RUN mkdir -p /home/fccuser
+WORKDIR /home/fccuser
