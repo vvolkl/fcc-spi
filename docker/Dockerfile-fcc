@@ -28,3 +28,4 @@ RUN mkdir -p /home/fccuser && \
     chmod 0440 /etc/sudoers.d/fccuser
 USER fccuser
 WORKDIR /home/fccuser
+CMD . $FCCBASE/fcc-spi/docker/welcome.sh
