@@ -1,4 +1,4 @@
-FROM ubuntu_root
+FROM ubuntu_root:16.04-6.08.02
 MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
 ARG FCCVERSION
 ENV FCCVERSION ${FCCVERSION:-latest}
@@ -18,6 +18,9 @@ ENV PATH=$FCCBASE/bin:$PATH
 ENV LD_LIBRARY_PATH=$FCCBASE/lib:$LD_LIBRARY_PATH
 ENV ROOT_INCLUDE_PATH=$FCCBASE/include:$FCCBASE/include/datamodel
 ENV CMAKE_PREFIX_PATH=$FCCBASE:$CMAKE_PREFIX_PATH
+ENV HEPMC_PREFIX=$FCCBASE
+ENV PYTHIA8_DIR=$FCCBASE
+ENV PYTHIA8DATA=$FCCBASE/share/Pythia8/xmldoc
 
 # Set up user
 RUN mkdir -p /home/fccuser && \
