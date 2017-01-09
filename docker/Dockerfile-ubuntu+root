@@ -4,29 +4,30 @@ MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
 ENV UBUNTUVERSION=16.04
 # install packages available through apt-get to reduce build-time
 RUN apt-get update && apt-get install -y \
-  sudo \
-  cmake \
-  git \
-  python \
-  curl \
-  libtool \
-  build-essential \
-  gfortran \
-  python-yaml \
-  libpcre3 \
-  zlib1g \
-  libfreetype6 \
-  liblzma5 \
-  python-libxml2 \
-  libxml2 \
-  libfftw3-3 \
-  libx11-dev \
-  libxpm4 \
-  libxpm-dev \
-  libxft2 \
-  libxft-dev \
-  libxext6 \
-  libxext-dev
+    sudo \
+    cmake \
+    git \
+    python \
+    curl \
+    libtool \
+    build-essential \
+    gccxml \
+    gfortran \
+    python-yaml \
+    libpcre3 \
+    zlib1g \
+    libfreetype6 \
+    liblzma5 \
+    python-libxml2 \
+    libxml2 \
+    libfftw3-3 \
+    libx11-dev \
+    libxpm4 \
+    libxpm-dev \
+    libxft2 \
+    libxft-dev \
+    libxext6 \
+    libxext-dev
 
 # setup work directories
 ENV FCCBASE=/usr/local/fcc
