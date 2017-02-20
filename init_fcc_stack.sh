@@ -31,15 +31,15 @@ if [[ "$unamestr" == 'Linux' ]]; then
     if [[ $fs = 'afs' ]]; then
         LHCBPATH=/afs/cern.ch/lhcb/software/releases
         LCGPREFIX=/afs/cern.ch/sw/lcg
-        export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.7
+        export FCCSWPATH=/afs/cern.ch/exp/fcc/sw/0.8pre
     else
         LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
         LCGPREFIX=/cvmfs/sft.cern.ch/lcg
-        export FCCSWPATH=/cvmfs/fcc.cern.ch/sw/0.7
+        export FCCSWPATH=/cvmfs/fcc.cern.ch/sw/0.8pre
     fi
     platform='Linux'
     echo "Platform detected: $platform"
-    if [[ -d "$LCGPREFIX" ]] && [[ `dnsdomainname` = 'cern.ch' ]] ; then
+    if [[ -d "$LCGPREFIX" ]] ; then
         # Check if build type is set, if not default to release build
         if [ -z "$BUILDTYPE" ] || [[ "$BUILDTYPE" == "Release" ]]; then
             export BINARY_TAG=x86_64-slc6-gcc49-opt
@@ -65,19 +65,19 @@ if [[ "$unamestr" == 'Linux' ]]; then
         echo "Software taken from $FCCSWPATH and LCG_83"
         # If podio or EDM not set locally already, take them from afs
         if [ -z "$PODIO" ]; then
-            export PODIO=$FCCSWPATH/podio/0.4/$BINARY_TAG
+            export PODIO=$FCCSWPATH/podio/snapshot/$BINARY_TAG
         else
             echo "Take podio: $PODIO"
         fi
         if [ -z "$FCCEDM" ]; then
-            export FCCEDM=$FCCSWPATH/fcc-edm/0.4/$BINARY_TAG
+            export FCCEDM=$FCCSWPATH/fcc-edm/snapshot/$BINARY_TAG
         else
             echo "Take fcc-edm: $FCCEDM"
         fi
         if [ -z "$FCCPHYSICS" ]; then
-            export FCCPHYSICS=$FCCSWPATH/fcc-physics/0.1/$BINARY_TAG
+            export FCCPHYSICS=$FCCSWPATH/fcc-physics/snapshot/$BINARY_TAG
         fi
-        export DELPHES_DIR=$FCCSWPATH/Delphes/3.3.2/$BINARY_TAG
+        export DELPHES_DIR=$FCCSWPATH/delphes/3.4.1pre01/$BINARY_TAG
         export PYTHIA8_DIR=$LCGPREFIX/releases/LCG_80/MCGenerators/pythia8/212/$BINARY_TAG
         export PYTHIA8_XML=$PYTHIA8_DIR/share/Pythia8/xmldoc
         export PYTHIA8DATA=$PYTHIA8_XML
@@ -85,7 +85,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
 
         # add DD4hep
         export inithere=$PWD
-        cd $FCCSWPATH/DD4hep/20161003/$BINARY_TAG
+        cd $FCCSWPATH/../0.7/DD4hep/20161003/$BINARY_TAG
         source bin/thisdd4hep.sh
         cd $inithere
 
@@ -114,7 +114,7 @@ fi
 
 # let ROOT know where the fcc-edm and -physics headers live.
 add_to_path ROOT_INCLUDE_PATH $PODIO/include
-add_to_path ROOT_INCLUDE_PATH $FCCEDM/include
+add_to_path ROOT_INCLUDE_PATH $FCCEDM/include/datamodel
 add_to_path ROOT_INCLUDE_PATH $FCCPHYSICS/include
 
 add_to_path PYTHONPATH $PODIO/python
