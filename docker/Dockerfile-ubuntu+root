@@ -40,7 +40,7 @@ RUN git clone https://github.com/llnl/spack -b develop $SPACK_ROOT
 RUN git clone https://github.com/jlingema/hep-spack -b fcc $SPACK_ROOT/var/spack/repos/hep-spack
 
 # only need the ubuntu package specs (that means the latest available ROOT version in hep-spack is installed)
-RUN curl https://raw.githubusercontent.com/jlingema/fcc-spi/spack/docker/packages-ubuntu${UBUNTUVERSION}.yaml -o $SPACK_ROOT/etc/spack/packages.yaml
+RUN curl https://raw.githubusercontent.com/HEP-FCC/fcc-spi/master/docker/packages-ubuntu${UBUNTUVERSION}.yaml -o $SPACK_ROOT/etc/spack/packages.yaml
 
 # compile ROOT
 RUN $SPACK_ROOT/bin/spack compiler find && \
