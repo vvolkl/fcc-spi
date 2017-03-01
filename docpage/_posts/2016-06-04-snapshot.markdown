@@ -1,0 +1,26 @@
+---
+layout: post
+title:  "FCCSW snapshot"
+subtitle: "Warning: Experts and power users only!"
+thisversion: "snapshot"
+permalink: snapshot.html
+---
+
+## Warning: Experts and power users only!
+
+
+### Code quality checks:
+
+**Static checks**
+
+- FCC Core Software [(SAS cleaned)](./static_checks/FCCSW/index_short.html) [(SAS verbose)](./static_checks/FCCSW/index.html) [(flint++)](./flint/flint_FCCSW.txt)
+- Gaussino [(cleaned)](./static_checks/Gaussino/index_short.html) [(verbose)](./static_checks/Gaussino/index.html)  [(flint++)](./flint/flint_Gaussino.txt)
+
+**Runtime performance**
+
+- FCC EDM example [(igprof)](./cgi-bin/igprof-navigator/fccedm-write)
+
+
+### Information
+
+The snapshots correspond to the most recent version of the code. **Expect that you may encounter problems.**

@@ -1,0 +1,13 @@
+---
+- url: http://cern.ch/simba3/SelfSubscription.aspx?groupName=fcc-experiments-sw-dev
+  name: FCCSW Mailing list
+- url: https://sft.its.cern.ch/jira/projects/FCC/
+  name: FCCSW Jira Tracker
+- url: https://github.com/HEP-FCC/
+  name: FCCSW on GitHub
+- url: https://phsft-jenkins.cern.ch/view/FCC/
+  name: FCCSW Jenkins
+- url: https://github.com/HEP-FCC/FCCSW/blob/master/doc/CppCodingStyleGuidelines.md
+  name: FCCSW C++ Style Guide
+- url: https://github.com/HEP-FCC/FCCSW/blob/master/doc/GeneralCppGuidelines.md
+  name: General C++ Guidelines

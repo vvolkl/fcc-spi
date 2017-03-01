@@ -1,0 +1,52 @@
+---
+layout: title
+thisversion: ""
+---
+{% for post in site.posts reversed limit:1 %}
+{% assign latest_version=post.thisversion %}
+{% endfor %}
+
+<h3>About FCCSW</h3>
+<p>
+  FCCSW is the software for the <a href="http://fcc.web.cern.ch">FCC</a> experiments. We aim to support all detector concepts for all accelerator options (electron-electron, electron-hadron and hadron-hadron). Therefore, we try to create software that is independent of detector or experiment specifics.
+</p>
+<p>
+  This page collects release information and documentation. Check individual releases for doxygen documentation and links to the releases on github.<br>
+</p>
+<h3>Tutorials and Getting Started:</h3>
+<p>
+An index of all tutorials for the latest version ({{ latest_version }}) can be found in the <a href="{{ site.baseurl | prepend: site.url }}/tutorials">tutorials section</a>.
+<br><br>
+<b>Nightly static code analysis results can be found in the snapshot.</b>
+</p>
+
+<h3>Documentation for latest stable version {{ latest_version }}</h3>
+<p>
+<b>Doxygen:</b><br>
+{% for version in site.data.versions %}
+  {% if version.version == latest_version %}
+    <ul>
+      <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{latest_version}}">FCCSW</a></li>
+    {% for dependency in version.dependencies %}
+      {% if dependency.name != "fcc-physics" %}<li><a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/">{{ dependency.name }}</a></li>{% endif %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endfor %}
+
+</p>
+<p>
+<b>Tutorials:</b><br>
+<ul>
+  <li>see the <a href="{{ site.baseurl | prepend: site.url }}/tutorials">tutorials section.</a></li>
+</ul>
+</p>
+
+<h3>All releases:</h3>
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> {%if post.thisversion != "snapshot" %} ({{ post.date | date_to_string }}) {% endif %}
+    </li>
+  {% endfor %}
+</ul>
