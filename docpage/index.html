@@ -26,7 +26,7 @@ An index of all tutorials for the latest version ({{ latest_version }}) can be f
 {% for version in site.data.versions %}
   {% if version.version == latest_version %}
     <ul>
-      <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}">FCCSW</a></li>
+      <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{latest_version}}">FCCSW</a></li>
     {% for dependency in version.dependencies %}
       {% if dependency.name != "fcc-physics" %}<li><a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/">{{ dependency.name }}</a></li>{% endif %}
     {% endfor %}
@@ -34,7 +34,6 @@ An index of all tutorials for the latest version ({{ latest_version }}) can be f
   {% endif %}
 {% endfor %}
 
-Also see <a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{page.thisversion}}/pages.html">additional docs</a> of FCCSW for more detailed descriptions.<br>
 </p>
 <p>
 <b>Tutorials:</b><br>
