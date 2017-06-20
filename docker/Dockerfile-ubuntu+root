@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
+ARG HEPSPACK_VERSION=master
+ARG SPACK_VERSION=develop
 # Keep this up to date with the above (used also in Dockerfile-fcc)
 ENV UBUNTUVERSION=16.04
 # install packages available through apt-get to reduce build-time
@@ -36,8 +38,8 @@ RUN mkdir -p $FCCBASE
 WORKDIR $FCCBASE
 
 # Set up spack needed for ROOT
-RUN git clone https://github.com/llnl/spack -b develop $SPACK_ROOT
-RUN git clone https://github.com/hep-sf/hep-spack -b fcc $SPACK_ROOT/var/spack/repos/hep-spack
+RUN git clone https://github.com/llnl/spack -b $SPACK_VERSION $SPACK_ROOT
+RUN git clone https://github.com/hep-sf/hep-spack -b $HEPSPACK_VERSION $SPACK_ROOT/var/spack/repos/hep-spack
 
 # only need the ubuntu package specs (that means the latest available ROOT version in hep-spack is installed)
 RUN curl https://raw.githubusercontent.com/HEP-FCC/fcc-spi/master/docker/packages-ubuntu${UBUNTUVERSION}.yaml -o $SPACK_ROOT/etc/spack/packages.yaml
