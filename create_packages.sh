@@ -1,4 +1,5 @@
 #!/bin/bash
+THIS=$(dirname ${BASH_SOURCE[0]})
 
 #PLATFORM=`$THIS/getPlatform.py`
 PLATFORM="x86_64-slc6-gcc62-opt"
@@ -9,21 +10,21 @@ root_path="/cvmfs/sft.cern.ch/lcg/releases/${LCG_version}/ROOT/${root_version}/$
 weekday=`date +%a`
 dev4_latest="/cvmfs/sft.cern.ch/lcg/nightlies/dev4/${weekday}/LCG_externals_x86_64-slc6-gcc62-opt.txt"
 
-python create_lcg_package_specs.py $dev4_latest
+python $THIS/create_lcg_package_specs.py $THIS/$dev4_latest
 
-cp config/packages-default.yaml packages.yaml
+cp $THIS/config/packages-default.yaml $THIS/packages.yaml
 
 # apply some changes
 # Replace tbb name
-sed -i 's/tbb:/intel-tbb/' ${weekday}_packages_cvmfs.yaml
-sed -i 's/tbb%gcc/intel-tbb%gcc/' ${weekday}_packages_cvmfs.yaml
+sed -i 's/tbb:/intel-tbb/' $THIS/${weekday}_packages_cvmfs.yaml
+sed -i 's/tbb%gcc/intel-tbb%gcc/' $THIS/${weekday}_packages_cvmfs.yaml
 
 # Replabe java name
-sed -i 's/java:/jdk/' ${weekday}_packages_cvmfs.yaml
-sed -i 's/java%gcc/jdk%gcc/' ${weekday}_packages_cvmfs.yaml
+sed -i 's/java:/jdk/' $THIS/${weekday}_packages_cvmfs.yaml
+sed -i 's/java%gcc/jdk%gcc/' $THIS/${weekday}_packages_cvmfs.yaml
 
-sed -i "s#paths: {root@.*}#paths: {root@6.08.06%gcc@6.2.0 arch=x86_64-scientificcernslc6: `echo $root_path`}#" ${weekday}_packages_cvmfs.yaml
+sed -i "s#paths: {root@.*}#paths: {root@6.08.06%gcc@6.2.0 arch=x86_64-scientificcernslc6: `echo $root_path`}#" $THIS/${weekday}_packages_cvmfs.yaml
 
 # append lcg specs to default packages.yaml
-cat ${weekday}_packages_cvmfs.yaml | tail -n +2 >> packages.yaml
-cat packages-stable.yaml >> packages.yaml
+cat $THIS/${weekday}_packages_cvmfs.yaml | tail -n +2 >> $THIS/packages.yaml
+cat $THIS/config/packages-stable.yaml >> $THIS/packages.yaml
