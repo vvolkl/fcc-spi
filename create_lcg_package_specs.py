@@ -2,12 +2,13 @@ import os
 import yaml
 import argparse
 import re
+import glob
 
 
 OS_SHORT_TO_LONG = {"slc6":"scientificcernslc6", "centos7":"centos7", "ubuntu1604":"ubuntu1604"}
+virtual_packages = ['blas', 'lapack', 'java', 'tbb']
 
-
-def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
+def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None):
     ''' converts lcg spec files into dict format that is expected by spack for package specs.
     each package specification looks something like this:
         cmake:
@@ -33,7 +34,10 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
     with open(fname, 'r') as fobj:
         for i, l in enumerate(fobj):
             if ":" in l:
-                attr, value = l.split(":")
+                try:
+                    attr, value = l.split(":")
+                except:
+                    print "Error in file: {0}\nLine: {1}".format(fname,l)
                 if attr == "COMPILER":
                     cmp, ver = value.split(";")
                     value = "%s@%s" % (cmp.strip(), ver.strip())
@@ -43,6 +47,10 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
             pkg, sha, version, path = spec[0], spec[1], spec[2], spec[3]
 
             pkg_lower = pkg.lower()
+
+            #if pkg_lower in virtual_packages:
+            #    continue
+
             if (pkg_lower.startswith("py") or pkg_lower in ["qmtest"]) and pkg_lower not in ["pythia8", "pythia6", "python"]:
                 pkg_lower = "py-" + pkg_lower
             if pkg_lower == "pythia8":
@@ -61,6 +69,15 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
                 lcg_packages[pkg_lower] = {version: (spec_string,  pkg_path)}
             else: # new version of known package
                 lcg_packages[pkg_lower][version] = (spec_string,  pkg_path)
+
+    # Prune unwanted packages:
+    if limited is not None:
+        unwanted_packages = [ pkg for pkg in lcg_packages.keys() if pkg not in limited]
+        for pkg in unwanted_packages:
+            if verbosity > 0:
+                print "-- Ignoring package: %s " % pkg
+            del lcg_packages[pkg]
+
     for pkg in lcg_packages.keys():
         # now select the highest version of each spec
         highest_version = max(lcg_packages[pkg])
@@ -70,7 +87,7 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity):
         if not pkg in pck_dict['packages'].keys():
             pck_dict['packages'][pkg] = {"paths": {lcg_packages[pkg][highest_version][0]:
                                                    lcg_packages[pkg][highest_version][1]},
-                                                    "buildable": False}
+                                                    "buildable": True}
         else:
             pck_dict['packages'][pkg]["paths"][lcg_packages[pkg][highest_version][0]] = lcg_packages[pkg][highest_version][1]
 
@@ -128,7 +145,10 @@ def convert_lcg_contrib_file(lcg_spec, basepath, compiler_dict, verbosity):
 
 def discover_lcg_spec_files(basepath):
     '''find all LCG spec files and return list of dicts containing file info'''
-    fnames = os.listdir(basepath)
+    if os.path.isdir(basepath):
+        fnames = os.listdir(basepath)
+    else:
+        fnames = glob.glob(basepath)
     # group 0 = generatros / externals / ..., group 1 = arch, group 2 = os, group 3 = compiler, group 4 = build type
     file_regex = "LCG_([a-zA-Z]+)_([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+).txt$"
     lcg_spec_files = []
@@ -155,6 +175,7 @@ def discover_lcg_spec_files(basepath):
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('release_path', type=str, help='LCG release path (searched for LCG_*.txt files)')
+    parser.add_argument('--limited', type=str, dest='limited', nargs='*', help='List of packages to consider')
     parser.add_argument('-v', dest='verbosity', action='count', default=0, help='verbosity, max = -vvv')
     args = parser.parse_args()
 
@@ -164,9 +185,10 @@ def main():
     spec_files, contrib_files = discover_lcg_spec_files(args.release_path)
     # FIXME: Need to generate a compilers file from contrib
     print "found", len(spec_files), "LCG files"
+    print "Looking for a limited list: %s " % args.limited
     packages_dict = {"packages": {}}
     for spec in spec_files:
-        convert_lcg_spec_file(spec, args.release_path, packages_dict, args.verbosity)
+        convert_lcg_spec_file(spec, args.release_path, packages_dict, args.verbosity, args.limited)
     outname = version + "_packages_" + filesystem + ".yaml"
     with open(outname, "w") as fobj:
         print "creating", outname
