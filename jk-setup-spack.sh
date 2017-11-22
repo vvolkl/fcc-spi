@@ -2,6 +2,7 @@
 
 # Create controlfile
 touch controlfile
+THIS=$(dirname ${BASH_SOURCE[0]})
 
 # Clone spack repo
 # git clone https://github.com/LLNL/spack.git
@@ -30,10 +31,10 @@ spack compiler add
 cat $FCC_SPACK/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
-source create_packages.sh
+source $THIS/create_packages.sh
 
 # Overwrite packages configuration
-mv packages.yaml $SPACK_CONFIG/linux/packages.yaml
+mv $THIS/packages.yaml $SPACK_CONFIG/linux/packages.yaml
 
 gcc49version=4.9.3
 gcc62version=6.2.0
