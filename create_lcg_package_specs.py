@@ -190,7 +190,7 @@ def main():
     packages_dict = {"packages": {}}
     for spec in spec_files:
         convert_lcg_spec_file(spec, args.release_path, packages_dict, args.verbosity, args.limited)
-    outname = version + "_packages_" + filesystem + ".yaml"
+    outname = version + "_packages.yaml"
     with open(outname, "w") as fobj:
         print "creating", outname
         fobj.write(yaml.dump(packages_dict))
@@ -198,7 +198,7 @@ def main():
     compilers_dict = {"compilers": []}
     for spec in contrib_files:
         convert_lcg_contrib_file(spec, args.release_path, compilers_dict, args.verbosity)
-    outname = version + "_compilers_" + filesystem + ".yaml"
+    outname = version + "_compilers.yaml"
     with open(outname, "w") as fobj:
         print "creating", outname
         fobj.write(yaml.dump(compilers_dict))
