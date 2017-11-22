@@ -7,6 +7,7 @@ import glob
 
 OS_SHORT_TO_LONG = {"slc6":"scientificcernslc6", "centos7":"centos7", "ubuntu1604":"ubuntu1604"}
 virtual_packages = ['blas', 'lapack']
+blacklist = ["py-pyyaml"]
 
 def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None):
     ''' converts lcg spec files into dict format that is expected by spack for package specs.
@@ -48,7 +49,7 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
 
             pkg_lower = pkg.lower()
 
-            if pkg_lower in virtual_packages:
+            if pkg_lower in virtual_packages or pkg_lower in blacklist:
                continue
 
             if (pkg_lower.startswith("py") or pkg_lower in ["qmtest"]) and pkg_lower not in ["pythia8", "pythia6", "python"]:
