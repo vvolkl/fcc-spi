@@ -87,7 +87,7 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
         if not pkg in pck_dict['packages'].keys():
             pck_dict['packages'][pkg] = {"paths": {lcg_packages[pkg][highest_version][0]:
                                                    lcg_packages[pkg][highest_version][1]},
-                                                    "buildable": True}
+                                                    "buildable": False}
         else:
             pck_dict['packages'][pkg]["paths"][lcg_packages[pkg][highest_version][0]] = lcg_packages[pkg][highest_version][1]
 
