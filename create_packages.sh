@@ -12,7 +12,7 @@ dev4_latest="/cvmfs/sft.cern.ch/lcg/nightlies/dev4/${weekday}/LCG_externals_x86_
 
 python $THIS/create_lcg_package_specs.py $dev4_latest
 
-cp $THIS/config/packages-default.yaml $THIS/packages.yaml
+cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 
 # apply some changes
 # Replace tbb name
