@@ -34,7 +34,7 @@ cat $FCC_SPACK/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers
 source $THIS/create_packages.sh
 
 # Overwrite packages configuration
-mv $THIS/packages.yaml $SPACK_CONFIG/linux/packages.yaml
+mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
 
 gcc49version=4.9.3
 gcc62version=6.2.0
