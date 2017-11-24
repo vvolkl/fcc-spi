@@ -45,9 +45,9 @@ source $THIS/create_packages.sh
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
 
 # Find tbb lib
-tbb_lib="$(spack find -p intel-tbb | grep intel-tbb | tr -s " " | cut -d" " -f3)/lib"
+tbb_lib="$(cat .spack/linux/packages.yaml | grep intel-tbb@ | tr -s " " | cut -d" " -f5 | tr -d "}" )/lib"
 # Find root lib
-root_lib="$(spack find -p root | grep root | tr -s " " | cut -d" " -f3)/lib"
+root_lib="$(cat .spack/linux/packages.yaml | grep root@ | tr -s " " | cut -d" " -f5 | tr -d "}" )/lib"
 
 EXTRA_LIBS="${tbb_lib}:${root_lib}"
 sed -i "s#EXTRA_LIBS#`echo $EXTRA_LIBS`#" $SPACK_CONFIG/linux/compilers.yaml
