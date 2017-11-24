@@ -28,7 +28,7 @@ export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
 # Prepare defaults/linux configuration files (compilers and external packages)
 spack compiler add
-cat $FCC_SPACK/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Find tbb lib
 tbb_lib="$(spack find -p intel-tbb | grep intel-tbb | tr -s " " | cut -d" " -f3)/lib"
