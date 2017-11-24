@@ -26,8 +26,16 @@ export FCC_SPACK=$SPACK_ROOT/var/spack/repos/fcc-spack
 spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
 export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
+gcc49version=4.9.3
+gcc62version=6.2.0
+export COMPILERversion=${COMPILER}version
+
 # Prepare defaults/linux configuration files (compilers and external packages)
 spack compiler add
+
+# Ensure there is only one compiler with the same compiler spec
+sed -i "s/spec: gcc@`echo ${!COMPILERversion}`/spec: gcc@${!COMPILERversion}other/" $SPACK_CONFIG/linux/compilers.yaml
+
 cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
@@ -46,7 +54,3 @@ sed -i "s#EXTRA_LIBS#`echo $EXTRA_LIBS`#" $SPACK_CONFIG/linux/compilers.yaml
 
 # TEMP Remove tbb from hep-spack
 rm -rf $HEP_SPACK/packages/tbb
-
-gcc49version=4.9.3
-gcc62version=6.2.0
-export COMPILERversion=${COMPILER}version
