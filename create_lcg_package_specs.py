@@ -49,13 +49,14 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
 
             pkg_lower = pkg.lower()
 
-            if pkg_lower in virtual_packages or pkg_lower in blacklist:
-               continue
-
             if (pkg_lower.startswith("py") or pkg_lower in ["qmtest"]) and pkg_lower not in ["pythia8", "pythia6", "python"]:
                 pkg_lower = "py-" + pkg_lower
             if pkg_lower == "pythia8":
                 pkg_lower = "pythia"
+
+            if pkg_lower in virtual_packages or pkg_lower in blacklist:
+               continue
+
             spec_string = spec_template.format(pkg=pkg_lower,
                                                pkg_version=version,
                                                compiler=spec_qualifiers["COMPILER"],

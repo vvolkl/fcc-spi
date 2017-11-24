@@ -16,14 +16,14 @@ cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 
 # apply some changes
 # Replace tbb name
-sed -i 's/tbb:/intel-tbb/' $WORKSPACE/${weekday}_packages.yaml
-sed -i 's/tbb%gcc/intel-tbb%gcc/' $WORKSPACE/${weekday}_packages.yaml
+sed -i 's/tbb:/intel-tbb:/' $WORKSPACE/${weekday}_packages.yaml
+sed -i 's/tbb@/intel-tbb@/' $WORKSPACE/${weekday}_packages.yaml
 
 # Replabe java name
-sed -i 's/java:/jdk/' $WORKSPACE/${weekday}_packages.yaml
-sed -i 's/java%gcc/jdk%gcc/' $WORKSPACE/${weekday}_packages.yaml
+sed -i 's/java:/jdk:/' $WORKSPACE/${weekday}_packages.yaml
+sed -i 's/java@/jdk@/' $WORKSPACE/${weekday}_packages.yaml
 
-sed -i "s#paths: {root@.*}#paths: {root@6.08.06%gcc@6.2.0 arch=x86_64-scientificcernslc6: `echo $root_path`}#" $WORKSPACE/${weekday}_packages.yaml
+sed -i "s/root@v6-10-00-patches/root@6.10.00-patches/" $WORKSPACE/${weekday}_packages.yaml
 
 # append lcg specs to default packages.yaml
 cat $WORKSPACE/${weekday}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml

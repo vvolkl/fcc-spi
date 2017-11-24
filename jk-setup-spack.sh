@@ -30,11 +30,22 @@ export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 spack compiler add
 cat $FCC_SPACK/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
+# Find tbb lib
+tbb_lib="$(spack find -p intel-tbb | grep intel-tbb | tr -s " " | cut -d" " -f3)/lib"
+# Find root lib
+root_lib="$(spack find -p root | grep root | tr -s " " | cut -d" " -f3)/lib"
+
+EXTRA_LIBS="${tbb_lib}:${root_lib}"
+sed -i "s#EXTRA_LIBS#`echo $EXTRA_LIBS`#" $SPACK_CONFIG/linux/compilers.yaml
+
 # Create packages
 source $THIS/create_packages.sh
 
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
+
+# TEMP Remove tbb from hep-spack
+rm -rf $HEP_SPACK/packages/tbb
 
 gcc49version=4.9.3
 gcc62version=6.2.0
