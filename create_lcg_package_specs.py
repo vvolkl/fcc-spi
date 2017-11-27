@@ -173,6 +173,11 @@ def discover_lcg_spec_files(basepath):
                                    "build_type": match.group(5)})
     return lcg_spec_files, lcg_contrib_files
 
+def get_basepath(path):
+    if any([x.endswith(".txt") for x in glob.glob(path)]):
+        return os.path.dirname(path)
+    else:
+        return path
 
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -183,6 +188,7 @@ def main():
 
     cmpnts = args.release_path.split(os.sep)
     filesystem, version = cmpnts[1], cmpnts[-2]
+    basepath = get_basepath(args.release_path)
 
     spec_files, contrib_files = discover_lcg_spec_files(args.release_path)
     # FIXME: Need to generate a compilers file from contrib
@@ -190,7 +196,7 @@ def main():
     print "Looking for a limited list: %s " % args.limited
     packages_dict = {"packages": {}}
     for spec in spec_files:
-        convert_lcg_spec_file(spec, args.release_path, packages_dict, args.verbosity, args.limited)
+        convert_lcg_spec_file(spec, basepath, packages_dict, args.verbosity, args.limited)
     outname = version + "_packages.yaml"
     with open(outname, "w") as fobj:
         print "creating", outname
@@ -198,7 +204,7 @@ def main():
 
     compilers_dict = {"compilers": []}
     for spec in contrib_files:
-        convert_lcg_contrib_file(spec, args.release_path, compilers_dict, args.verbosity)
+        convert_lcg_contrib_file(spec, basepath, compilers_dict, args.verbosity)
     outname = version + "_compilers.yaml"
     with open(outname, "w") as fobj:
         print "creating", outname
