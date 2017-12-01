@@ -14,6 +14,9 @@ while [ "$1" != "" ]; do
         -b | --buildcache )     shift
                                 buildcache=$1
                                 ;;
+	      -c | --compiler )	      shift
+				                        compiler=$1
+				                        ;;
         --package )             shift
                                 package=$1
                                 ;;
@@ -39,13 +42,13 @@ done
 touch controlfile
 THIS=$(dirname ${BASH_SOURCE[0]})
 
-if [ "$WORKSPACE" == "" ]; DO
+if [ "$WORKSPACE" == "" ]; then
   WORKSPACE=/tmp/fcc/spackinstall
   mkdir -p $WORKSPACE
 fi
 
 # Clone spack repo
-# git clone https://github.com/LLNL/spack.git
+git clone https://github.com/LLNL/spack.git $WORKSPACE/spack
 export SPACK_ROOT=$WORKSPACE/spack
 
 # Setup new spack home
@@ -54,21 +57,22 @@ export HOME=$SPACK_HOME
 export SPACK_CONFIG=$HOME/.spack
 
 # Source environment
+echo "Preparing spack environment"
 source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Add new repo hep-spack
-git clone https://github.com/HEP-SF/hep-spack.git $SPACK_ROOT/var/spack/repos
+git clone https://github.com/HEP-SF/hep-spack.git $SPACK_ROOT/var/spack/repos/hep-spack
 spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
 export FCC_SPACK=$SPACK_ROOT/var/spack/repos/fcc-spack
 
 # Add new repo fcc-spack
-git clone https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos
+git clone https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos/fcc-spack
 spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
 export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
 gcc49version=4.9.3
 gcc62version=6.2.0
-export COMPILERversion=${COMPILER}version
+export COMPILERversion=${compiler}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
 spack compiler add
@@ -76,22 +80,34 @@ spack compiler add
 # Ensure there is only one compiler with the same compiler spec
 sed -i "s/spec: gcc@`echo ${!COMPILERversion}`/spec: gcc@${!COMPILERversion}other/" $SPACK_CONFIG/linux/compilers.yaml
 
-cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${compiler}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Create mirrors.yaml to use local buildcache
-cp $THIS/config/mirrors.tpl $SPACK_CONFIG/linux/mirrors.yaml
-sed -i "s/{{CACHE_PATH}}/`echo $cachepath`/" $SPACK_CONFIG/linux/mirrors.yaml
+if [ "$buildcache" != "" ]; then
+  spack mirror add local_buildcache $buildcache
+fi
+
+echo "Mirror configuration:"
+spack mirror list
+
 
 # Create config.yaml to define new prefix
-cp $THIS/config/config.tpl $SPACK_CONFIG/linux/config.yaml
-sed -i "s/{{PREFIX_PATH}}/`echo $prefix`/" $SPACK_CONFIG/linux/config.yaml
+if [ "$prefix" != "" ]; then
+  cp $THIS/config/config.tpl $SPACK_CONFIG/linux/config.yaml
+  sed -i "s#{{PREFIX_PATH}}#`echo $prefix`#" $SPACK_CONFIG/linux/config.yaml
+fi
+
+echo "Spack configuration: "
+spack config get config
 
 # Install binaries from buildcache
-spack buildcache -y install $package
+spack buildcache install -y $package
 
 # Create view
-excepcions="py-pyyaml"
-spack view -d true -e $exceptions symlink $viewpath $package
+if [[ "$viewpath" != "" && "$package" != "" ]]; then
+  exceptions="py-pyyaml"
+  spack view -d true -e $exceptions symlink $viewpath $package
+fi
 
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
