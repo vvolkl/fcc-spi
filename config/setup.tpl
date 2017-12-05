@@ -22,6 +22,9 @@ function add_to_path {
 # Setup LCG externals
 source $LCGPATH/setup.sh
 
+# Setup DD4hep
+source $LCGPATH/bin/thisdd4hep.sh
+
 # Add FCC software to the environment
 # Setup PATH
 add_to_path PATH $THIS/bin
@@ -32,9 +35,14 @@ add_to_path LD_LIBRARY_PATH $THIS/tests
 
 # Setup ROOT_INCLUDE_PATH
 add_to_path ROOT_INCLUDE_PATH $THIS/include
+add_to_path ROOT_INCLUDE_PATH $THIS/include/datamodel
 
 # Setup CMAKE_PREFIX_PATH (#REVIEW)
-add_to_path CMAKE_PREFIX_PATH $THIS/cmake
+add_to_path CMAKE_PREFIX_PATH $THIS
+add_to_path CMAKE_PREFIX_PATH $LCGPATH
 
 # Setup PYTHONPATH
 add_to_path PYTHONPATH $THIS/python
+
+# Export path to the FCC view
+export FCCVIEW=$THIS
