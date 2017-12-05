@@ -100,6 +100,9 @@ fi
 echo "Spack configuration: "
 spack config get config
 
+# First need to install patchelf for relocation
+spack buildcache install -y patchelf
+
 # Install binaries from buildcache
 spack buildcache install -y $package
 
