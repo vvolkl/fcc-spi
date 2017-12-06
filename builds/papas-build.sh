@@ -7,6 +7,7 @@ set -x
 touch $WORKSPACE/controlfile
 
 #---Set up environment----------------------------------------------------------------------
+cd $WORKSPACE/papas
 source $WORKSPACE/papas/init.sh
 
 #---Prepare folder to store build artifacts-------------------------------------------------
