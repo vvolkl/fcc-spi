@@ -5,6 +5,9 @@ usage()
     echo "usage: spack_install.sh [[[-p, --prefix directory ] [-m, --mirror directory]] | [-h]]"
 }
 
+# Dont cleanup by default
+cleanup=false
+
 # Parsing arguments
 while [ "$1" != "" ]; do
     case $1 in
@@ -26,8 +29,11 @@ while [ "$1" != "" ]; do
         -l | --lcgversion )     shift
                                 lcgversion=$1
                                 ;;
-        --platform )       shift
+        --platform )            shift
                                 platform=$1
+                                ;;
+        --clean )               shift
+                                cleanup=true
                                 ;;
         -h | --help )           usage
                                 exit
@@ -42,17 +48,17 @@ done
 touch controlfile
 THIS=$(dirname ${BASH_SOURCE[0]})
 
-if [ "$WORKSPACE" == "" ]; then
-  WORKSPACE=/tmp/fcc/spackinstall
-  mkdir -p $WORKSPACE
+if [ "$TMPDIR" == "" ]; then
+  TMPDIR=/tmp/fcc/spackinstall
+  mkdir -p $TMPDIR
 fi
 
 # Clone spack repo
-git clone https://github.com/LLNL/spack.git $WORKSPACE/spack
-export SPACK_ROOT=$WORKSPACE/spack
+git clone https://github.com/LLNL/spack.git $TMPDIR/spack
+export SPACK_ROOT=$TMPDIR/spack
 
 # Setup new spack home
-export SPACK_HOME=$WORKSPACE
+export SPACK_HOME=$TMPDIR
 export HOME=$SPACK_HOME
 export SPACK_CONFIG=$HOME/.spack
 
@@ -110,14 +116,24 @@ spack buildcache install -y patchelf
 
 # Install binaries from buildcache
 spack buildcache install -y $package
+result=$?
 
 # Create view
 if [[ "$viewpath" != "" && "$package" != "" ]]; then
   exceptions="py-pyyaml"
   spack view -d true -e $exceptions symlink $viewpath $package
+  result=$(($result + $?))
 fi
 
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 sed -i "s/{{lcg_version}}/`echo $lcgversion`/" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
+result=$(($result + $?))
+
+if [ "$cleanup" = true ]; then
+  rm -rf $TMPDIR
+fi
+
+# Return result (0 succeeced, otherwise failed)
+echo $result
