@@ -1,0 +1,3 @@
+  patchelf:
+    paths:
+      patchelf@0.9%gcc@6.2.0 arch=linux-scientificcernslc6-x86_64: /cvmfs/fcc.cern.ch/contrib/spack/opt/linux-scientificcernslc6-x86_64/gcc-6.2.0/patchelf-0.9-zjxrrn5fdligyg263rba6uzcqrr3uyzj
