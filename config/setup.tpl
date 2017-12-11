@@ -25,6 +25,10 @@ source $LCGPATH/setup.sh
 # Setup DD4hep
 source $LCGPATH/bin/thisdd4hep.sh
 
+# Setup Gaudi from LHCb
+LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
+add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
+
 # Add FCC software to the environment
 # Setup PATH
 add_to_path PATH $THIS/bin
