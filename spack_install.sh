@@ -32,8 +32,7 @@ while [ "$1" != "" ]; do
         --platform )            shift
                                 platform=$1
                                 ;;
-        --clean )               shift
-                                cleanup=true
+        --clean )               cleanup=true
                                 ;;
         -h | --help )           usage
                                 exit
