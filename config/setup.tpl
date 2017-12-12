@@ -1,6 +1,5 @@
 #!/bin/bash
 
-THIS=$(dirname ${BASH_SOURCE[0]})
 LCGPREFIX=/cvmfs/sft.cern.ch/lcg
 LCGPATH=$LCGPREFIX/views/{{lcg_version}}/{{PLATFORM}}
 
@@ -29,24 +28,30 @@ source $LCGPATH/bin/thisdd4hep.sh
 LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
 add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
 
+if [[ $BASH == "" ]]; then
+  THIS_DIR=$(dirname $0)
+else
+  THIS_DIR=$(dirname ${BASH_SOURCE[0]})
+fi
+
 # Add FCC software to the environment
 # Setup PATH
-add_to_path PATH $THIS/bin
+add_to_path PATH $THIS_DIR/bin
 
 # Setup LD_LIBRARY_PATH
-add_to_path LD_LIBRARY_PATH $THIS/lib
-add_to_path LD_LIBRARY_PATH $THIS/tests
+add_to_path LD_LIBRARY_PATH $THIS_DIR/lib
+add_to_path LD_LIBRARY_PATH $THIS_DIR/tests
 
 # Setup ROOT_INCLUDE_PATH
-add_to_path ROOT_INCLUDE_PATH $THIS/include
-add_to_path ROOT_INCLUDE_PATH $THIS/include/datamodel
+add_to_path ROOT_INCLUDE_PATH $THIS_DIR/include
+add_to_path ROOT_INCLUDE_PATH $THIS_DIR/include/datamodel
 
 # Setup CMAKE_PREFIX_PATH (#REVIEW)
-add_to_path CMAKE_PREFIX_PATH $THIS
+add_to_path CMAKE_PREFIX_PATH $THIS_DIR
 add_to_path CMAKE_PREFIX_PATH $LCGPATH
 
 # Setup PYTHONPATH
-add_to_path PYTHONPATH $THIS/python
+add_to_path PYTHONPATH $THIS_DIR/python
 
 # Export path to the FCC view
-export FCCVIEW=$THIS
+export FCCVIEW=$THIS_DIR
