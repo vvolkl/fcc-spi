@@ -25,14 +25,20 @@ source $LCGPATH/setup.sh
 source $LCGPATH/bin/thisdd4hep.sh
 
 # Setup Gaudi from LHCb
-LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
-add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
+#LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
+#add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
 
 if [[ $BASH == "" ]]; then
   THIS_DIR=$(dirname $0)
 else
   THIS_DIR=$(dirname ${BASH_SOURCE[0]})
 fi
+
+export DELPHES_DIR=$LCGPATH
+export PYTHIA8_DIR=$LCGPATH
+export PYTHIA8_XML=$LCGPATH/share/Pythia8/xmldoc
+export PYTHIA8DATA=$PYTHIA8_XML
+export HEPMC_PREFIX=$LCGPATH
 
 # Add FCC software to the environment
 # Setup PATH
