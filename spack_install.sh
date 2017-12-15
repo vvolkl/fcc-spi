@@ -114,7 +114,7 @@ spack config get config
 spack buildcache install -y patchelf
 
 # Install binaries from buildcache
-spack buildcache install -y $package
+spack buildcache install -y -f $package
 result=$?
 
 # Create view
