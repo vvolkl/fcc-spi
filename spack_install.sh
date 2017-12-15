@@ -53,7 +53,7 @@ if [ "$TMPDIR" == "" ]; then
 fi
 
 # Clone spack repo
-git clone https://github.com/JavierCVilla/spack.git -b builcache_fix $TMPDIR/spack
+git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
 
 # Setup new spack home
