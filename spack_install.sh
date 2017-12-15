@@ -114,11 +114,13 @@ spack config get config
 spack buildcache install -y patchelf
 
 # Install binaries from buildcache
+echo "Installing $package binary"
 spack buildcache install -y -f $package
 result=$?
 
 # Create view
 if [[ "$viewpath" != "" && "$package" != "" ]]; then
+  echo "Creating view in $viewpath"
   exceptions="py-pyyaml"
   spack view -d true -e $exceptions symlink $viewpath $package
   result=$(($result + $?))
