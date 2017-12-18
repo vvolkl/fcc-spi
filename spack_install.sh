@@ -23,6 +23,9 @@ while [ "$1" != "" ]; do
         --package )             shift
                                 package=$1
                                 ;;
+        --pkghash )             shift
+                                pkghash=$1
+                                ;;
         -v | --viewpath )       shift
                                 viewpath=$1
                                 ;;
@@ -122,7 +125,7 @@ result=$?
 if [[ "$viewpath" != "" && "$package" != "" ]]; then
   echo "Creating view in $viewpath"
   exceptions="py-pyyaml"
-  spack view -d true -e $exceptions symlink $viewpath $package
+  spack view -d true -e $exceptions symlink $viewpath $package/$pkghash
   result=$(($result + $?))
 fi
 
@@ -134,6 +137,7 @@ result=$(($result + $?))
 
 if [ "$cleanup" = true ]; then
   rm -rf $TMPDIR
+  rm -rf /tmp/cvfcc/spack-stage
 fi
 
 # Return result (0 succeeced, otherwise failed)
