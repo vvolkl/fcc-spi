@@ -121,6 +121,11 @@ echo "Installing $package binary"
 spack buildcache install -y -f /$pkghash
 result=$?
 
+# Temporal until #6266 get fixed in spack
+# Avoid problems creating views
+find $prefix -type -f -iname "NOTICE" | xargs rm
+find $prefix -type -f -iname "LICENSE" | xargs rm
+
 # Create view
 if [[ "$viewpath" != "" && "$package" != "" ]]; then
   # Check if any view already exists in the target path
