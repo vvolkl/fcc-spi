@@ -35,6 +35,8 @@ else
   THIS_DIR=$(dirname ${BASH_SOURCE[0]})
 fi
 
+export BINARY_TAG={{PLATFORM}}
+
 export DELPHES_DIR=$LCGPATH
 export PYTHIA8_DIR=$LCGPATH
 export PYTHIA8_XML=$LCGPATH/share/Pythia8/xmldoc
