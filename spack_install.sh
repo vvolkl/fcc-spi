@@ -131,7 +131,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
 
   echo "Creating view in $viewpath"
   exceptions="py-pyyaml"
-  echo "Command: spack view -d true -e $exceptions symlink $viewpath $package/$pkghash"
+  echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
   spack view -d true -e $exceptions symlink $viewpath $package/$pkghash
   result=$(($result + $?))
 fi
