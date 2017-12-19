@@ -118,7 +118,7 @@ spack buildcache install -y patchelf
 
 # Install binaries from buildcache
 echo "Installing $package binary"
-spack buildcache install -y -f $package
+spack buildcache install -y -f /$pkghash
 result=$?
 
 # Create view
