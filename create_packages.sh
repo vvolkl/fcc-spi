@@ -3,14 +3,11 @@ THIS=$(dirname ${BASH_SOURCE[0]})
 
 #PLATFORM=`$THIS/getPlatform.py`
 #PLATFORM="x86_64-slc6-gcc62-opt"
-LCG_version="LCG_91"
+LCG_version=$1
 #root_version="6.08.06"
 #root_path="/cvmfs/sft.cern.ch/lcg/releases/${LCG_version}/ROOT/${root_version}/${PLATFORM}"
 
-#weekday=`date +%a`
-#dev4_latest="/cvmfs/sft.cern.ch/lcg/nightlies/dev4/${weekday}/LCG_externals_x86_64-slc6-gcc62-opt.txt"
-
-LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/LCG_91/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_x86_64-slc6-gcc62-opt.txt"
 
 python $THIS/create_lcg_package_specs.py $LCG_externals
 

@@ -2,6 +2,7 @@
 
 # Create controlfile
 touch controlfile
+export LCG_VERSION=$1
 THIS=$(dirname ${BASH_SOURCE[0]})
 
 # Clone spack repo
@@ -39,7 +40,7 @@ sed -i "s/spec: gcc@`echo ${!COMPILERversion}`/spec: gcc@${!COMPILERversion}othe
 cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
-source $THIS/create_packages.sh
+source $THIS/create_packages.sh $LCG_VERSION
 
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
