@@ -10,8 +10,6 @@ touch $WORKSPACE/controlfile
 cd $WORKSPACE/fccsw
 source $WORKSPACE/fccsw/init.sh
 
-# TODO: afs reference needs to be removed
-cp /afs/cern.ch/exp/fcc/sw/0.5/testsamples/example_MyPythia.dat .
 
 #---Run installation------------------------------------------------------------------------
 make -j16
