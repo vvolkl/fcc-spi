@@ -20,4 +20,4 @@ make install
 
 #---Run tests-------------------------------------------------------------------------------
 export CTEST_OUTPUT_ON_FAILURE=1
-make test ARGS="-j 8"
+make test ARGS="-j 4"
