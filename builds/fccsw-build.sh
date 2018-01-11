@@ -18,4 +18,4 @@ make install
 
 #---Run tests-------------------------------------------------------------------------------
 export CTEST_OUTPUT_ON_FAILURE=1
-make test ARGS="-j 2"
+make test ARGS="-j 1"
