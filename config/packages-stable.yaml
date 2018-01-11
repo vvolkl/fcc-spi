@@ -5,10 +5,12 @@
   papas:
     version: [1.2.0]
   podio:
-    version: [0.7]
+    version: [0.8]
   fcc-physics:
     version: [0.2.1]
   acts-core:
     version: [0.05.02]
   gaudi:
     version: [v28r2]
+  delphes:
+    version: [3.4.2pre05]
