@@ -14,3 +14,5 @@
     version: [v28r2]
   delphes:
     version: [3.4.2pre05]
+  acts-core:
+    version: [0.05.03]
