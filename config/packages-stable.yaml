@@ -9,10 +9,8 @@
   fcc-physics:
     version: [0.2.1]
   acts-core:
-    version: [0.05.02]
+    version: [0.05.03]
   gaudi:
     version: [v28r2]
   delphes:
     version: [3.4.2pre05]
-  acts-core:
-    version: [0.05.03]
