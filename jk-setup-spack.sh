@@ -3,6 +3,13 @@
 # Create controlfile
 touch controlfile
 export LCG_VERSION=$1
+
+if [ ! -z $2 ]; then
+  export FCC_VERSION=$2
+elif
+  export FCC_VERSION=stable
+fi
+
 THIS=$(dirname ${BASH_SOURCE[0]})
 
 # Detect platform
@@ -13,8 +20,12 @@ export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --bu
 export weekday=`date +%a`
 
 # Clone spack repo
-# git clone https://github.com/LLNL/spack.git
-export SPACK_ROOT=$WORKSPACE/spack
+SPACKDIR=$WORKSPACE/spack
+
+if [ ! -d $SPACKDIR ]; then
+  git clone https://github.com/LLNL/spack.git $SPACKDIR
+fi
+export SPACK_ROOT=$SPACKDIR
 
 # Setup new spack home
 export SPACK_HOME=$WORKSPACE
@@ -25,29 +36,28 @@ export SPACK_CONFIG=$HOME/.spack
 source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Add new repo hep-spack
-#git clone https://github.com/HEP-SF/hep-spack.git $SPACK_ROOT/var/spack/repos
-spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
-export FCC_SPACK=$SPACK_ROOT/var/spack/repos/fcc-spack
+export HEP_REPO=$SPACK_ROOT/var/spack/repos/hep-spack
+if [ ! -d $HEP_REPO ]; then
+  git clone https://github.com/HEP-SF/hep-spack.git $HEP_REPO
+fi
+spack repo add $HEP_REPO
 
 # Add new repo fcc-spack
-#git clone https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos
-spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
-export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
+export FCC_REPO=$SPACK_ROOT/var/spack/repos/fcc-spack
+if [ ! -d $FCC_REPO ]; then
+  git clone https://github.com/JavierCVilla/fcc-spack.git $FCC_REPO
+fi
+spack repo add $FCC_REPO
 
 gcc49version=4.9.3
 gcc62version=6.2.0
 export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-spack compiler add
-
-# Ensure there is only one compiler with the same compiler spec
-sed -i "s/spec: gcc@`echo ${!COMPILERversion}`/spec: gcc@${!COMPILERversion}other/" $SPACK_CONFIG/linux/compilers.yaml
-
 cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
-source $THIS/create_packages.sh $LCG_VERSION
+source $THIS/create_packages.sh $LCG_VERSION $FCC_VERSION
 
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml

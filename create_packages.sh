@@ -28,4 +28,4 @@ fi
 
 # append lcg specs to default packages.yaml
 cat $WORKSPACE/${LCG_version}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml
-cat $THIS/config/packages-stable.yaml >> $WORKSPACE/packages.yaml
+cat $THIS/config/packages-${FCC_VERSION}.yaml >> $WORKSPACE/packages.yaml
