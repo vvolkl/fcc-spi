@@ -6,7 +6,7 @@ export LCG_VERSION=$1
 
 if [ ! -z $2 ]; then
   export FCC_VERSION=$2
-elif
+else
   export FCC_VERSION=stable
 fi
 
