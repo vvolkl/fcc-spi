@@ -55,6 +55,10 @@ if [ "$TMPDIR" == "" ]; then
   mkdir -p $TMPDIR
 fi
 
+# Detect platform
+TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
+export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+
 # Clone spack repo
 git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
@@ -80,15 +84,10 @@ export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
 gcc49version=4.9.3
 gcc62version=6.2.0
-export COMPILERversion=${compiler}version
+export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-spack compiler add
-
-# Ensure there is only one compiler with the same compiler spec
-sed -i "s/spec: gcc@`echo ${!COMPILERversion}`/spec: gcc@${!COMPILERversion}other/" $SPACK_CONFIG/linux/compilers.yaml
-
-cat $THIS/config/compiler-${compiler}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
