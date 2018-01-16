@@ -1,7 +1,7 @@
   fccsw:
     version: [develop]
   fcc-edm:
-    version: [0.5.1]
+    version: [0.5.2]
   papas:
     version: [1.2.0]
   podio:
@@ -11,6 +11,6 @@
   acts-core:
     version: [0.05.03]
   gaudi:
-    version: [v28r2]
+    version: [v29r2]
   delphes:
     version: [3.4.2pre05]
