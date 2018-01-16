@@ -54,7 +54,7 @@ gcc62version=6.2.0
 export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-${COMPILER}.yaml >> $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
 source $THIS/create_packages.sh $LCG_VERSION $FCC_VERSION
