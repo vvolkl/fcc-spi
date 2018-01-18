@@ -14,3 +14,5 @@
     version: [v29r2]
   delphes:
     version: [3.4.2pre05]
+  heppy:
+    version: [develop]
