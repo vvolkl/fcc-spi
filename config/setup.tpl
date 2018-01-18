@@ -43,6 +43,10 @@ export PYTHIA8_XML=$LCGPATH/share/Pythia8/xmldoc
 export PYTHIA8DATA=$PYTHIA8_XML
 export HEPMC_PREFIX=$LCGPATH
 
+# Setup heppy
+source $THIS/lib/python*/site-packages/heppy/init.sh
+add_to_path PYTHONPATH /cvmfs/fcc.cern.ch/sw/0.8.3/gitpython/lib/python2.7/site-packages
+
 # Add FCC software to the environment
 # Setup PATH
 add_to_path PATH $THIS_DIR/bin

@@ -29,3 +29,12 @@ fi
 # append lcg specs to default packages.yaml
 cat $WORKSPACE/${LCG_version}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml
 cat $THIS/config/packages-${FCC_VERSION}.yaml >> $WORKSPACE/packages.yaml
+
+# Custom packages
+
+# Gitpython python package
+cat << EOF >> $WORKSPACE/packages.yaml
+  py-gitpython:
+    buildable: false
+    paths: {py-gitpython@2.1.8-0%gcc@6.2.0 arch=x86_64-scientificcernslc6: /cvmfs/fcc.cern.ch/sw/0.8.3/gitpython/lib/python2.7/site-packages}
+EOF
