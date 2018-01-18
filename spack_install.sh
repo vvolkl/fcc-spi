@@ -57,7 +57,7 @@ fi
 
 # Detect platform
 TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype $BUILDTYPE`
 
 # Clone spack repo
 git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
@@ -143,7 +143,7 @@ fi
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 sed -i "s/{{lcg_version}}/`echo $lcgversion`/" $viewpath/setup.sh
-sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
+sed -i "s/{{PLATFORM}}/`echo $PLATFORM`/" $viewpath/setup.sh
 sed -i "s/{{viewpath}}/`echo $viewpath`/" $viewpath/setup.sh
 result=$(($result + $?))
 
