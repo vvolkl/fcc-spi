@@ -29,11 +29,12 @@ source $LCGPATH/bin/thisdd4hep.sh
 #LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
 #add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
 
-if [[ $BASH == "" ]]; then
-  THIS_DIR=$(dirname $0)
-else
-  THIS_DIR=$(dirname ${BASH_SOURCE[0]})
-fi
+# if [[ $BASH == "" ]]; then
+#   THIS_DIR=$(dirname $0)
+# else
+#   THIS_DIR=$(dirname ${BASH_SOURCE[0]})
+# fi
+THIS_DIR={{viewpath}}
 
 export BINARY_TAG={{PLATFORM}}
 
@@ -44,7 +45,7 @@ export PYTHIA8DATA=$PYTHIA8_XML
 export HEPMC_PREFIX=$LCGPATH
 
 # Setup heppy
-source $THIS/lib/python*/site-packages/heppy/init.sh
+source $THIS_DIRlib/python*/site-packages/heppy/init.sh
 add_to_path PYTHONPATH /cvmfs/fcc.cern.ch/sw/0.8.3/gitpython/lib/python2.7/site-packages
 
 # Add FCC software to the environment

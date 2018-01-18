@@ -144,6 +144,7 @@ fi
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 sed -i "s/{{lcg_version}}/`echo $lcgversion`/" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
+sed -i "s/{{viewpath}}/`echo $viewpath`/" $viewpath/setup.sh
 result=$(($result + $?))
 
 if [ "$cleanup" = true ]; then
