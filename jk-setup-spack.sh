@@ -14,7 +14,11 @@ THIS=$(dirname ${BASH_SOURCE[0]})
 
 # Detect platform
 TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype $BUILDTYPE`
+if [[ $BUILDTYPE == *Release* ]]; then
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+else
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
+fi
 
 # Detect day
 export weekday=`date +%a`
