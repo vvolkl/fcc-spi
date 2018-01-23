@@ -10,6 +10,9 @@ touch $WORKSPACE/controlfile
 cd $WORKSPACE/fccsw
 source $WORKSPACE/fccsw/init.sh
 
+#---Clean build folder----------------------------------------------------------------------
+make purge
+
 
 #---Run installation------------------------------------------------------------------------
 make -j16
