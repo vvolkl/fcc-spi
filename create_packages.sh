@@ -1,13 +1,17 @@
 #!/bin/bash
 THIS=$(dirname ${BASH_SOURCE[0]})
 
-#PLATFORM=`$THIS/getPlatform.py`
-#PLATFORM="x86_64-slc6-gcc62-opt"
 LCG_version=$1
-#root_version="6.08.06"
-#root_path="/cvmfs/sft.cern.ch/lcg/releases/${LCG_version}/ROOT/${root_version}/${PLATFORM}"
+weekday=`date +%a`
 
-LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+if [[ $LCG_version == LCG_* ]]; then
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+else
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_version/$weekday/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+fi
+
+echo "Using LCG externals from: $LCG_externals"
+echo "Modification date: `stat $LCG_externals | grep Modify | tr -s " " | cut -d" " -f2,3`"
 
 python $THIS/create_lcg_package_specs.py $LCG_externals
 

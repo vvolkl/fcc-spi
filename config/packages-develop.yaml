@@ -1,3 +1,5 @@
+  fccsw:
+    version: [develop]
   fcc-edm:
     version: [develop]
   papas:
@@ -6,3 +8,11 @@
     version: [develop]
   fcc-physics:
     version: [develop]
+  acts-core:
+    version: [develop]
+  heppy:
+    version: [develop]
+  gaudi:
+    version: [v29r2]
+  delphes:
+    version: [3.4.2pre05]
