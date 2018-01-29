@@ -18,6 +18,10 @@ cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 sed -i 's/tbb:/intel-tbb:/' $WORKSPACE/${LCG_version}_packages.yaml
 sed -i 's/tbb@/intel-tbb@/' $WORKSPACE/${LCG_version}_packages.yaml
 
+# Replace xerces-c name
+sed -i 's/xercesc:/xerces-c:/' $WORKSPACE/${LCG_version}_packages.yaml
+sed -i 's/xercesc@/xerces-c@/' $WORKSPACE/${LCG_version}_packages.yaml
+
 # Replabe java name
 sed -i 's/java:/jdk:/' $WORKSPACE/${LCG_version}_packages.yaml
 sed -i 's/java@/jdk@/' $WORKSPACE/${LCG_version}_packages.yaml
