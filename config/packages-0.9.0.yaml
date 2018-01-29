@@ -1,5 +1,5 @@
   fccsw:
-    version: [develop]
+    version: [0.9]
   fcc-edm:
     version: [0.5.2]
   papas:
