@@ -8,7 +8,8 @@ touch $WORKSPACE/controlfile
 
 #---Set up environment----------------------------------------------------------------------
 cd $WORKSPACE/fccsw
-source $WORKSPACE/fccsw/init.sh
+#source $WORKSPACE/fccsw/init.sh
+source /cvmfs/fcc.cern.ch/sw/views/releases/0.9.0/x86_64-slc6-gcc62-opt/setup.sh
 
 #---Clean build folder----------------------------------------------------------------------
 make purge
