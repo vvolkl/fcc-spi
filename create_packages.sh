@@ -26,13 +26,9 @@ sed -i 's/tbb@/intel-tbb@/' $WORKSPACE/${LCG_version}_packages.yaml
 sed -i 's/xercesc:/xerces-c:/' $WORKSPACE/${LCG_version}_packages.yaml
 sed -i 's/xercesc@/xerces-c@/' $WORKSPACE/${LCG_version}_packages.yaml
 
-# Replabe java name
+# Replace java name
 sed -i 's/java:/jdk:/' $WORKSPACE/${LCG_version}_packages.yaml
 sed -i 's/java@/jdk@/' $WORKSPACE/${LCG_version}_packages.yaml
-
-if [[ "${BUILDMODE}" == "nightly" ]]; then
-  sed -i "s/root@v6-10-00-patches/root@6.10.00-patches/" $WORKSPACE/${LCG_version}_packages.yaml
-fi
 
 # append lcg specs to default packages.yaml
 cat $WORKSPACE/${LCG_version}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml

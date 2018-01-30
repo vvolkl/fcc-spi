@@ -57,6 +57,10 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
             if pkg_lower in virtual_packages or pkg_lower in blacklist:
                continue
 
+            # Convert Root version: remove 'v' and replaces dashes by dots
+            if 'root' in pkg_lower:
+                version = version.replace("v","").replace("-", ".", 2)
+
             spec_string = spec_template.format(pkg=pkg_lower,
                                                pkg_version=version,
                                                compiler=spec_qualifiers["COMPILER"],
