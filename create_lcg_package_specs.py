@@ -179,6 +179,14 @@ def get_basepath(path):
     else:
         return path
 
+def get_version(filepath):
+    """Read version from LCG spec file"""
+    with open(filepath, 'r') as fobj:
+        for l in fobj:
+            if "VERSION" in l:
+                return l.split(":")[-1].strip()
+        return filepath.split(os.sep)[-2]
+
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('release_path', type=str, help='LCG release path (searched for LCG_*.txt files)')
@@ -186,8 +194,8 @@ def main():
     parser.add_argument('-v', dest='verbosity', action='count', default=0, help='verbosity, max = -vvv')
     args = parser.parse_args()
 
-    cmpnts = args.release_path.split(os.sep)
-    filesystem, version = cmpnts[1], cmpnts[-2]
+    filesystem = args.release_path.split(os.sep)[1]
+    version = get_version(args.release_path)
     basepath = get_basepath(args.release_path)
 
     spec_files, contrib_files = discover_lcg_spec_files(args.release_path)
