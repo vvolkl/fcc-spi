@@ -126,8 +126,8 @@ result=$?
 
 # Temporal until #6266 get fixed in spack
 # Avoid problems creating views
-find $prefix -type f -iname "NOTICE" | xargs rm
-find $prefix -type f -iname "LICENSE" | xargs rm
+find $prefix -type f -iname "NOTICE" | xargs rm -f
+find $prefix -type f -iname "LICENSE" | xargs rm -f
 
 # Create view
 if [[ "$viewpath" != "" && "$package" != "" ]]; then
