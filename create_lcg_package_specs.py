@@ -188,7 +188,10 @@ def get_version(filepath):
     with open(filepath, 'r') as fobj:
         for l in fobj:
             if "VERSION" in l:
-                return l.split(":")[-1].strip()
+                version = l.split(":")[-1].strip()
+                if "dev" not in version:
+                    version = "LCG_"+version
+                return version
         return filepath.split(os.sep)[-2]
 
 def main():
