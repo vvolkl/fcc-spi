@@ -19,10 +19,10 @@ if(NOT "$ENV{ghprbPullLink}" STREQUAL "")
   set(dashboard_model PullRequests)
 elseif("$ENV{CDASH_LABEL}" STREQUAL "Nightly")
   set(dashboard_model Nightly)
-  set(CTEST_BUILD_NAME $ENV{sha}-${CTEST_BUILD_NAME})
+  set(CTEST_BUILD_NAME "$ENV{sha}-${CTEST_BUILD_NAME}")
 else()
   set(dashboard_model Experimental)
-  set(CTEST_BUILD_NAME $ENV{sha}-${CTEST_BUILD_NAME})
+  set(CTEST_BUILD_NAME "$ENV{sha}-${CTEST_BUILD_NAME}")
 endif()
 
 
@@ -36,7 +36,6 @@ endif()
 set(CTEST_BUILD_PREFIX "$ENV{WORKDIR}")
 set(CTEST_SOURCE_DIRECTORY "${CTEST_BUILD_PREFIX}/FCCSW")
 set(CTEST_BINARY_DIRECTORY "${CTEST_BUILD_PREFIX}/FCCSW/build.$ENV{BINARY_TAG}")
-set(CTEST_BUILD_NAME "x86_64-slc6-gcc62-opt")
 
 #---Create build directory--------------------------------------------------
 if(NOT "${CTEST_BINARY_DIRECTORY}")

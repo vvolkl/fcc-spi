@@ -138,8 +138,8 @@ foreach(v
 endforeach(v)
 message("Dashboard script configuration:\n${vars}\n")
 
-if(DEFINED CDASH_LABELS)
-  set(CDASH_LABEL $CDASH_LABELS)
+if(DEFINED CDASH_LABEL)
+  set(CDASH_LABEL $CDASH_LABEL)
 else()
   set(CDASH_LABEL Nightly)
 endif()
