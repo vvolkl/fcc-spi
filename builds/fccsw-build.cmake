@@ -7,6 +7,9 @@ GET_NCPUS(ncpu)
 GET_CONFIGURATION_TAG(tag)
 GET_CTEST_BUILD_NAME(CTEST_BUILD_NAME)
 
+#--Package configuration----------------------------------------------------
+SET(PKG_NAME fccsw)
+
 #--Required variables-------------------------------------------------------
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_SITE "${host}")
@@ -34,8 +37,8 @@ endif()
 
 #---Set the source and build directory--------------------------------------
 set(CTEST_BUILD_PREFIX "$ENV{WORKDIR}")
-set(CTEST_SOURCE_DIRECTORY "${CTEST_BUILD_PREFIX}/FCCSW")
-set(CTEST_BINARY_DIRECTORY "${CTEST_BUILD_PREFIX}/FCCSW/build.$ENV{BINARY_TAG}")
+set(CTEST_SOURCE_DIRECTORY "${CTEST_BUILD_PREFIX}/${PKG_NAME}")
+set(CTEST_BINARY_DIRECTORY "${CTEST_BUILD_PREFIX}/${PKG_NAME}/build.$ENV{BINARY_TAG}")
 
 #---Create build directory--------------------------------------------------
 if(NOT "${CTEST_BINARY_DIRECTORY}")
