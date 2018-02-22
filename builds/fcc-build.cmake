@@ -19,10 +19,10 @@ if(NOT "$ENV{ghprbPullLink}" STREQUAL "")
   set(dashboard_model PullRequests)
 elseif("$ENV{CDASH_LABEL}" STREQUAL "Nightly")
   set(dashboard_model Nightly)
-  set(CTEST_BUILD_NAME "$ENV{sha}-${CTEST_BUILD_NAME}")
+  set(CTEST_BUILD_NAME "$ENV{sha1}-${CTEST_BUILD_NAME}")
 else()
   set(dashboard_model Experimental)
-  set(CTEST_BUILD_NAME "$ENV{sha}-${CTEST_BUILD_NAME}")
+  set(CTEST_BUILD_NAME "$ENV{sha1}-${CTEST_BUILD_NAME}")
 endif()
 
 
