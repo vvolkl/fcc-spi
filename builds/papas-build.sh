@@ -16,7 +16,7 @@ cd $WORKSPACE/papas/build
 
 #---Run installation------------------------------------------------------------------------
 cmake -DCMAKE_INSTALL_PREFIX=../install ..
-make
+make -j$(nproc)
 make install
 
 #---Run tests-------------------------------------------------------------------------------
