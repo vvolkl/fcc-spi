@@ -138,22 +138,23 @@ foreach(v
 endforeach(v)
 message("Dashboard script configuration:\n${vars}\n")
 
-if(DEFINED CDASH_LABEL)
-  set(CDASH_LABEL $CDASH_LABEL)
-else()
-  set(CDASH_LABEL Nightly)
-endif()
-
-ctest_start(${dashboard_model})
+ctest_start(${dashboard_model} TRACK ${dashboard_model})
 ctest_update()
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                 SOURCE  ${CTEST_SOURCE_DIRECTORY})
-ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
+ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+            RETURN_VALUE BUILD_STATUS)
 
-if(DEFINED CTEST_TEST_PARALLEL_LEVEL)
-  ctest_test(PARALLEL_LEVEL ${CTEST_TEST_PARALLEL_LEVEL})
+# Run tests only if build step succeeded
+message("Build result: ${BUILD_STATUS}")
+if(BUILD_STATUS EQUAL 0)
+  if(DEFINED CTEST_TEST_PARALLEL_LEVEL)
+    ctest_test(PARALLEL_LEVEL ${CTEST_TEST_PARALLEL_LEVEL})
+  else()
+    ctest_test()
+  endif()
 else()
-  ctest_test()
+  message("Build failed, skipping tests...")
 endif()
 
 # Submit results

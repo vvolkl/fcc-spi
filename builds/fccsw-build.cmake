@@ -27,6 +27,7 @@ else()
   set(dashboard_model Experimental)
   set(CTEST_BUILD_NAME "$ENV{sha1}-${CTEST_BUILD_NAME}")
 endif()
+message("Running a ${dashboard_model} build: ${CTEST_BUILD_NAME}")
 
 
 #---Build and configure type------------------------------------------------
