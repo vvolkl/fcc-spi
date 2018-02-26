@@ -9,6 +9,7 @@ touch $WORKSPACE/controlfile
 #---Set up environment----------------------------------------------------------------------
 cd $WORKSPACE/fccsw
 source $WORKSPACE/fccsw/init.sh
+env | sort
 
 #---Clean build folder----------------------------------------------------------------------
 make purge
