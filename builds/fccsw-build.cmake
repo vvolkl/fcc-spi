@@ -37,7 +37,7 @@ if(NOT "$ENV{BUILDTYPE}" STREQUAL "")
 endif()
 
 #---Set the source and build directory--------------------------------------
-set(CTEST_BUILD_PREFIX "$ENV{WORKDIR}")
+set(CTEST_BUILD_PREFIX "$ENV{WORKSPACE}")
 set(CTEST_SOURCE_DIRECTORY "${CTEST_BUILD_PREFIX}/${PKG_NAME}")
 set(CTEST_BINARY_DIRECTORY "${CTEST_BUILD_PREFIX}/${PKG_NAME}/build.$ENV{BINARY_TAG}")
 
