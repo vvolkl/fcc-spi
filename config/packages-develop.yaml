@@ -16,3 +16,5 @@
     version: [v29r2]
   tricktrack:
     version: [1.0.4]
+  dd4hep:
+    version: [01.02]
