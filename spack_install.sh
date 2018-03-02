@@ -158,7 +158,7 @@ else
   lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcg_version/$weekday/$platform"
 fi
 
-sed -i "s/{{lcg_path}}/`echo $lcg_path`/" $viewpath/setup.sh
+sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
 sed -i "s@{{viewpath}}@`echo $viewpath`@" $viewpath/setup.sh
 result=$(($result + $?))
