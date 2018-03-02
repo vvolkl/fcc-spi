@@ -194,10 +194,18 @@ def get_version(filepath):
                 return version
         return filepath.split(os.sep)[-2]
 
+def update_blacklist(filename):
+    """Blacklist all file defined in a YAML file"""
+    with open(filename, 'r') as fobj:
+        data = yaml.load(fobj)
+        blacklist.extend(data.keys())
+
+
 def main():
     parser = argparse.ArgumentParser("LCG packages spec creator", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('release_path', type=str, help='LCG release path (searched for LCG_*.txt files)')
     parser.add_argument('--limited', type=str, dest='limited', nargs='*', help='List of packages to consider')
+    parser.add_argument('--blacklist', type=str, dest='fpackages', default=None, help='Blacklist packages defined in a given YAML file')
     parser.add_argument('-v', dest='verbosity', action='count', default=0, help='verbosity, max = -vvv')
     args = parser.parse_args()
 
@@ -205,10 +213,17 @@ def main():
     version = get_version(args.release_path)
     basepath = get_basepath(args.release_path)
 
+    if args.fpackages:
+        update_blacklist(filename=args.fpackages)
+
     spec_files, contrib_files = discover_lcg_spec_files(args.release_path)
     # FIXME: Need to generate a compilers file from contrib
     print "found", len(spec_files), "LCG files"
     print "Looking for a limited list: %s " % args.limited
+
+    if blacklist:
+        print "Blacklisted packages: %s " % ", ".join(blacklist)
+
     packages_dict = {"packages": {}}
     for spec in spec_files:
         convert_lcg_spec_file(spec, basepath, packages_dict, args.verbosity, args.limited)

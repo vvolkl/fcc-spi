@@ -13,7 +13,7 @@ fi
 echo "Using LCG externals from: $LCG_externals"
 echo "Modification date: `stat $LCG_externals | grep Modify | tr -s " " | cut -d" " -f2,3`"
 
-python $THIS/create_lcg_package_specs.py $LCG_externals
+python $THIS/create_lcg_package_specs.py --blacklist $THIS/config/packages-${FCC_VERSION}.yaml $LCG_externals
 
 cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 
