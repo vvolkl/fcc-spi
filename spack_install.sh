@@ -146,7 +146,19 @@ fi
 
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
-sed -i "s/{{lcg_version}}/`echo $lcgversion`/" $viewpath/setup.sh
+
+# Detect day
+export weekday=`date +%a`
+
+if [[ $LCG_version == LCG_* ]]; then
+  # Releases
+  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcg_version/$platform"
+else
+  # Nightlies
+  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcg_version/$weekday/$platform"
+fi
+
+sed -i "s/{{lcg_path}}/`echo $lcg_path`/" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
 sed -i "s@{{viewpath}}@`echo $viewpath`@" $viewpath/setup.sh
 result=$(($result + $?))

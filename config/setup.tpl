@@ -1,8 +1,7 @@
 #!/bin/bash
 
 LCGPREFIX=/cvmfs/sft.cern.ch/lcg
-#LCGPATH=$LCGPREFIX/views/{{lcg_version}}/{{PLATFORM}}
-LCGPATH=/cvmfs/fcc.cern.ch/testing/lcgview/{{lcg_version}}/{{PLATFORM}}
+LCGPATH={{lcg_path}}
 
 function add_to_path {
     # Add the passed value only to path if it's not already in there.
