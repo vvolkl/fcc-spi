@@ -1,18 +1,18 @@
   fccsw:
-    version: [develop]
+    version: [0.9]
   fcc-edm:
     version: [0.5.3]
   papas:
-    version: [develop]
+    version: [1.2.0]
   podio:
-    version: [develop]
+    version: [0.8]
   fcc-physics:
-    version: [develop]
+    version: [0.2.1]
   acts-core:
-    version: [develop]
-  heppy:
-    version: [develop]
+    version: [0.05.03]
   gaudi:
     version: [v29r2]
+  heppy:
+    version: [develop]
   tricktrack:
     version: [1.0.4]
