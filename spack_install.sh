@@ -150,12 +150,12 @@ cp $THIS/config/setup.tpl $viewpath/setup.sh
 # Detect day
 export weekday=`date +%a`
 
-if [[ $LCG_version == LCG_* ]]; then
+if [[ $lcgversion == LCG_* ]]; then
   # Releases
-  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcg_version/$platform"
+  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
 else
   # Nightlies
-  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcg_version/$weekday/$platform"
+  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
 fi
 
 sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
@@ -168,5 +168,5 @@ if [ "$cleanup" = true ]; then
   rm -rf /tmp/cvfcc/spack-stage
 fi
 
-# Return result (0 succeeced, otherwise failed)
+# Return result (0 succeeded, otherwise failed)
 echo $result
