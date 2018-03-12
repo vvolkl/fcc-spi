@@ -21,19 +21,16 @@ function add_to_path {
 # Setup LCG externals
 source $LCGPATH/setup.sh
 
-# Setup DD4hep
-source $LCGPATH/bin/thisdd4hep.sh
-
-# Setup Gaudi from LHCb
-#LHCBPATH=/cvmfs/lhcb.cern.ch/lib/lhcb
-#add_to_path CMAKE_PREFIX_PATH $LHCBPATH/GAUDI/GAUDI_v28r1
-
 # if [[ $BASH == "" ]]; then
 #   THIS_DIR=$(dirname $0)
 # else
 #   THIS_DIR=$(dirname ${BASH_SOURCE[0]})
 # fi
 THIS_DIR={{viewpath}}
+
+# Setup DD4hep
+#source $LCGPATH/bin/thisdd4hep.sh
+source $THIS_DIR/bin/thisdd4hep.sh
 
 export BINARY_TAG={{PLATFORM}}
 
