@@ -1,0 +1,40 @@
+packages:
+  openssl:
+    buildable: false
+    paths: {openssl@1.0.2g: /usr/}
+  python:
+    buildable: false
+    paths: {python@2.7.11: /usr/}
+  cmake:
+    buildable: false
+    paths: {cmake@3.5.1-1ubuntu3: /usr/bin/}
+  pcre:
+    buildable: false
+    paths: {pcre@8.38-3.1: /usr/}
+  zlib:
+    buildable: false
+    paths: {zlib@1.2.8: /usr/}
+  libpng:
+    buildable: false
+    paths: {libpng@1.2.54-1ubuntu1: /usr/}
+  bzip2:
+    buildable: false
+    paths: {bzip2@1.0.6-8: /usr/}
+  freetype:
+    buildable: false
+    paths: {freetype@2.6.1-0.1ubuntu2: /usr/}
+  xz:
+    buildable: false
+    paths: {xz@5.1.1alpha: /usr/}
+  fftw:
+    buildable: false
+    paths: {fftw@3.3.4: /usr/}
+  jpeg:
+    buildable: false
+    paths: {jpeg@1.4.2: /usr/}
+  gsl:
+    buildable: false
+    paths: {gsl@2.1: /usr/}
+  libxml2:
+    buildable: false
+    paths: {libxml2@2.9.3+python: /usr/}

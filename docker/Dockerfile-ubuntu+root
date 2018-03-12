@@ -1,0 +1,51 @@
+FROM ubuntu:16.04
+MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
+ARG HEPSPACK_VERSION=master
+ARG SPACK_VERSION=develop
+# Keep this up to date with the above (used also in Dockerfile-fcc)
+ENV UBUNTUVERSION=16.04
+# install packages available through apt-get to reduce build-time
+RUN apt-get update && apt-get install -y \
+    sudo \
+    cmake \
+    git \
+    python \
+    curl \
+    libtool \
+    build-essential \
+    gccxml \
+    gfortran \
+    python-yaml \
+    libpcre3 \
+    zlib1g \
+    libfreetype6 \
+    liblzma5 \
+    python-libxml2 \
+    libxml2 \
+    libfftw3-3 \
+    libx11-dev \
+    libxpm4 \
+    libxpm-dev \
+    libxft2 \
+    libxft-dev \
+    libxext6 \
+    libxext-dev
+
+# setup work directories
+ENV FCCBASE=/usr/local/fcc
+ENV SPACK_ROOT=$FCCBASE/spack
+RUN mkdir -p $FCCBASE
+WORKDIR $FCCBASE
+
+# Set up spack needed for ROOT
+RUN git clone https://github.com/llnl/spack -b $SPACK_VERSION $SPACK_ROOT
+RUN git clone https://github.com/hep-sf/hep-spack -b $HEPSPACK_VERSION $SPACK_ROOT/var/spack/repos/hep-spack
+
+# only need the ubuntu package specs (that means the latest available ROOT version in hep-spack is installed)
+RUN curl https://raw.githubusercontent.com/HEP-FCC/fcc-spi/master/docker/packages-ubuntu${UBUNTUVERSION}.yaml -o $SPACK_ROOT/etc/spack/packages.yaml
+
+# compile ROOT
+RUN $SPACK_ROOT/bin/spack compiler find && \
+    $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/hep-spack && \
+    $SPACK_ROOT/bin/spack install root
+

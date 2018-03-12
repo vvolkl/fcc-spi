@@ -1,0 +1,33 @@
+FROM ubuntu_root:16.04-6.08.02
+MAINTAINER Joschka Lingemann <joschka.lingemann@cern.ch>
+ARG FCCVERSION
+ENV FCCVERSION ${FCCVERSION:-latest}
+ENV FCCBASE=/usr/local/fcc
+ENV SPACK_ROOT=$FCCBASE/spack
+
+# update fcc-spi and re-define stack (*should* never produce a conflict to base image)
+RUN git clone https://github.com/HEP-FCC/fcc-spi $FCCBASE/fcc-spi && \
+    python $FCCBASE/fcc-spi/fcc_define_stack.py --fcc_yaml=$FCCBASE/fcc-spi/docpage/_data/packages.yml -o $SPACK_ROOT/etc/spack/packages.yaml --base_yaml=$FCCBASE/fcc-spi/docker/packages-ubuntu${UBUNTUVERSION}.yaml $FCCVERSION
+RUN git clone https://github.com/HEP-FCC/fcc-spack $SPACK_ROOT/var/spack/repos/fcc-spack
+RUN $SPACK_ROOT/bin/spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack && \
+    $SPACK_ROOT/bin/spack install fcc-physics && \
+    $SPACK_ROOT/bin/spack view -d true soft $FCCBASE fcc-physics
+
+# update environment
+ENV PATH=$FCCBASE/bin:$PATH
+ENV LD_LIBRARY_PATH=$FCCBASE/lib:$LD_LIBRARY_PATH
+ENV ROOT_INCLUDE_PATH=$FCCBASE/include:$FCCBASE/include/datamodel
+ENV CMAKE_PREFIX_PATH=$FCCBASE:$CMAKE_PREFIX_PATH
+ENV HEPMC_PREFIX=$FCCBASE
+ENV PYTHIA8_DIR=$FCCBASE
+ENV PYTHIA8DATA=$FCCBASE/share/Pythia8/xmldoc
+
+# Set up user
+RUN mkdir -p /home/fccuser && \
+    groupadd -r fcc && useradd -r -g fcc fccuser && \
+    chown fccuser /home/fccuser && \
+    echo "fccuser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/fccuser && \
+    chmod 0440 /etc/sudoers.d/fccuser
+USER fccuser
+WORKDIR /home/fccuser
+CMD . $FCCBASE/fcc-spi/docker/welcome.sh && /bin/bash

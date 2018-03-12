@@ -1,0 +1,10 @@
+echo "+--------------------------------------------------------------------"
+echo "            FCC  ##        ."
+echo "           ## ## ##       ==    Welcome to the FCC software docker"
+echo "        ## ## ## ##      ===    REMINDER: Containers are disposable;"
+echo '    /""""""""""""""""\___/ ===            Keep your data in volumes!'
+echo " ~~{~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===-~~"
+echo "    \______ o          __/"
+echo "      \    \        __/         Documentation: fccsw.web.cern.ch"
+echo "       \____\______/"
+echo "+--------------------------------------------------------------------"
