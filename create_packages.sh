@@ -1,13 +1,17 @@
 #!/bin/bash
 THIS=$(dirname ${BASH_SOURCE[0]})
 
-LCG_version=$1
+# Check all needed variable are defined
+[[ "${LCG_VERSION:?Need to set LCG_VERSION non-empty}" &&
+   "${FCC_VERSION:?Need to set FCC_VERSION non-empty}" &&
+   "${PLATFORM:?Need to set PLATFORM non-empty}" ]] 
+
 weekday=`date +%a`
 
 if [[ $LCG_version == LCG_* ]]; then
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_${PLATFORM}.txt"
 else
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_version/$weekday/LCG_externals_x86_64-slc6-gcc62-opt.txt"
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_version/$weekday/LCG_externals_${PLATFORM}.txt"
 fi
 
 echo "Using LCG externals from: $LCG_externals"
@@ -36,7 +40,7 @@ cat $THIS/config/packages-${FCC_VERSION}.yaml >> $WORKSPACE/packages.yaml
 
 # Custom packages
 
-# Gitpython python package
+# Gitpython python package #TODO consider treatment for other platforms
 cat << EOF >> $WORKSPACE/packages.yaml
   py-gitpython:
     buildable: false

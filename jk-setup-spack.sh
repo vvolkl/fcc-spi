@@ -61,7 +61,7 @@ export COMPILERversion=${COMPILER}version
 cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
-source $THIS/create_packages.sh $LCG_VERSION $FCC_VERSION
+source $THIS/create_packages.sh
 
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
