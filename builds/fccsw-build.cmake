@@ -17,8 +17,8 @@ set(CTEST_SITE "${host}")
 #---CDash slot name---------------------------------------------------------
 # Nightly, Experimental, PullRequests...
 
-if(NOT "$ENV{ghprbPullLink}" STREQUAL "")
-  set(CTEST_BUILD_NAME PR-$ENV{ghprbPullId}-${CTEST_BUILD_NAME})
+if(NOT "$ENV{ghprbPullId}" STREQUAL "")
+  set(CTEST_BUILD_NAME "PR-$ENV{ghprbPullId}-${CTEST_BUILD_NAME}")
   set(dashboard_model PullRequests)
 elseif("$ENV{CDASH_LABEL}" STREQUAL "Nightly")
   set(dashboard_model Nightly)
