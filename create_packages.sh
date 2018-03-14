@@ -4,14 +4,14 @@ THIS=$(dirname ${BASH_SOURCE[0]})
 # Check all needed variable are defined
 [[ "${LCG_VERSION:?Need to set LCG_VERSION non-empty}" &&
    "${FCC_VERSION:?Need to set FCC_VERSION non-empty}" &&
-   "${PLATFORM:?Need to set PLATFORM non-empty}" ]] 
+   "${PLATFORM:?Need to set PLATFORM non-empty}" ]]
 
 weekday=`date +%a`
 
-if [[ $LCG_version == LCG_* ]]; then
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_version/LCG_externals_${PLATFORM}.txt"
+if [[ $LCG_VERSION == LCG_* ]]; then
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_VERSION/LCG_externals_${PLATFORM}.txt"
 else
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_version/$weekday/LCG_externals_${PLATFORM}.txt"
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_VERSION/$weekday/LCG_externals_${PLATFORM}.txt"
 fi
 
 echo "Using LCG externals from: $LCG_externals"
@@ -23,19 +23,19 @@ cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 
 # apply some changes
 # Replace tbb name
-sed -i 's/tbb:/intel-tbb:/' $WORKSPACE/${LCG_version}_packages.yaml
-sed -i 's/tbb@/intel-tbb@/' $WORKSPACE/${LCG_version}_packages.yaml
+sed -i 's/tbb:/intel-tbb:/' $WORKSPACE/${LCG_VERSION}_packages.yaml
+sed -i 's/tbb@/intel-tbb@/' $WORKSPACE/${LCG_VERSION}_packages.yaml
 
 # Replace xerces-c name
-sed -i 's/xercesc:/xerces-c:/' $WORKSPACE/${LCG_version}_packages.yaml
-sed -i 's/xercesc@/xerces-c@/' $WORKSPACE/${LCG_version}_packages.yaml
+sed -i 's/xercesc:/xerces-c:/' $WORKSPACE/${LCG_VERSION}_packages.yaml
+sed -i 's/xercesc@/xerces-c@/' $WORKSPACE/${LCG_VERSION}_packages.yaml
 
 # Replace java name
-sed -i 's/java:/jdk:/' $WORKSPACE/${LCG_version}_packages.yaml
-sed -i 's/java@/jdk@/' $WORKSPACE/${LCG_version}_packages.yaml
+sed -i 's/java:/jdk:/' $WORKSPACE/${LCG_VERSION}_packages.yaml
+sed -i 's/java@/jdk@/' $WORKSPACE/${LCG_VERSION}_packages.yaml
 
 # append lcg specs to default packages.yaml
-cat $WORKSPACE/${LCG_version}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml
+cat $WORKSPACE/${LCG_VERSION}_packages.yaml | tail -n +2 >> $WORKSPACE/packages.yaml
 cat $THIS/config/packages-${FCC_VERSION}.yaml >> $WORKSPACE/packages.yaml
 
 # Custom packages
