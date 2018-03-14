@@ -29,8 +29,8 @@ source $LCGPATH/setup.sh
 THIS_DIR={{viewpath}}
 
 # Setup DD4hep
-#source $LCGPATH/bin/thisdd4hep.sh
-source $THIS_DIR/bin/thisdd4hep.sh
+source $LCGPATH/bin/thisdd4hep.sh
+#source $THIS_DIR/bin/thisdd4hep.sh
 
 export BINARY_TAG={{PLATFORM}}
 
