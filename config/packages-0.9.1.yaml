@@ -1,7 +1,7 @@
   fccsw:
-    version: [0.9]
+    version: [0.9.1]
   fcc-edm:
-    version: [0.5.3]
+    version: [0.5.1]
   papas:
     version: [1.2.0]
   podio:
@@ -14,5 +14,3 @@
     version: [v29r2]
   heppy:
     version: [develop]
-  tricktrack:
-    version: [1.0.4]
