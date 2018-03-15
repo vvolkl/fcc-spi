@@ -141,7 +141,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
   exceptions="py-pyyaml"
 
   # Exclude fccsw
-  if [[ "$package" == "*fccstack*" ]]; then
+  if [[ "$package" == "fccstack" ]]; then
     exceptions=$exceptions",fccsw"
   fi
 
