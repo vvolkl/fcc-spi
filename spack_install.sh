@@ -142,7 +142,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
 
   # Exclude fccsw
   if [[ "$package" == "fccstack" ]]; then
-    exceptions=$exceptions",fccsw"
+    exceptions=$exceptions"\|fccsw"
   fi
 
   echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
