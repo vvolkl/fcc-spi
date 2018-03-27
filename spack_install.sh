@@ -64,6 +64,7 @@ fi
 # fi
 
 # Detect os
+TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
 OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
 
 # Clone spack repo
@@ -118,6 +119,9 @@ fi
 
 echo "Spack configuration: "
 spack config get config
+
+echo "Spack compilers: "
+spack compiler list
 
 # First need to install patchelf for relocation
 spack buildcache install -y patchelf
