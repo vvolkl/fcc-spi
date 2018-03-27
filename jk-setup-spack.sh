@@ -23,8 +23,10 @@ fi
 # Detect os
 OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
 
-# Detect day
-export weekday=`date +%a`
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
 
 # Clone spack repo
 SPACKDIR=$WORKSPACE/spack

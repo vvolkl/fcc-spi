@@ -6,7 +6,10 @@ THIS=$(dirname ${BASH_SOURCE[0]})
    "${FCC_VERSION:?Need to set FCC_VERSION non-empty}" &&
    "${PLATFORM:?Need to set PLATFORM non-empty}" ]]
 
-weekday=`date +%a`
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+ export weekday=`date +%a`
+fi
 
 if [[ $LCG_VERSION == LCG_* ]]; then
   LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_VERSION/LCG_externals_${PLATFORM}.txt"

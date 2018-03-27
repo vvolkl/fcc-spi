@@ -156,8 +156,10 @@ fi
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 
-# Detect day
-export weekday=`date +%a`
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
 
 if [[ $lcgversion == LCG_* ]]; then
   # Releases
