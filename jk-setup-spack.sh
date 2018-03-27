@@ -69,6 +69,9 @@ source $THIS/create_packages.sh
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
 
+# Use a default compiler taken from cvmfs/sft.cern.ch
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${COMPILERversion}binutils/x86_64-${OS}/setup.sh
+
 # Find tbb lib
 tbb_lib="$(cat .spack/linux/packages.yaml | grep intel-tbb@ | tr -s " " | cut -d" " -f5 | tr -d "}" )/lib"
 # Find root lib
