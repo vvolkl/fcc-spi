@@ -63,6 +63,9 @@ fi
 #   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
 # fi
 
+# Detect os
+OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
+
 # Clone spack repo
 git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
@@ -91,13 +94,13 @@ gcc62version=6.2.0
 export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${OS}-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
 # Use a default compiler taken from cvmfs/sft.cern.ch
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2.0binutils/x86_64-slc6/setup.sh
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${COMPILERversion}binutils/x86_64-${OS}/setup.sh
 
 # Create mirrors.yaml to use local buildcache
 if [ "$buildcache" != "" ]; then
