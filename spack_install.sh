@@ -100,7 +100,7 @@ cat $THIS/config/compiler-${OS}-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
 # Use a default compiler taken from cvmfs/sft.cern.ch
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${COMPILERversion}binutils/x86_64-${OS}/setup.sh
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!COMPILERversion}binutils/x86_64-${OS}/setup.sh
 
 # Create mirrors.yaml to use local buildcache
 if [ "$buildcache" != "" ]; then
