@@ -1,0 +1,14 @@
+  fcc-edm:
+    version: [0.5.2]
+  papas:
+    version: [1.2.0]
+  podio:
+    version: [0.8]
+  fcc-physics:
+    version: [0.2.1]
+  acts-core:
+    version: [0.05.03]
+  gaudi:
+    version: [v29r2]
+  heppy:
+    version: [develop]
