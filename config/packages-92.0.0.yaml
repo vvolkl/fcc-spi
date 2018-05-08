@@ -10,5 +10,7 @@
     version: [0.05.03]
   gaudi:
     version: [v29r2]
+  delphes:
+    version: [3.4.2pre05]
   heppy:
-    version: [develop]
+    version: [v2.0]
