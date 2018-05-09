@@ -185,6 +185,9 @@ def get_basepath(path):
 
 def get_version(filepath):
     """Read version from LCG spec file"""
+    fnames = glob.glob(filepath)
+    r = re.compile(".*externals*")
+    filepath = filter(r.match, fnames)[0]
     with open(filepath, 'r') as fobj:
         for l in fobj:
             if "VERSION" in l:
