@@ -29,8 +29,8 @@ source $LCGPATH/setup.sh
 THIS_DIR={{viewpath}}
 
 # Setup DD4hep from FCC view if exists, otherwise from LCG view
-if [[ -x $THIS_DIR/bin/thisdd4hep.sh ]]; then 
-    source $THIS_DIR/bin/thisdd4hep.sh 
+if [[ -x $THIS_DIR/bin/thisdd4hep.sh ]]; then
+    source $THIS_DIR/bin/thisdd4hep.sh
 else
     source $LCGPATH/bin/thisdd4hep.sh
 fi
@@ -65,6 +65,14 @@ add_to_path CMAKE_PREFIX_PATH $LCGPATH
 
 # Setup PYTHONPATH
 add_to_path PYTHONPATH $THIS_DIR/python
+
+# Setup cmake from LCG contrib
+# Temporal change to fix a bug at configuration time with FCCSW when
+# using the cmake version provided by LCG release, which differs 
+# from the one used to build the LCG stack itself 
+# For the LCG_94 should be solved 
+
+export PATH=$LCGPREFIX/contrib/CMake/3.8.1/Linux-x86_64/bin:${PATH}
 
 # Export path to the FCC view
 export FCCVIEW=$THIS_DIR
