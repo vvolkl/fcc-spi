@@ -20,8 +20,13 @@ else
   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
 fi
 
-# Detect day
-export weekday=`date +%a`
+# Detect os
+OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
+
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
 
 # Clone spack repo
 SPACKDIR=$WORKSPACE/spack
@@ -58,13 +63,16 @@ gcc62version=6.2.0
 export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-${OS}-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Create packages
 source $THIS/create_packages.sh
 
 # Overwrite packages configuration
 mv $WORKSPACE/packages.yaml $SPACK_CONFIG/linux/packages.yaml
+
+# Use a default compiler taken from cvmfs/sft.cern.ch
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!COMPILERversion}binutils/x86_64-${OS}/setup.sh
 
 # Find tbb lib
 tbb_lib="$(cat .spack/linux/packages.yaml | grep intel-tbb@ | tr -s " " | cut -d" " -f5 | tr -d "}" )/lib"

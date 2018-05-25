@@ -63,6 +63,10 @@ fi
 #   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
 # fi
 
+# Detect os
+TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
+OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
+
 # Clone spack repo
 git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
@@ -88,16 +92,16 @@ export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
 gcc49version=4.9.3
 gcc62version=6.2.0
-export COMPILERversion=${COMPILER}version
+export compilerversion=${compiler}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/compiler-slc6-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
-# Use a default compiler taken from cvmfs/sft.cern.ch
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2.0binutils/x86_64-slc6/setup.sh
+# Use a default slc6 compiler taken from cvmfs/sft.cern.ch
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!compilerversion}binutils/x86_64-slc6/setup.sh
 
 # Create mirrors.yaml to use local buildcache
 if [ "$buildcache" != "" ]; then
@@ -115,6 +119,9 @@ fi
 
 echo "Spack configuration: "
 spack config get config
+
+echo "Spack compilers: "
+spack compiler list
 
 # First need to install patchelf for relocation
 spack buildcache install -y patchelf
@@ -153,8 +160,10 @@ fi
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 
-# Detect day
-export weekday=`date +%a`
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
 
 if [[ $lcgversion == LCG_* ]]; then
   # Releases

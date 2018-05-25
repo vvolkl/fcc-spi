@@ -6,18 +6,21 @@ THIS=$(dirname ${BASH_SOURCE[0]})
    "${FCC_VERSION:?Need to set FCC_VERSION non-empty}" &&
    "${PLATFORM:?Need to set PLATFORM non-empty}" ]]
 
-weekday=`date +%a`
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+ export weekday=`date +%a`
+fi
 
 if [[ $LCG_VERSION == LCG_* ]]; then
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_VERSION/LCG_externals_${PLATFORM}.txt"
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/releases/$LCG_VERSION/LCG_*_${PLATFORM}.txt"
 else
-  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_VERSION/$weekday/LCG_externals_${PLATFORM}.txt"
+  LCG_externals="/cvmfs/sft.cern.ch/lcg/nightlies/$LCG_VERSION/$weekday/LCG_*_${PLATFORM}.txt"
 fi
 
 echo "Using LCG externals from: $LCG_externals"
 echo "Modification date: `stat $LCG_externals | grep Modify | tr -s " " | cut -d" " -f2,3`"
 
-python $THIS/create_lcg_package_specs.py --blacklist $THIS/config/packages-${FCC_VERSION}.yaml $LCG_externals
+python $THIS/create_lcg_package_specs.py --blacklist $THIS/config/packages-${FCC_VERSION}.yaml "$LCG_externals"
 
 cp $THIS/config/packages-default.yaml $WORKSPACE/packages.yaml
 
