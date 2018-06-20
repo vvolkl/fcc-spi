@@ -1,7 +1,7 @@
   fccsw:
     version: [develop]
   fcc-edm:
-    version: [0.5.3]
+    version: [develop]
   papas:
     version: [develop]
   podio:
