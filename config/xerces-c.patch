@@ -1,0 +1,15 @@
+diff --git a/var/spack/repos/builtin/packages/xerces-c/package.py b/var/spack/repos/builtin/packages/xerces-c/package.py
+index 8733289..2998d51 100644
+--- a/var/spack/repos/builtin/packages/xerces-c/package.py
++++ b/var/spack/repos/builtin/packages/xerces-c/package.py
+@@ -40,8 +40,8 @@ class XercesC(AutotoolsPackage):
+ 
+     depends_on('libiconv')
+ 
+-    def setup_environment(self, spack_env, run_env):
+-        spack_env.append_flags('LDFLAGS', self.spec['libiconv'].libs.ld_flags)
++    #def setup_environment(self, spack_env, run_env):
++    #    spack_env.append_flags('LDFLAGS', self.spec['libiconv'].libs.ld_flags)
+ 
+     def configure_args(self):
+         return ['--disable-network']
