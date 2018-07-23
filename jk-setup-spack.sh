@@ -41,8 +41,8 @@ export SPACK_HOME=$WORKSPACE
 export HOME=$SPACK_HOME
 export SPACK_CONFIG=$HOME/.spack
 
-git apply --directory $SPACK_ROOT config/graphviz.patch
-git apply --directory $SPACK_ROOT config/xerces-c.patch
+git apply --directory $SPACK_ROOT $THIS/config/graphviz.patch
+git apply --directory $SPACK_ROOT $THIS/config/xerces-c.patch
 
 # Source environment
 source $SPACK_ROOT/share/spack/setup-env.sh
