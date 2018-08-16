@@ -6,7 +6,8 @@ compilers:
     extra_rpaths:
     - /cvmfs/sft.cern.ch/lcg/contrib/binutils/2.28/x86_64-centos7/lib
     - /cvmfs/sft.cern.ch/lcg/contrib/binutils/2.28/x86_64-centos7/bin
-    flags: {}
+    flags:
+     cppflags: -std=c++17
     modules: []
     operating_system: centos7
     paths:
