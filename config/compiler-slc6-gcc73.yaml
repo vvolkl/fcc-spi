@@ -2,10 +2,10 @@ compilers:
 - compiler:
     environment:
       set:
-        LD_LIBRARY_PATH: /cvmfs/sft.cern.ch/lcg/contrib/gcc/7.3.0binutils/x86_64-slc6/lib64:EXTRA_LIBS
+        LD_LIBRARY_PATH: /cvmfs/sft.cern.ch/lcg/contrib/gcc/7.3.0binutils/x86_64-slc6/lib64:/cvmfs/sft.cern.ch/lcg/releases/binutils/2.28-19981/x86_64-slc6-gcc62-opt/lib:EXTRA_LIBS
     extra_rpaths:
-    - /cvmfs/sft.cern.ch/lcg/contrib/binutils/2.28/x86_64-slc6/lib
-    - /cvmfs/sft.cern.ch/lcg/contrib/binutils/2.28/x86_64-slc6/bin
+    - /cvmfs/sft.cern.ch/lcg/releases/binutils/2.28-19981/x86_64-slc6-gcc62-opt/bin
+    - /cvmfs/sft.cern.ch/lcg/releases/binutils/2.28-19981/x86_64-slc6-gcc62-opt/lib
     flags:
      cppflags: -std=c++17
     modules: []
