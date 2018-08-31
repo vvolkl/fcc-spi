@@ -35,9 +35,6 @@ while [ "$1" != "" ]; do
         --platform )            shift
                                 platform=$1
                                 ;;
-        --branch )              shift
-                                branch=$1
-                                ;;
         --clean )               cleanup=true
                                 ;;
         -h | --help )           usage
@@ -89,7 +86,7 @@ spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
 export FCC_SPACK=$SPACK_ROOT/var/spack/repos/fcc-spack
 
 # Add new repo fcc-spack
-git clone --branch $branch https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos/fcc-spack
+git clone https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos/fcc-spack
 spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
 export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 
