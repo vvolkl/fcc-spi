@@ -20,6 +20,10 @@ else
   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
 fi
 
+if [[ $PLATFORM = *gcc73* ]]; then
+  export PLATFORM=${PLATFORM//gcc73/gcc7}
+fi
+
 # Detect os
 OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
 
@@ -60,6 +64,7 @@ spack repo add $FCC_REPO
 
 gcc49version=4.9.3
 gcc62version=6.2.0
+gcc73version=7.3.0
 export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
