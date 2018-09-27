@@ -46,6 +46,29 @@ while [ "$1" != "" ]; do
     shift
 done
 
+update_latest(){
+  package=$1
+  lcgversion=$2
+  
+  if [[ "$package" == "fccstack" ]]; then
+    installation="fccsw"
+  else
+    installation="externals"
+  fi
+
+  if [[ $lcgversion == LCG_* ]]; then
+    # Releases
+    buildtype="releases"
+  else
+    buildtype="nightlies"
+  fi
+  
+  FROM=/cvmfs/fcc.cern.ch/sw/views/$builtype/$installation/latest/$platform
+  TO=$viewpath
+
+  ln -sf $TO $FROM
+}
+
 # Create controlfile
 touch controlfile
 THIS=$(dirname ${BASH_SOURCE[0]})
@@ -131,6 +154,11 @@ echo "Installing $package binary"
 spack buildcache install -y -f /$pkghash
 result=$?
 
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
+
 # Temporal until #6266 get fixed in spack
 # Avoid problems creating views
 find $prefix -type f -iname "NOTICE" | xargs rm -f
@@ -154,16 +182,16 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
 
   echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
   spack view -d true -e "$exceptions" symlink $viewpath $package/$pkghash
-  result=$(($result + $?))
+  viewcreated=$?
+  result=$(($result + $viewcreated))
+  if [ $viewcreated -eq 0 ];then
+    # Update latest link 
+    update_latest $package $lcgversion        
+  fi
 fi
 
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
-
-# Detect day if not set
-if [[ -z ${weekday+x} ]]; then
-  export weekday=`date +%a`
-fi
 
 if [[ $lcgversion == LCG_* ]]; then
   # Releases
