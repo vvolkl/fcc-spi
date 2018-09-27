@@ -180,7 +180,7 @@ result=$(($result + $?))
 
 if [ "$cleanup" = true ]; then
   rm -rf $TMPDIR
-  rm -rf /tmp/cvfcc/spack-stage
+  rm -rf /tmp/$USER/spack-stage
 fi
 
 # Return result (0 succeeded, otherwise failed)
