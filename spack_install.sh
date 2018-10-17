@@ -147,11 +147,11 @@ echo "Spack compilers: "
 spack compiler list
 
 # First need to install patchelf for relocation
-spack buildcache install -y patchelf
+spack buildcache install -u patchelf
 
 # Install binaries from buildcache
 echo "Installing $package binary"
-spack buildcache install -y -f /$pkghash
+spack buildcache install -u -f /$pkghash
 result=$?
 
 # Detect day if not set
