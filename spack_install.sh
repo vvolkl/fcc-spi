@@ -91,7 +91,7 @@ TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
 OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
 
 # Clone spack repo
-git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
+git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
 
 # Setup new spack home
