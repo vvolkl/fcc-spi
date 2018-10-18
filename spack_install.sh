@@ -151,7 +151,7 @@ spack buildcache install -u patchelf
 
 # Install binaries from buildcache
 echo "Installing $package binary"
-spack buildcache install -u -f /$pkghash
+spack buildcache install -u -f -a /$pkghash
 result=$?
 
 # Detect day if not set
