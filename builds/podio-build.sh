@@ -14,6 +14,7 @@ mkdir $WORKSPACE/podio/build
 cd $WORKSPACE/podio/build
 
 #---Run installation------------------------------------------------------------------------
-cmake -DCMAKE_INSTALL_PREFIX=../install -Dpodio_tests=ON ..
+cmake -DCMAKE_INSTALL_PREFIX=../install ..
 make -j$(nproc)
 make install
+make test
