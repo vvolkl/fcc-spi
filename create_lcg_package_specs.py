@@ -7,7 +7,7 @@ import glob
 
 OS_SHORT_TO_LONG = {"slc6":"scientificcernslc6", "centos7":"centos7", "ubuntu1604":"ubuntu1604"}
 virtual_packages = ['blas', 'lapack']
-blacklist = ["py-pyyaml", "tricktrack"]
+blacklist = ["py-pyyaml", "tricktrack", "pkgconfig"]
 
 def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None):
     ''' converts lcg spec files into dict format that is expected by spack for package specs.
