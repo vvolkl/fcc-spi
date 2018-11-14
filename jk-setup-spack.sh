@@ -69,6 +69,7 @@ export COMPILERversion=${COMPILER}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
 cat $THIS/config/compiler-${OS}-${COMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 
 # Create packages
 source $THIS/create_packages.sh
