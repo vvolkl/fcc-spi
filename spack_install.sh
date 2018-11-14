@@ -37,6 +37,9 @@ while [ "$1" != "" ]; do
                                 ;;
         --clean )               cleanup=true
                                 ;;
+        --weekday )              shift
+                                weekday=$1
+                                ;;
         -h | --help )           usage
                                 exit
                                 ;;
