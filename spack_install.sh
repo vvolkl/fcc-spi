@@ -63,7 +63,7 @@ update_latest(){
     buildtype="nightlies"
   fi
   
-  FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest/$platform
+  FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest
   TO=$viewpath
 
   ln -sf $TO $FROM
