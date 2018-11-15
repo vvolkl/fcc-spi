@@ -77,7 +77,7 @@ touch controlfile
 THIS=$(dirname ${BASH_SOURCE[0]})
 
 if [ "$TMPDIR" == "" ]; then
-  TMPDIR=/tmp/fcc/spackinstall
+  TMPDIR=$HOME/spackinstall
   mkdir -p $TMPDIR
 fi
 
