@@ -37,6 +37,9 @@ while [ "$1" != "" ]; do
                                 ;;
         --clean )               cleanup=true
                                 ;;
+        --weekday )              shift
+                                weekday=$1
+                                ;;
         -h | --help )           usage
                                 exit
                                 ;;
@@ -45,6 +48,29 @@ while [ "$1" != "" ]; do
     esac
     shift
 done
+
+update_latest(){
+  package=$1
+  lcgversion=$2
+  
+  if [[ "$package" == "fccstack" ]]; then
+    installation="fccsw"
+  else
+    installation="externals"
+  fi
+
+  if [[ $lcgversion == LCG_* ]]; then
+    # Releases
+    buildtype="releases"
+  else
+    buildtype="nightlies"
+  fi
+  
+  FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest
+  TO=$viewpath
+
+  ln -sf $TO $FROM
+}
 
 # Create controlfile
 touch controlfile
@@ -68,7 +94,7 @@ TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
 OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
 
 # Clone spack repo
-git clone https://github.com/JavierCVilla/spack.git -b buildcache_fix $TMPDIR/spack
+git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
 
 # Setup new spack home
@@ -124,12 +150,17 @@ echo "Spack compilers: "
 spack compiler list
 
 # First need to install patchelf for relocation
-spack buildcache install -y patchelf
+spack buildcache install -u patchelf
 
 # Install binaries from buildcache
 echo "Installing $package binary"
-spack buildcache install -y -f /$pkghash
+spack buildcache install -u -f -a /$pkghash
 result=$?
+
+# Detect day if not set
+if [[ -z ${weekday+x} ]]; then
+  export weekday=`date +%a`
+fi
 
 # Temporal until #6266 get fixed in spack
 # Avoid problems creating views
@@ -154,16 +185,16 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
 
   echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
   spack view -d true -e "$exceptions" symlink $viewpath $package/$pkghash
-  result=$(($result + $?))
+  viewcreated=$?
+  result=$(($result + $viewcreated))
+  if [ $viewcreated -eq 0 ];then
+    # Update latest link 
+    update_latest $package $lcgversion        
+  fi
 fi
 
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
-
-# Detect day if not set
-if [[ -z ${weekday+x} ]]; then
-  export weekday=`date +%a`
-fi
 
 if [[ $lcgversion == LCG_* ]]; then
   # Releases
@@ -180,7 +211,7 @@ result=$(($result + $?))
 
 if [ "$cleanup" = true ]; then
   rm -rf $TMPDIR
-  rm -rf /tmp/cvfcc/spack-stage
+  rm -rf /tmp/$USER/spack-stage
 fi
 
 # Return result (0 succeeded, otherwise failed)

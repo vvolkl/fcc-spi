@@ -30,9 +30,9 @@ THIS_DIR={{viewpath}}
 
 # Setup DD4hep from FCC view if exists, otherwise from LCG view
 if [[ -x $THIS_DIR/bin/thisdd4hep.sh ]]; then
-    source $THIS_DIR/bin/thisdd4hep.sh
+    source $THIS_DIR/bin/thisdd4hep_only.sh
 else
-    source $LCGPATH/bin/thisdd4hep.sh
+    source $LCGPATH/bin/thisdd4hep_only.sh
 fi
 
 export BINARY_TAG={{PLATFORM}}
