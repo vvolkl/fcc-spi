@@ -10,6 +10,7 @@ touch $WORKSPACE/controlfile
 source $WORKSPACE/fcc-edm/init.sh
 
 #---Prepare folder to store build artifacts-------------------------------------------------
+rm -rf $WORKSPACE/fcc-edm/build
 mkdir $WORKSPACE/fcc-edm/build
 cd $WORKSPACE/fcc-edm/build
 

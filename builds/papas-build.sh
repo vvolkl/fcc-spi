@@ -11,6 +11,7 @@ cd $WORKSPACE/papas
 source $WORKSPACE/papas/init.sh
 
 #---Prepare folder to store build artifacts-------------------------------------------------
+rm -rf $WORKSPACE/papas/build
 mkdir $WORKSPACE/papas/build
 cd $WORKSPACE/papas/build
 

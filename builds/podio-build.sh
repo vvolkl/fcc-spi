@@ -10,6 +10,7 @@ touch $WORKSPACE/controlfile
 source $WORKSPACE/podio/init.sh
 
 #---Prepare folder to store build artifacts-------------------------------------------------
+rm -r $WORKSPACE/podio/build
 mkdir $WORKSPACE/podio/build
 cd $WORKSPACE/podio/build
 
