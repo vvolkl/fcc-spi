@@ -1,0 +1,19 @@
+compilers:
+- compiler:
+    environment:
+      set:
+        LD_LIBRARY_PATH: /cvmfs/sft.cern.ch/lcg/contrib/gcc/8binutils/x86_64-slc6/lib64:/cvmfs/sft.cern.ch/lcg/releases/binutils/2.30-e5b21/x86_64-slc6-opt/lib:EXTRA_LIBS
+    extra_rpaths:
+    - /cvmfs/sft.cern.ch/lcg/releases/binutils/2.30-e5b21/x86_64-slc6/bin
+    - /cvmfs/sft.cern.ch/lcg/releases/binutils/2.30-e5b21/x86_64-slc6/lib
+    flags:
+     cppflags: -std=c++17
+    modules: []
+    operating_system: scientificcernslc6
+    paths:
+      cc: /cvmfs/sft.cern.ch/lcg/contrib/gcc/8binutils/x86_64-slc6/bin/gcc
+      cxx: /cvmfs/sft.cern.ch/lcg/contrib/gcc/8binutils/x86_64-slc6/bin/g++
+      f77: /cvmfs/sft.cern.ch/lcg/contrib/gcc/8binutils/x86_64-slc6/bin/gfortran
+      fc: /cvmfs/sft.cern.ch/lcg/contrib/gcc/8binutils/x86_64-slc6/bin/gfortran
+    spec: gcc@8.2.0
+    target: x86_64

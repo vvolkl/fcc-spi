@@ -119,6 +119,7 @@ export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
 gcc49version=4.9.3
 gcc62version=6.2.0
 gcc73version=7.3.0
+gcc8version=8.2.0
 
 export compilerversion=${compiler}version
 
