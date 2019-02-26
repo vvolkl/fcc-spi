@@ -52,15 +52,15 @@ source $SPACK_ROOT/share/spack/setup-env.sh
 export HEP_REPO=$SPACK_ROOT/var/spack/repos/hep-spack
 if [ ! -d $HEP_REPO ]; then
   git clone https://github.com/HEP-SF/hep-spack.git $HEP_REPO
-  spack repo add $HEP_REPO
 fi
+spack repo add $HEP_REPO
 
 # Add new repo fcc-spack
 export FCC_REPO=$SPACK_ROOT/var/spack/repos/fcc-spack
 if [ ! -d $FCC_REPO ]; then
   git clone https://github.com/JavierCVilla/fcc-spack.git $FCC_REPO
-  spack repo add $FCC_REPO
 fi
+spack repo add $FCC_REPO
 
 gcc49version=4.9.3
 gcc62version=6.2.0
