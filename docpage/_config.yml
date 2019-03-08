@@ -24,7 +24,7 @@ markdown: kramdown
 highlighter: rouge
 kramdown:
   input: GFM
-  enable_rouge: true
+  enable_rouge: false
 
 sass:
   sass_dir: node_modules/bootstrap-sass/assets/stylesheets
