@@ -52,7 +52,7 @@ endif()
 set(CTEST_BUILD_COMMAND "make -j${ncpu}")
 
 # Do not run tests in parallel (run out of memory due to Geant4)
-# set(CTEST_TEST_PARALLEL_LEVEL 1)
+set(CTEST_PARALLEL_LEVEL ${ncpu})
 
 #---CDash settings----------------------------------------------------------
 set(CTEST_PROJECT_NAME "FCC")
