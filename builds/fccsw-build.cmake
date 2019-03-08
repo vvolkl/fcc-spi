@@ -51,8 +51,9 @@ endif()
 # Run build step in parallel using the maximum number of jobs
 set(CTEST_BUILD_COMMAND "make -j${ncpu}")
 
-# Do not run tests in parallel (run out of memory due to Geant4)
-set(CTEST_PARALLEL_LEVEL ${ncpu})
+
+set(ENV{CTEST_PARALLEL_LEVEL} ${ncpu})
+set(CTEST_TEST_LOAD ${ncpu})
 
 #---CDash settings----------------------------------------------------------
 set(CTEST_PROJECT_NAME "FCC")
