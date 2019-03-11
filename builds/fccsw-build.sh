@@ -15,4 +15,4 @@ env | sort
 make purge
 
 #---Run build-------------------------------------------------------------------------------
-ctest -V -S $WORKSPACE/fcc-spi/builds/fccsw-build.cmake --test-load 4
+ctest -V -S $WORKSPACE/fcc-spi/builds/fccsw-build.cmake

@@ -52,8 +52,12 @@ endif()
 set(CTEST_BUILD_COMMAND "make -j${ncpu}")
 
 
-set(ENV{CTEST_PARALLEL_LEVEL} ${ncpu})
+# not a ctest variable, but used in custom cmake macro
+set(CTEST_TEST_PARALLEL_LEVEL ${ncpu})
+
 set(CTEST_TEST_LOAD ${ncpu})
+
+
 
 #---CDash settings----------------------------------------------------------
 set(CTEST_PROJECT_NAME "FCC")
