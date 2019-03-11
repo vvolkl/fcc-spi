@@ -13,6 +13,8 @@ env | sort
 
 #---Clean build folder----------------------------------------------------------------------
 make purge
+export NCPUS=`getconf _NPROCESSORS_ONLN`
+
 
 #---Run build-------------------------------------------------------------------------------
-ctest -V -S $WORKSPACE/fcc-spi/builds/fccsw-build.cmake --test-load 4
+ctest -V -S $WORKSPACE/fcc-spi/builds/fccsw-build.cmake -j ${NCPUS} --test-load ${NCPUS}
