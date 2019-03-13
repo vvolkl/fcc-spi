@@ -88,12 +88,12 @@ if [ "$TMPDIR" == "" ]; then
 fi
 
 # Detect platform
-# TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-# if [[ $BUILDTYPE == *Release* ]]; then
-#   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
-# else
-#   export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
-# fi
+#TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
+#if [[ $BUILDTYPE == *Release* ]]; then
+#  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+#else
+#  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
+#fi
 
 # Detect os
 TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
@@ -130,13 +130,14 @@ gcc8version=8.2.0
 export compilerversion=${compiler}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-slc6-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+#cat $THIS/config/compiler-${OS}-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+#cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
-# Use a default slc6 compiler taken from cvmfs/sft.cern.ch
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!compilerversion}binutils/x86_64-slc6/setup.sh
+# Use a default compiler taken from cvmfs/sft.cern.ch
+#source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!compilerversion}binutils/x86_64-${OS}/setup.sh
 
 # Create mirrors.yaml to use local buildcache
 if [ "$buildcache" != "" ]; then
@@ -192,7 +193,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
     exceptions=$exceptions"|fccsw"
   fi
 
-  echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
+  echo "Command: spack view -d true -e $exceptions symlink -i $viewpath /$pkghash"
   spack view -d true -e "$exceptions" symlink $viewpath /$pkghash
   viewcreated=$?
   result=$(($result + $viewcreated))
@@ -226,3 +227,4 @@ fi
 
 # Return result (0 succeeded, otherwise failed)
 echo $result
+exit $result
