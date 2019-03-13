@@ -1,9 +1,5 @@
 #!/bin/sh
 
-set -o trace 
-set -x 
-set -e
-
 usage()
 {
     if [[ -n "$1" ]]; then
@@ -227,3 +223,6 @@ if [ "$cleanup" = true ]; then
   rm -rf $TMPDIR
   rm -rf /tmp/$USER/spack-stage
 fi
+
+# Return result (0 succeeded, otherwise failed)
+echo $result
