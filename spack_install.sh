@@ -65,16 +65,16 @@ update_latest(){
     installation="externals"
   fi
 
-  if [[ $lcgversion == LCG_* ]]; then
+  if [[ -n  $weekday ]]; then
     # Releases
-    buildtype="releases"
-  else
     buildtype="nightlies"
+  else
+    buildtype="releases"
   fi
   
   FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest
   TO=$viewpath
-
+   
   ln -sf $TO $FROM
 }
 
@@ -205,13 +205,14 @@ fi
 # Generate setup.sh for the view
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 
-if [[ $lcgversion == LCG_* ]]; then
-  # Releases
-  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
-else
-  # Nightlies
-  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
-fi
+# Patch to link againts custom LCG Views
+#if [[ $lcgversion == LCG_* ]]; then
+#  # Releases
+#  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
+#else
+#  # Nightlies
+#  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
+#fi
 
 sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
