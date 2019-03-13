@@ -193,7 +193,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
   fi
 
   echo "Command: spack view -d true -e $exceptions symlink -i $viewpath $package/$pkghash"
-  spack view -d true -e "$exceptions" symlink $viewpath $package/$pkghash
+  spack view -d true -e "$exceptions" symlink $viewpath /$pkghash
   viewcreated=$?
   result=$(($result + $viewcreated))
   if [ $viewcreated -eq 0 ];then
