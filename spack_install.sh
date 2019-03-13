@@ -2,7 +2,10 @@
 
 usage()
 {
-    echo "usage: spack_install.sh [[[-p, --prefix directory ] [-m, --mirror directory]] | [-h]]"
+    if [[ -n "$1" ]]; then
+       echo "unexpected parameter: $1"
+    fi
+    echo "usage: spack_install.sh [options] [-h]"
 }
 
 # Dont cleanup by default
@@ -17,9 +20,9 @@ while [ "$1" != "" ]; do
         -b | --buildcache )     shift
                                 buildcache=$1
                                 ;;
-	      -c | --compiler )	      shift
-				                        compiler=$1
-				                        ;;
+        -c | --compiler )       shift
+                                compiler=$1
+                                ;;
         --package )             shift
                                 package=$1
                                 ;;
@@ -46,7 +49,7 @@ while [ "$1" != "" ]; do
         -h | --help )           usage
                                 exit
                                 ;;
-        * )                     usage
+        * )                     usage $1
                                 exit 1
     esac
     shift
