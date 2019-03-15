@@ -258,11 +258,11 @@ sed -i "s@{{viewpath}}@`echo $viewpath`@" $viewpath/setup.sh
 check_error $? "generate setup.sh"
 
 if [ "$cleanup" = true ]; then
-  "Cleanup"
+  echo "Cleanup"
   rm -rf $TMPDIR
-  "Removed $TMPDIR"
+  echo "Removed $TMPDIR"
   rm -rf /tmp/$USER/spack-stage
-  "Removed /tmp/$USER/spack-stage"
+  echo "Removed /tmp/$USER/spack-stage"
 fi
 
 echo "End of build"
