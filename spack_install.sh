@@ -102,6 +102,9 @@ if [ "$TMPDIR" == "" ]; then
 fi
 echo "Temporary directory: $TMPDIR"
 
+# Clean previous .spack configuration if exists
+rm -rf $TMPDIR/.spack
+
 # Detect platform
 # split platform string into array using '-' as a separator
 # example: x86_64-slc6-gcc62-opt
