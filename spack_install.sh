@@ -244,13 +244,14 @@ fi
 cp $THIS/config/setup.tpl $viewpath/setup.sh
 
 # Patch to link againts custom LCG Views
-#if [[ $lcgversion == LCG_* ]]; then
-#  # Releases
-#  lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
-#else
-#  # Nightlies
-#  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
-#fi
+if [[ $lcgversion == LCG_* ]]; then
+  # Releases
+  #lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
+  lcg_path=/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$platform
+else
+  # Nightlies
+  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
+fi
 
 sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
