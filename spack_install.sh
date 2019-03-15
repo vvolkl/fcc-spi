@@ -78,6 +78,20 @@ update_latest(){
   ln -sf $TO $FROM
 }
 
+check_error()
+{
+    local last_exit_code=$1
+    local last_cmd=$2
+    if [[ ${last_exit_code} -ne 0 ]]; then
+        echo "${last_cmd} exited with code ${last_exit_code}"
+        echo "TERMINATING JOB"
+        exit 1
+    else
+        echo "${last_cmd} completed successfully"
+    fi
+}
+
+
 # Create controlfile
 touch controlfile
 THIS=$(dirname ${BASH_SOURCE[0]})
@@ -86,20 +100,26 @@ if [ "$TMPDIR" == "" ]; then
   TMPDIR=$HOME/spackinstall
   mkdir -p $TMPDIR
 fi
+echo "Temporary directory: $TMPDIR"
 
 # Detect platform
-#TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-#if [[ $BUILDTYPE == *Release* ]]; then
-#  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
-#else
-#  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
-#fi
+# split platform string into array using '-' as a separator
+# example: x86_64-slc6-gcc62-opt
+IFS=- read -ra PART <<< "$platform"
+ARCH="${PART[0]}"
+OS="${PART[1]}"
+PLATFORMCOMPILER="${PART[2]}"
+MODE="${PART[3]}"
 
-# Detect os
-TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-OS=`python $TOOLSPATH/hsf_get_platform.py --get os`
+echo "Platform information"
+echo "Architecture: $ARCH"
+echo "Operating System: $OS"
+echo "Compiler: $PLATFORMCOMPILER"
+echo "Mode: $MODE"
 
 # Clone spack repo
+echo "Cloning spack repo"
+echo "git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack"
 git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack
 export SPACK_ROOT=$TMPDIR/spack
 
@@ -113,11 +133,15 @@ echo "Preparing spack environment"
 source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Add new repo hep-spack
+echo "Cloning hep-spack repo"
+echo "git clone https://github.com/HEP-SF/hep-spack.git $SPACK_ROOT/var/spack/repos/hep-spack"
 git clone https://github.com/HEP-SF/hep-spack.git $SPACK_ROOT/var/spack/repos/hep-spack
 spack repo add $SPACK_ROOT/var/spack/repos/hep-spack
 export FCC_SPACK=$SPACK_ROOT/var/spack/repos/fcc-spack
 
 # Add new repo fcc-spack
+echo "Cloning fcc-spack repo"
+echo "git clone --branch $branch https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos/    fcc-spack"
 git clone --branch $branch https://github.com/JavierCVilla/fcc-spack.git $SPACK_ROOT/var/spack/repos/fcc-spack
 spack repo add $SPACK_ROOT/var/spack/repos/fcc-spack
 export HEP_SPACK=$SPACK_ROOT/var/spack/repos/hep-spack
@@ -127,13 +151,19 @@ gcc62version=6.2.0
 gcc73version=7.3.0
 gcc8version=8.2.0
 
+if [[ "$PLATFORMCOMPILER" != "$compiler"  ]]; then
+   echo "ERROR: Platform compiler (${PLATFORMCOMPILER}) and selected compiler (${compiler}) do not match"
+   exit 1
+fi
+
 export compilerversion=${compiler}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-#cat $THIS/config/compiler-${OS}-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
-#cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
+cat $THIS/config/compiler-${OS}-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
+# spack buildcache tries to install it if it is not found
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
 # Use a default compiler taken from cvmfs/sft.cern.ch
@@ -153,19 +183,22 @@ if [ "$prefix" != "" ]; then
   sed -i "s#{{PREFIX_PATH}}#`echo $prefix`#" $SPACK_CONFIG/linux/config.yaml
 fi
 
-echo "Spack configuration: "
+# General configuration
+echo "Spack Configuration: "
 spack config get config
 
-echo "Spack compilers: "
-spack compiler list
+# List of known compilers
+echo "Compiler Configurations:"
+spack config get compilers
 
 # First need to install patchelf for relocation
 spack buildcache install -u patchelf
+check_error $? "spack buildcache install patchelf"
 
 # Install binaries from buildcache
 echo "Installing $package binary"
 spack buildcache install -u -f -a /$pkghash
-result=$?
+check_error $? "spack buildcache install ($pkgname)/$pkghash"
 
 # Detect day if not set
 if [[ -z ${weekday+x} ]]; then
@@ -196,10 +229,11 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
   echo "Command: spack view -d true -e $exceptions symlink -i $viewpath /$pkghash"
   spack view -d true -e "$exceptions" symlink $viewpath /$pkghash
   viewcreated=$?
-  result=$(($result + $viewcreated))
+  check_error $(($result + $viewcreated)) "create view"
   if [ $viewcreated -eq 0 ];then
     # Update latest link 
-    update_latest $package $lcgversion        
+    update_latest $package $lcgversion
+    check_error $? "update latest link"
   fi
 fi
 
@@ -218,13 +252,14 @@ cp $THIS/config/setup.tpl $viewpath/setup.sh
 sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
 sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
 sed -i "s@{{viewpath}}@`echo $viewpath`@" $viewpath/setup.sh
-result=$(($result + $?))
+check_error $? "generate setup.sh"
 
 if [ "$cleanup" = true ]; then
+  "Cleanup"
   rm -rf $TMPDIR
+  "Removed $TMPDIR"
   rm -rf /tmp/$USER/spack-stage
+  "Removed /tmp/$USER/spack-stage"
 fi
 
-# Return result (0 succeeded, otherwise failed)
-echo $result
-exit $result
+echo "End of build"
