@@ -6,33 +6,28 @@ thisversion: ""
 {% assign latest_version=post.thisversion %}
 {% endfor %}
 
+
 <h3>About FCCSW</h3>
 <p>
   FCCSW is the software for the <a href="http://fcc.web.cern.ch">FCC</a> experiments. We aim to support all detector concepts for all accelerator options (electron-electron, electron-hadron and hadron-hadron). Therefore, we try to create software that is independent of detector or experiment specifics.
 </p>
-<p>
-  This page collects release information and documentation. Check individual releases for doxygen documentation and links to the releases on github.<br>
-</p>
-<h3>Tutorials and Getting Started:</h3>
-<p>
-An index of all tutorials for the latest version ({{ latest_version }}) can be found in the <a href="{{ site.baseurl | prepend: site.url }}/tutorials">tutorials section</a>.
-<br><br>
-<b>Nightly static code analysis results can be found in the snapshot.</b>
-</p>
+<h3>Conceptual Design Report</h3>
+The <a href="http://fcc-cdr.web.cern.ch/">summary volumes</a> have been released, with many
+physics and detector simulations prodced in FCCSW. We collaborate with CERN's <a
+href="http://www.reanahub.io/">Re-usable Analysis</a> working group to make the workflows used in
+the CDR reproducible and accessible for future studies. <a href="https://github.com/reanahub/reana-demo-fcchh-fullsim" >Here</a> is a first example of a full-simulation
+workflow.
 
-<h3>Documentation for latest stable version {{ latest_version }}</h3>
+<h3>Documentation, Tutorials and Getting Started:</h3>
 <p>
-<b>Doxygen:</b><br>
-{% for version in site.data.versions %}
-  {% if version.version == latest_version %}
-    <ul>
-      <li><a href="http://fccsw.web.cern.ch/fccsw/fccsw/{{latest_version}}">FCCSW</a></li>
-    {% for dependency in version.dependencies %}
-      {% if dependency.name != "fcc-physics" %}<li><a href="http://fccsw.web.cern.ch/fccsw/{{ dependency.name }}/{{ dependency.tag }}/">{{ dependency.name }}</a></li>{% endif %}
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endfor %}
+Basically all development happens on <a href="https://github.com/HEP-FCC">github.com/HEP-FCC</a>. The best place to check
+for detailed information on a specific package is usually its github repository page. To get an
+  overview, there are some tutorials that may be helpful. Finally there is a <a
+  href="http://cern.ch/simba3/SelfSubscription.aspx?groupName=fcc-experiments-sw-dev">mailing list
+  </a> for any questions
+  and suggestions.
+<br><br>
+</p>
 
 </p>
 <p>
@@ -42,11 +37,3 @@ An index of all tutorials for the latest version ({{ latest_version }}) can be f
 </ul>
 </p>
 
-<h3>All releases:</h3>
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> {%if post.thisversion != "snapshot" %} ({{ post.date | date_to_string }}) {% endif %}
-    </li>
-  {% endfor %}
-</ul>
