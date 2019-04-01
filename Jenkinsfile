@@ -1,5 +1,5 @@
 pipeline {
-    agent "fcc-ubuntu-01"
+    agent  { label '"fcc-ubuntu-01" }
 
     stages {
         stage('Build') {
