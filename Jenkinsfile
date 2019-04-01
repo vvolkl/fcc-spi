@@ -18,6 +18,15 @@ pipeline {
             steps {
                 echo 'Deploying.... (skip)'
             }
+      publishHTML (target: [
+          allowMissing: false,
+          alwaysLinkToLastBuild: false,
+          keepAll: true,
+          reportDir: 'site',
+          reportName: "site"
+      ])
+
+
         }
     }
 }
