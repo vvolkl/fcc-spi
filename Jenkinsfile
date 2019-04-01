@@ -18,10 +18,11 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 publishHTML (target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'docpage/_site/',
+                    reportFiles: 'index.html',
                     reportName: "site"
                 ])
 
