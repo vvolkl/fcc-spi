@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'cd docpage; npm install jquery; npm install bootstrap-sass; jekyll build --safe --config "_config.yml,_config_ci.yml"'
+                bash 'cd docpage; npm install jquery; npm install bootstrap-sass; jekyll build --safe --config "_config.yml,_config_ci.yml"'
             }
         }
         stage('Test') {
