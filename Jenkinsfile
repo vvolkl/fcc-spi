@@ -21,7 +21,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
-                    reportDir: '_site',
+                    reportDir: 'docpage/_site/',
                     reportName: "site"
                 ])
 
