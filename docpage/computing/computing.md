@@ -5,7 +5,7 @@ layout: site
 FCC Computing
 ================================================
 
-test
+ci test
 ...
 
 
