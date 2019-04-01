@@ -58,7 +58,7 @@ spack repo add $HEP_REPO
 # Add new repo fcc-spack
 export FCC_REPO=$SPACK_ROOT/var/spack/repos/fcc-spack
 if [ ! -d $FCC_REPO ]; then
-  git clone https://github.com/JavierCVilla/fcc-spack.git $FCC_REPO
+  git clone https://github.com/HEP-FCC/fcc-spack.git $FCC_REPO
 fi
 spack repo add $FCC_REPO
 
