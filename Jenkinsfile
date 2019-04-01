@@ -16,16 +16,16 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying.... (skip)'
-            }
-      publishHTML (target: [
-          allowMissing: false,
-          alwaysLinkToLastBuild: false,
-          keepAll: true,
-          reportDir: 'site',
-          reportName: "site"
-      ])
+                echo 'Deploying....'
+                publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'site',
+                    reportName: "site"
+                ])
 
+            }
 
         }
     }
