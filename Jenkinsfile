@@ -21,7 +21,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
-                    reportDir: 'site',
+                    reportDir: '_site',
                     reportName: "site"
                 ])
 
