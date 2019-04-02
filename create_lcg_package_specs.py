@@ -9,6 +9,10 @@ OS_SHORT_TO_LONG = {"slc6":"scientificcernslc6", "centos7":"centos7", "ubuntu160
 virtual_packages = ['blas', 'lapack']
 blacklist = ["py-pyyaml", "tricktrack", "pkgconfig"]
 
+lcg_pkgs_variants = {
+	"doxygen" : "+graphviz",
+}
+
 def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None):
     ''' converts lcg spec files into dict format that is expected by spack for package specs.
     each package specification looks something like this:
@@ -20,7 +24,7 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
           buildable: False
     '''
     fname = lcg_spec["fname"]
-    spec_template = "{pkg}@{pkg_version}%{compiler}{type} arch={arch}-{os_str}"
+    spec_template = "{pkg}@{pkg_version}%{compiler}{type} {variants} arch={arch}-{os_str}"
     spec_qualifiers = {}
     if verbosity > 1:
         print "-- parsing:", lcg_spec["type"], "built for", lcg_spec["arch"], \
@@ -63,6 +67,7 @@ def convert_lcg_spec_file(lcg_spec, basepath, pck_dict, verbosity, limited=None)
 
             spec_string = spec_template.format(pkg=pkg_lower,
                                                pkg_version=version,
+                                               variants=lcg_pkgs_variants.get(pkg_lower, ""),
                                                compiler=spec_qualifiers["COMPILER"],
                                                type=type_spec,
                                                arch=lcg_spec["arch"],
