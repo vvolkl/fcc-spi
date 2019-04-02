@@ -65,11 +65,11 @@ update_latest(){
     installation="externals"
   fi
 
-  if [[ -n  $weekday ]]; then
+  if [[ $prefix == *releases* ]]; then
     # Releases
-    buildtype="nightlies"
-  else
     buildtype="releases"
+  else
+    buildtype="nightlies"
   fi
 
   FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest
