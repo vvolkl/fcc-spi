@@ -223,8 +223,8 @@ echo "Compiler Configurations:"
 spack config get compilers
 
 # First need to install patchelf for relocation
-spack buildcache install -u patchelf
-check_error $? "spack buildcache install patchelf"
+# spack buildcache install -u patchelf
+# check_error $? "spack buildcache install patchelf"
 
 # Install binaries from buildcache
 echo "Installing $package binary"
