@@ -108,26 +108,26 @@ rm -rf $TMPDIR/.spack
 # split original platform string into array using '-' as a separator
 # example: x86_64-slc6-gcc62-opt
 IFS=- read -ra PART <<< "$platform"
-ARCH="${PART[0]}"
-OS="${PART[1]}"
-PLATFORMCOMPILER="${PART[2]}"
-MODE="${PART[3]}"
+TARGET_ARCH="${PART[0]}"
+TARGET_OS="${PART[1]}"
+TARGET_COMPILER="${PART[2]}"
+TARGET_MODE="${PART[3]}"
 
 echo "Target Platform information"
-echo "Architecture: $ARCH"
-echo "Operating System: $OS"
-echo "Compiler: $PLATFORMCOMPILER"
-echo "Mode: $MODE"
+echo "Architecture: $TARGET_ARCH"
+echo "Operating System: $TARGET_OS"
+echo "Compiler: $TARGET_COMPILER"
+echo "Mode: $TARGET_MODE"
 
 # Detect host platform
 # Need to use a compiler compatible with the Operating system where the job is
 # running, even if the set of packages to be installed were built on a different
 # platform.
 TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
-if [[ $MODE == *opt* ]]; then
-  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $PLATFORMCOMPILER --buildtype opt`
+if [[ $TARGET_MODE == *opt* ]]; then
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $TARGET_COMPILER --buildtype opt`
 else
-  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $PLATFORMCOMPILER --buildtype dbg`
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $TARGET_COMPILER --buildtype dbg`
 fi
 
 if [[ $PLATFORM != $platform ]]; then
@@ -190,7 +190,10 @@ fi
 export compilerversion=${compiler}version
 
 # Prepare defaults/linux configuration files (compilers and external packages)
-cat $THIS/config/compiler-${OS}-${compiler}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+# Add compiler compatible with the host platform
+cat $THIS/config/compiler-${OS}-${PLATFORMCOMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+# Add compiler compatible with the target platform (without head line)
+cat $THIS/config/compiler-${TARGET_OS}-${TARGET_COMPILER}.yaml | tail -n +2 >> $SPACK_CONFIG/linux/compilers.yaml
 cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
