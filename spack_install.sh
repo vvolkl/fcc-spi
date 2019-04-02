@@ -125,9 +125,9 @@ echo "Mode: $MODE"
 # platform.
 TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
 if [[ $MODE == *opt* ]]; then
-  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $PLATFORMCOMPILER --buildtype opt`
 else
-  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $PLATFORMCOMPILER --buildtype dbg`
 fi
 
 if [[ $PLATFORM != $platform ]]; then
