@@ -58,7 +58,7 @@ done
 update_latest(){
   package=$1
   lcgversion=$2
-  
+
   if [[ "$package" == "fccstack" ]]; then
     installation="fccsw"
   else
@@ -71,10 +71,10 @@ update_latest(){
   else
     buildtype="releases"
   fi
-  
+
   FROM=/cvmfs/fcc.cern.ch/sw/views/$buildtype/$installation/latest
   TO=$viewpath
-   
+
   ln -sf $TO $FROM
 }
 
@@ -105,8 +105,7 @@ echo "Temporary directory: $TMPDIR"
 # Clean previous .spack configuration if exists
 rm -rf $TMPDIR/.spack
 
-# Detect platform
-# split platform string into array using '-' as a separator
+# split original platform string into array using '-' as a separator
 # example: x86_64-slc6-gcc62-opt
 IFS=- read -ra PART <<< "$platform"
 ARCH="${PART[0]}"
@@ -114,7 +113,36 @@ OS="${PART[1]}"
 PLATFORMCOMPILER="${PART[2]}"
 MODE="${PART[3]}"
 
-echo "Platform information"
+echo "Target Platform information"
+echo "Architecture: $ARCH"
+echo "Operating System: $OS"
+echo "Compiler: $PLATFORMCOMPILER"
+echo "Mode: $MODE"
+
+# Detect host platform
+# Need to use a compiler compatible with the Operating system where the job is
+# running, even if the set of packages to be installed were built on a different
+# platform.
+TOOLSPATH=/cvmfs/fcc.cern.ch/sw/0.8.3/tools/
+if [[ $MODE == *opt* ]]; then
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype opt`
+else
+  export PLATFORM=`python $TOOLSPATH/hsf_get_platform.py --compiler $COMPILER --buildtype dbg`
+fi
+
+if [[ $PLATFORM != $platform ]]; then
+  echo "Replacing platform, from: $platform, to: $PLATFORM"
+  platform=$PLATFORM
+fi
+
+# assign new platform values
+IFS=- read -ra PART <<< "$platform"
+ARCH="${PART[0]}"
+OS="${PART[1]}"
+PLATFORMCOMPILER="${PART[2]}"
+MODE="${PART[3]}"
+
+echo "Host Platform information (where this job is running)"
 echo "Architecture: $ARCH"
 echo "Operating System: $OS"
 echo "Compiler: $PLATFORMCOMPILER"
@@ -170,7 +198,7 @@ cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 cat $THIS/config/patchelf.yaml >> $SPACK_CONFIG/linux/packages.yaml
 
 # Use a default compiler taken from cvmfs/sft.cern.ch
-#source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!compilerversion}binutils/x86_64-${OS}/setup.sh
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/${!compilerversion}binutils/x86_64-${OS}/setup.sh
 
 # Create mirrors.yaml to use local buildcache
 if [ "$buildcache" != "" ]; then
@@ -195,8 +223,8 @@ echo "Compiler Configurations:"
 spack config get compilers
 
 # First need to install patchelf for relocation
-#spack buildcache install -u patchelf
-#check_error $? "spack buildcache install patchelf"
+spack buildcache install -u patchelf
+check_error $? "spack buildcache install patchelf"
 
 # Install binaries from buildcache
 echo "Installing $package binary"
@@ -234,7 +262,7 @@ if [[ "$viewpath" != "" && "$package" != "" ]]; then
   viewcreated=$?
   check_error $(($result + $viewcreated)) "create view"
   if [ $viewcreated -eq 0 ];then
-    # Update latest link 
+    # Update latest link
     update_latest $package $lcgversion
     check_error $? "update latest link"
   fi
