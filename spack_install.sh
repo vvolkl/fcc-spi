@@ -107,6 +107,8 @@ rm -rf $TMPDIR/.spack
 
 # split original platform string into array using '-' as a separator
 # example: x86_64-slc6-gcc62-opt
+TARGET_PLATFORM="$platform"
+
 IFS=- read -ra PART <<< "$platform"
 TARGET_ARCH="${PART[0]}"
 TARGET_OS="${PART[1]}"
@@ -278,14 +280,14 @@ cp $THIS/config/setup.tpl $viewpath/setup.sh
 if [[ $lcgversion == LCG_* ]]; then
   # Releases
   #lcg_path="/cvmfs/fcc.cern.ch/testing/lcgview/$lcgversion/$platform"
-  lcg_path=/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$platform
+  lcg_path=/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$TARGET_PLATFORM
 else
   # Nightlies
-  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$platform"
+  lcg_path="/cvmfs/sft.cern.ch/lcg/views/$lcgversion/$weekday/$TARGET_PLATFORM"
 fi
 
 sed -i "s@{{lcg_path}}@`echo $lcg_path`@" $viewpath/setup.sh
-sed -i "s/{{PLATFORM}}/`echo $platform`/" $viewpath/setup.sh
+sed -i "s/{{PLATFORM}}/`echo $TARGET_PLATFORM`/" $viewpath/setup.sh
 sed -i "s@{{viewpath}}@`echo $viewpath`@" $viewpath/setup.sh
 check_error $? "generate setup.sh"
 
