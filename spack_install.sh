@@ -194,8 +194,12 @@ export compilerversion=${compiler}version
 # Prepare defaults/linux configuration files (compilers and external packages)
 # Add compiler compatible with the host platform
 cat $THIS/config/compiler-${OS}-${PLATFORMCOMPILER}.yaml > $SPACK_CONFIG/linux/compilers.yaml
+
 # Add compiler compatible with the target platform (without head line)
-cat $THIS/config/compiler-${TARGET_OS}-${TARGET_COMPILER}.yaml | tail -n +2 >> $SPACK_CONFIG/linux/compilers.yaml
+if [[ "$OS-$PLATFORMCOMPILER" != "$TARGET_OS-$TARGET_COMPILER" ]]; then
+  cat $THIS/config/compiler-${TARGET_OS}-${TARGET_COMPILER}.yaml | tail -n +2 >> $SPACK_CONFIG/linux/compilers.yaml
+fi
+
 cat $THIS/config/config.yaml > $SPACK_CONFIG/config.yaml
 
 # Use a default patchelf installed in fcc.cern.ch
