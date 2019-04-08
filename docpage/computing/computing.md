@@ -11,6 +11,5 @@ The computing and disk ressources are controlled by e-groups with admin approval
 fcc-eos-access, fcc-experiments-comp.
 
 
-...
 
 
