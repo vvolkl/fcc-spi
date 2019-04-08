@@ -26,8 +26,13 @@ kramdown:
   input: GFM
   enable_rouge: true
 
-sass:
-  sass_dir: node_modules/bootstrap-sass/assets/stylesheets
-  style: compressed
+#sass:
+#  sass_dir: node_modules/bootstrap-sass/assets/stylesheets
+#  style: compressed
 
 exclude: ['bower_components']
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
