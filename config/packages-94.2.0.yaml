@@ -1,0 +1,20 @@
+  fcc-edm:
+    version: [0.5.4]
+  fcc-edm-legacy:
+    version: [0.1.0]
+  papas:
+    version: [1.2.0]
+  podio:
+    version: [0.9.1]
+  fcc-physics:
+    version: [0.2.1]
+  acts-core:
+    version: [0.07.01]
+  heppy:
+    version: [v2.0]
+  gaudi:
+    version: [v29r2]
+  tricktrack:
+    version: [1.0.8]
+  FCChhAnalyses:
+    version: [0.1.0]
