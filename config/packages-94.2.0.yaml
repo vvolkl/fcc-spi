@@ -3,7 +3,7 @@
   fcc-edm-legacy:
     version: [0.1.0]
   papas:
-    version: [1.2.0]
+    version: [1.2.1]
   podio:
     version: [0.9.1]
   fcc-physics:
@@ -16,5 +16,5 @@
     version: [v29r2]
   tricktrack:
     version: [1.0.8]
-  FCChhAnalyses:
-    version: [0.1.0]
+  py-fcchhanalyses:
+    version: [0.1.1]
