@@ -11,7 +11,7 @@
   acts-core:
     version: [0.07.01]
   heppy:
-    version: [v2.0]
+    version: [2.0]
   gaudi:
     version: [v29r2]
   tricktrack:
