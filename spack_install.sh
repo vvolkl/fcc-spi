@@ -46,6 +46,8 @@ while [ "$1" != "" ]; do
         --weekday )              shift
                                 weekday=$1
                                 ;;
+        --spack-tag )           spacktag=$1
+                                ;;
         -h | --help )           usage
                                 exit
                                 ;;
@@ -151,9 +153,16 @@ echo "Compiler: $PLATFORMCOMPILER"
 echo "Mode: $MODE"
 
 # Clone spack repo
+
+# Use develop if there is no tags specified (use tags to reproduce releases)
+if [[ "$spacktag" == "" ]]; then
+   spacktag="develop"
+fi
+
 echo "Cloning spack repo"
-echo "git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack"
-git clone https://github.com/HEP-FCC/spack.git -b develop $TMPDIR/spack
+echo "git clone https://github.com/HEP-FCC/spack.git -b $spacktag $TMPDIR/spack"
+git clone https://github.com/HEP-FCC/spack.git -b $spacktag $TMPDIR/spack
+check_error $? "cloning spack repo from branch/tag: $spacktag"
 export SPACK_ROOT=$TMPDIR/spack
 
 # Setup new spack home

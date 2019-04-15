@@ -36,7 +36,7 @@ fi
 SPACKDIR=$WORKSPACE/spack
 
 if [ ! -d $SPACKDIR ]; then
-  git clone https://github.com/LLNL/spack.git $SPACKDIR
+  git clone https://github.com/HEP-FCC/spack.git $SPACKDIR
 fi
 export SPACK_ROOT=$SPACKDIR
 
